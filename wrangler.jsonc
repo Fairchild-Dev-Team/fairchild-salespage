@@ -15,7 +15,7 @@
   "env": {
     // `--env production`: the production Worker, deployed from `main`.
     "production": {
-      "name": "fairchild-event"
+      "name": "fairchild-salespage"
     }
   }
 }
