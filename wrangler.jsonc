@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Default (no --env): the staging Worker, deployed from the `staging` branch.
+  "name": "fairchild-event-staging",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "env": {
+    // `--env production`: the production Worker, deployed from `main`.
+    "production": {
+      "name": "fairchild-event"
+    }
+  }
+}

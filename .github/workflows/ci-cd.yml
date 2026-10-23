@@ -1,0 +1,33 @@
+name: CI
+
+# Deploys are handled by Cloudflare Workers Builds (connected to this repo):
+#   staging branch -> ajele-real-estate-website-staging
+#   main branch    -> ajele-real-estate-website (wrangler --env production)
+# This workflow only gates changes: lint, typecheck and an OpenNext build.
+
+on:
+  pull_request:
+    branches: [main, staging]
+  push:
+    branches: [main, staging]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check:
+    name: Lint, typecheck, OpenNext build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npx opennextjs-cloudflare build

@@ -1,0 +1,97 @@
+---
+description: Implement a Figma frame link as maintainable code via the Figma MCP (reuse components, shadcn, design tokens, 50 lines / 5 props limits)
+alwaysApply: false
+---
+
+# ROLE
+Senior front-end engineer implementing a Figma frame with the Figma MCP. Favor KISS, YAGNI, SoC, maintainability.
+
+# INPUT
+- Figma frame link (provided by user)
+- Target route (optional; default `app/(marketing)/page.tsx`)
+
+# STEP 0: PROJECT RULES
+1. Read `AGENTS.md`. This Next.js version has breaking changes: read relevant docs in `node_modules/next/dist/docs/` before writing code.
+2. Load the `/figma-design-to-code` skill before calling `get_design_context`.
+
+# STEP 1: DISCOVER (read-only)
+Record in 5-10 lines:
+- Stack: Next.js (App Router), TypeScript, Tailwind v4 (CSS-first, no tailwind.config).
+- Design system: shadcn (`components.json`, style `base-nova`, aliases `@/components`, `@/components/ui`, `@/lib/utils`, lucide icons). Check `components/ui/` for installed primitives.
+- Tokens: `app/globals.css` (`:root`, `.dark`, `@theme inline`): colors, radius, fonts.
+- Existing components: glob `components/**` and `app/**/_components/**`; grep for similar markup/names.
+- Conventions: file naming, exports, image handling (`next/image`, `public/`).
+
+# STEP 2: READ FIGMA
+1. Parse `fileKey` and `nodeId` from URL (`-` -> `:` in nodeId; branch URLs use branchKey).
+2. `get_metadata` -> layer tree.
+3. `get_design_context` (per sub-node if large). Output is a REFERENCE, never final code.
+4. `get_screenshot` for visual truth.
+5. `get_variable_defs` for Figma tokens.
+6. Download images/icons/SVGs to `public/images/<feature>/` (kebab-case names, WebP/SVG). Never hotlink Figma URLs.
+
+# STEP 3: PLAN
+Table: Section | REUSE / EXTEND / CREATE | Component | Path.
+- REUSE if existing component matches >= 80%.
+- EXTEND via prop/variant instead of forking.
+- CREATE only when nothing fits and the design uses it (YAGNI).
+- Repeated patterns -> one component + `.map()`.
+Proceed without confirmation unless blocked by ambiguity.
+
+# STEP 4: COMPONENT LIBRARY
+- Use shadcn primitives (`Button`, `Card`, `Badge`, `Input`, `Dialog`...). Missing ones: `npx shadcn@latest add <name>`; never hand-rewrite.
+- Icons from `lucide-react`.
+- No new UI libraries.
+
+# STEP 5: DESIGN TOKENS (strict)
+- Map every Figma color/font/spacing/radius/shadow to an existing token (`bg-primary`, `text-muted-foreground`, `rounded-lg`, `gap-4`).
+- No hard-coded hex/px or arbitrary values (`bg-[#123]`, `w-[317px]`) when a token or scale value is close.
+- No matching token: use nearest, note deviation. Add a new token to `app/globals.css` only if reused 2+ times; list it in the report.
+- Reuse the existing font setup.
+
+# STEP 6: COMPONENT RULES (hard)
+- <= 50 lines per component file (imports + JSX). Split if exceeded.
+- <= 5 props. Otherwise use composition (`children`), split, or a single typed `data` object.
+- Single responsibility: presentational components only render; content in `data/<feature>.ts`; logic in hooks.
+- Explicit prop interfaces, no `any`.
+- Server components by default; `"use client"` only on the smallest component needing it.
+- No duplicated markup, dead code, unused props, speculative options.
+- Accessibility: semantic tags, `alt`, `aria-label` on icon-only buttons, focusable controls.
+- Responsive, mobile-first; match Figma at design width.
+- Images via `next/image` (`width`/`height` or `fill` + `sizes`); `priority` only for hero.
+- Merge classes with `cn()` from `@/lib/utils`; `cva` only with >= 2 real variants.
+
+# STEP 7: STRUCTURE
+```
+components/ui/          shadcn primitives
+components/<feature>/   one component per file
+data/<feature>.ts       static content
+public/images/<feature>/
+app/<route>/page.tsx    composes sections only
+```
+
+# STEP 8: VERIFY
+1. Run `npx tsc --noEmit`, `npm run lint`, `npm run build`; fix all errors.
+2. Run dev server, compare against screenshot at desktop and mobile widths with browser tools; fix deviations.
+3. Report pass/fail:
+   - [ ] No component > 50 lines
+   - [ ] No component > 5 props
+   - [ ] No duplicated existing components
+   - [ ] shadcn primitives used where available
+   - [ ] No hard-coded values where a token exists
+   - [ ] Images local, optimized, with alt
+   - [ ] Content separated from presentation
+   - [ ] Lint/type/build clean
+
+# OUTPUT
+1. Components reused / extended / created (paths).
+2. Assets downloaded (paths).
+3. Tokens mapped, deviations, new tokens.
+4. Checklist results.
+5. Known gaps / questions.
+
+# DON'Ts
+- Don't paste Figma-generated code as-is.
+- Don't create prop-forwarding-only wrappers.
+- Don't add libraries, state management, or abstractions the design doesn't need.
+- Don't modify unrelated files or change existing component behavior (extend instead).
