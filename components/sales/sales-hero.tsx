@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { AnimatedHeadline } from "@/components/ui/animated-headline"
 import { GradientPillButton } from "@/components/ui/gradient-pill-button"
 import { salesHero } from "@/lib/sales-content"
@@ -21,12 +22,12 @@ export function SalesHero() {
           <GradientPillButton href="/#programmes">
             {salesHero.primaryCta}
           </GradientPillButton>
-          <a
+          <Link
             href="/#pricing"
             className="font-heading text-base font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
           >
             {salesHero.secondaryCta}
-          </a>
+          </Link>
         </div>
         <ul className="flex flex-col gap-1 pt-1 sm:flex-row sm:flex-wrap sm:gap-x-6">
           {salesHero.qualifiers.map((item) => (

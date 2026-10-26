@@ -53,15 +53,19 @@ export function CheckoutForm({
       product.paymentOptions[0]?.id ??
       ""
   )
+  const activeOptionId = product.paymentOptions.some((option) => option.id === optionId)
+    ? optionId
+    : (product.paymentOptions.find((option) => option.highlighted)?.id ??
+      product.paymentOptions[0]?.id ??
+      "")
   const [email, setEmail] = useState("")
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [fullChoice, setFullChoice] = useState<"full" | "base">("full")
   const [installmentCount, setInstallmentCount] = useState(2)
   const [installmentDates, setInstallmentDates] = useState<string[]>([])
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<{ message: string; key: string } | null>(null)
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [cardLoading, setCardLoading] = useState(false)
   const [settledEmail, setSettledEmail] = useState("")
   const [settledFirstName, setSettledFirstName] = useState("")
   const [settledLastName, setSettledLastName] = useState("")
@@ -70,10 +74,12 @@ export function CheckoutForm({
     publishableKey: string
     paymentIntentId: string
     amountCents: number
+    key: string
   } | null>(null)
+  const [settledKey, setSettledKey] = useState<string | null>(null)
 
   const selected: PaymentOption | undefined = product.paymentOptions.find(
-    (option) => option.id === optionId
+    (option) => option.id === activeOptionId
   )
   const offerTotal = pay?.offers.find((offer) => offer.id === selected?.id)?.totalCents
   const baseFee = pay?.baseFeeCents ?? 50_000
@@ -105,16 +111,9 @@ export function CheckoutForm({
     ? installmentCount
     : (allowedCounts[allowedCounts.length - 1] ?? 2)
 
-  useEffect(() => {
-    if (!pay) return
-    setInstallmentDates((current) => {
-      const next = resizeDates(current, activeCount, pay.defaultIntervalDays)
-      if (next.length === current.length && next.every((date, index) => date === current[index])) {
-        return current
-      }
-      return next
-    })
-  }, [activeCount, pay])
+  const scheduleDates = pay
+    ? resizeDates(installmentDates, activeCount, pay.defaultIntervalDays)
+    : installmentDates
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -125,14 +124,6 @@ export function CheckoutForm({
     return () => window.clearTimeout(timer)
   }, [email, firstName, lastName])
 
-  useEffect(() => {
-    if (product.paymentOptions.some((option) => option.id === optionId)) return
-    setOptionId(
-      product.paymentOptions.find((option) => option.highlighted)?.id ??
-        product.paymentOptions[0]?.id ??
-        ""
-    )
-  }, [optionId, product.paymentOptions])
   const parts =
     isPlan && balance != null && balance > 0 && activeCount >= 2
       ? splitCents(balance, activeCount)
@@ -147,10 +138,10 @@ export function CheckoutForm({
 
   const todayIso = new Date().toISOString().slice(0, 10)
   const selectionKey = [
-    optionId,
+    activeOptionId,
     isFull ? fullChoice : "",
     isPlan ? String(activeCount) : "",
-    isPlan ? installmentDates.join(",") : "",
+    isPlan ? scheduleDates.join(",") : "",
     catalogue?.kind ?? "",
     catalogue?.id ?? "",
     catalogue?.termMonths ?? "",
@@ -162,13 +153,13 @@ export function CheckoutForm({
   function planDateError(): string | null {
     if (!isPlan) return null
     if (!allowedCounts.includes(activeCount)) return "Choose a valid number of payments."
-    if (installmentDates.length !== activeCount || installmentDates.some((date) => !date)) {
+    if (scheduleDates.length !== activeCount || scheduleDates.some((date) => !date)) {
       return "Set a date for each payment."
     }
-    for (let index = 0; index < installmentDates.length; index += 1) {
-      const date = installmentDates[index]
+    for (let index = 0; index < scheduleDates.length; index += 1) {
+      const date = scheduleDates[index]
       if (date < todayIso) return `Payment ${index + 1} cannot be in the past.`
-      if (index > 0 && date < installmentDates[index - 1]) {
+      if (index > 0 && date < scheduleDates[index - 1]) {
         return `Payment ${index + 1} must be on or after payment ${index}.`
       }
     }
@@ -177,24 +168,12 @@ export function CheckoutForm({
 
   useEffect(() => {
     if (!drawerOpen || !selected || !settledEmail || !settledFirstName || !settledLastName) {
-      if (!settledEmail || !settledFirstName || !settledLastName) {
-        setCard(null)
-        setCardLoading(false)
-      }
       return
     }
-    const dateError = planDateError()
-    if (dateError) {
-      setError(dateError)
-      setCard(null)
-      setCardLoading(false)
-      return
-    }
+    if (planDateError()) return
 
     const controller = new AbortController()
-    setCard(null)
-    setCardLoading(true)
-    setError(null)
+    const requestKey = selectionKey
     void (async () => {
       try {
         const response = await fetch("/api/checkout", {
@@ -214,7 +193,7 @@ export function CheckoutForm({
                 }
               : {}),
             ...(isFull ? { payMode: fullChoice } : {}),
-            ...(isPlan ? { installmentCount: activeCount, installmentDates } : {}),
+            ...(isPlan ? { installmentCount: activeCount, installmentDates: scheduleDates } : {}),
           }),
           signal: controller.signal,
         })
@@ -232,22 +211,30 @@ export function CheckoutForm({
           !data.publishableKey ||
           !data.paymentIntentId
         ) {
-          setError(data.error ?? "Checkout failed. Try again.")
+          setError({
+            message: data.error ?? "Checkout failed. Try again.",
+            key: requestKey,
+          })
+          setCard(null)
+          setSettledKey(requestKey)
           return
         }
+        setError(null)
+        setSettledKey(requestKey)
         setCard({
           clientSecret: data.clientSecret,
           publishableKey: data.publishableKey,
           paymentIntentId: data.paymentIntentId,
           amountCents: data.amountCents ?? dueToday,
+          key: requestKey,
         })
       } catch (cause) {
         if (controller.signal.aborted || (cause instanceof DOMException && cause.name === "AbortError")) {
           return
         }
-        setError("Network error. Try again.")
-      } finally {
-        if (!controller.signal.aborted) setCardLoading(false)
+        setError({ message: "Network error. Try again.", key: requestKey })
+        setCard(null)
+        setSettledKey(requestKey)
       }
     })()
 
@@ -260,16 +247,16 @@ export function CheckoutForm({
     event.preventDefault()
     if (!selected) return
     if (!firstName.trim() || !lastName.trim()) {
-      setError("Enter your first and last name.")
+      setError({ message: "Enter your first and last name.", key: selectionKey })
       return
     }
     if (!email.trim()) {
-      setError("Enter your email.")
+      setError({ message: "Enter your email.", key: selectionKey })
       return
     }
     const dateError = planDateError()
     if (dateError) {
-      setError(dateError)
+      setError({ message: dateError, key: selectionKey })
       return
     }
     setError(null)
@@ -282,21 +269,30 @@ export function CheckoutForm({
   function closeCard() {
     setDrawerOpen(false)
     setCard(null)
-    setCardLoading(false)
+    setSettledKey(null)
   }
 
-  const cardFields = card ? (
+  const identityReady = Boolean(settledEmail && settledFirstName && settledLastName)
+  const scheduleError = planDateError()
+  const shownError =
+    scheduleError ?? (error?.key === selectionKey ? error.message : null)
+  const shownCard =
+    identityReady && !scheduleError && card?.key === selectionKey ? card : null
+  const shownCardLoading =
+    drawerOpen && identityReady && !scheduleError && settledKey !== selectionKey
+
+  const cardFields = shownCard ? (
     <StripeLanderPayment
-      key={card.paymentIntentId}
-      clientSecret={card.clientSecret}
-      publishableKey={card.publishableKey}
-      paymentIntentId={card.paymentIntentId}
-      amountCents={card.amountCents}
+      key={shownCard.paymentIntentId}
+      clientSecret={shownCard.clientSecret}
+      publishableKey={shownCard.publishableKey}
+      paymentIntentId={shownCard.paymentIntentId}
+      amountCents={shownCard.amountCents}
       onCancel={closeCard}
     />
   ) : (
     <p className="text-sm text-[#525866]">
-      {cardLoading ? `Preparing card for ${formatUsd(dueToday)}…` : "Choose an offer to load the card."}
+      {shownCardLoading ? `Preparing card for ${formatUsd(dueToday)}…` : "Choose an offer to load the card."}
     </p>
   )
 
@@ -316,7 +312,7 @@ export function CheckoutForm({
       <fieldset className="flex flex-col gap-3">
         <legend className="sr-only">Payment options</legend>
         {product.paymentOptions.map((option) => {
-          const active = option.id === optionId
+          const active = option.id === activeOptionId
           return (
             <label
               key={option.id}
@@ -423,8 +419,8 @@ export function CheckoutForm({
           </label>
           {parts ? (
             <div className="flex flex-col gap-3">
-              {installmentDates.map((date, index) => {
-                const amount = index === installmentDates.length - 1 ? parts.last : parts.each
+              {scheduleDates.map((date, index) => {
+                const amount = index === scheduleDates.length - 1 ? parts.last : parts.each
                 return (
                   <label key={index} className="flex flex-col gap-1.5 text-sm">
                     <span className="font-medium text-[#0E121B]">
@@ -432,12 +428,12 @@ export function CheckoutForm({
                     </span>
                     <input
                       type="date"
-                      min={index === 0 ? todayIso : installmentDates[index - 1] || todayIso}
+                      min={index === 0 ? todayIso : scheduleDates[index - 1] || todayIso}
                       value={date}
                       onChange={(event) => {
                         const value = event.target.value
-                        setInstallmentDates((current) =>
-                          current.map((item, itemIndex) =>
+                        setInstallmentDates(
+                          scheduleDates.map((item, itemIndex) =>
                             itemIndex === index ? value : item
                           )
                         )
@@ -511,9 +507,9 @@ export function CheckoutForm({
         />
       </label>
 
-      {error ? (
+      {shownError ? (
         <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
-          {error}
+          {shownError}
         </p>
       ) : null}
 
@@ -522,7 +518,7 @@ export function CheckoutForm({
         disabled={!selected || (isPlan && allowedCounts.length === 0)}
         className="w-full justify-center disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {cardLoading
+        {shownCardLoading
           ? "Preparing card payment…"
           : selected
             ? `Continue to pay ${formatUsd(dueToday)}`
@@ -546,7 +542,7 @@ export function CheckoutForm({
                 onClick={() => setOptionId(option.id)}
                 className={cn(
                   "rounded-2xl border px-4 py-3 text-left text-sm",
-                  option.id === optionId
+                  option.id === activeOptionId
                     ? "border-[#AD14A7] bg-[#FEF5FE] text-[#631760]"
                     : "border-[#E8D5E6] text-[#525866]"
                 )}
@@ -558,9 +554,9 @@ export function CheckoutForm({
               </button>
             ))}
           </div>
-          {error ? (
+          {shownError ? (
             <p className="mb-4 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
-              {error}
+              {shownError}
             </p>
           ) : null}
           {cardFields}
