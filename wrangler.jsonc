@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   // Default (no --env): the staging Worker, deployed from the `staging` branch.
-  "name": "fairchild-event-staging",
+  "name": "fairchild-salespage-staging",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -13,14 +13,16 @@
     "enabled": true
   },
   "vars": {
-    "APPLICATION_PORTAL_URL": "https://application-staging.fairchildinstitute.com"
+    "APPLICATION_PORTAL_URL": "https://application-staging.fairchildinstitute.com",
+    "FAIRCHILD_API_URL": "https://api-staging.fairchildinstitute.com"
   },
   "env": {
     // `--env production`: the production Worker, deployed from `main`.
     "production": {
-      "name": "fairchild-salespage",
+      "name": "fairchild-salespage-production",
       "vars": {
-        "APPLICATION_PORTAL_URL": "https://application.fairchildinstitute.com"
+        "APPLICATION_PORTAL_URL": "https://application.fairchildinstitute.com",
+        "FAIRCHILD_API_URL": "https://api.fairchildinstitute.com"
       }
     }
   }
