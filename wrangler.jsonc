@@ -22,7 +22,7 @@
       "name": "fairchild-salespage-production",
       "vars": {
         "APPLICATION_PORTAL_URL": "https://application.fairchildinstitute.com",
-        "FAIRCHILD_API_URL": "https://api.fairchildinstitute.com"
+        "FAIRCHILD_API_URL": "https://api.fairchildinstitute.com" 
       }
     }
   }
