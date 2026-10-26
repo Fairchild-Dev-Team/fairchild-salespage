@@ -474,8 +474,8 @@ export function FellowshipSection() {
   )
 }
 
-export async function FinancialAidSection() {
-  const portalUrl = await applicationPortalUrl()
+export function FinancialAidSection() {
+  const portalUrl = applicationPortalUrl()
 
   return (
     <SectionShell bleed className="bg-gradient-cta">
@@ -535,8 +535,8 @@ export function SpotObjectionSection() {
   )
 }
 
-export async function ClosingCta() {
-  const portalUrl = await applicationPortalUrl()
+export function ClosingCta() {
+  const portalUrl = applicationPortalUrl()
 
   return (
     <SectionShell className="pb-28 md:pb-24">

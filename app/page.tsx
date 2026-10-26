@@ -27,6 +27,10 @@ export const metadata: Metadata = {
     "40 job offers in 15 months. Average start $120k. Save a 2027 FairChild seat for $250.",
 }
 
+// The catalogue fetch is uncached. Declaring the route dynamic at build time
+// stops Next from prerendering `/` and then throwing when that fetch runs on the Worker.
+export const dynamic = "force-dynamic"
+
 export default function Page() {
   return (
     <>

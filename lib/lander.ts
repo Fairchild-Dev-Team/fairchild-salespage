@@ -1,3 +1,5 @@
+import { cache } from "react"
+
 import {
   getPaymentOption,
   type PaymentOption,
@@ -132,7 +134,7 @@ function termMonthsFor(product: Product): 6 | 12 | null {
   return null
 }
 
-export async function getPublicLander(): Promise<PublicLander | null> {
+export const getPublicLander = cache(async function getPublicLander(): Promise<PublicLander | null> {
   const base = process.env.FAIRCHILD_API_URL?.trim()
   if (!base) return null
 
@@ -150,7 +152,7 @@ export async function getPublicLander(): Promise<PublicLander | null> {
   } catch {
     return null
   }
-}
+})
 
 function matchProgramme(
   product: Product,
