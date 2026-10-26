@@ -19,7 +19,7 @@ export function MobileStickyCta() {
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-[#E8D5E6] bg-white/95 p-3 shadow-[0_-8px_30px_rgba(99,23,96,0.1)] backdrop-blur-md md:hidden">
       <GradientPillButton href="/#programmes" className="w-full justify-center">
-        Lock my spot — $250
+        Save my seat
       </GradientPillButton>
     </div>
   )

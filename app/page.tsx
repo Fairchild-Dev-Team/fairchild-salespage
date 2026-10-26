@@ -18,12 +18,13 @@ import {
   ProblemSection,
   ProgrammesSection,
   ProofSection,
+  SpotObjectionSection,
 } from "@/components/sales/sales-sections"
 
 export const metadata: Metadata = {
   title: "FairChild Institute — 2027 Enrollment",
   description:
-    "Lock your FairChild spot for 2027. 40 job offers in 15 months. Programmes, courses, Interview Prep, and Fellowship with Stripe checkout.",
+    "40 job offers in 15 months. Average start $120k. Save a 2027 FairChild seat for $250.",
 }
 
 export default function Page() {
@@ -43,6 +44,7 @@ export default function Page() {
         <PricingSection />
         <FellowshipSection />
         <FinancialAidSection />
+        <SpotObjectionSection />
         <FaqSection />
         <ClosingCta />
         <div className="mx-auto w-full max-w-page px-4 pb-12 lg:px-[120px]">

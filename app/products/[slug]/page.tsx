@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { SiteHeader } from "@/components/layout/site-header"
 import { CheckoutForm } from "@/components/product/checkout-form"
+import { loadProgrammePage } from "@/lib/lander"
 import { getProduct, products, typeLabel } from "@/lib/products"
 
 type PageProps = {
@@ -29,8 +30,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ProductPage({ params, searchParams }: PageProps) {
   const { slug } = await params
   const { cancelled } = await searchParams
-  const product = getProduct(slug)
-  if (!product) notFound()
+  const listed = getProduct(slug)
+  if (!listed) notFound()
+  const { product, pay } = await loadProgrammePage(listed)
 
   return (
     <div className="min-h-screen bg-white">
@@ -110,7 +112,7 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
         </div>
 
         <div id="checkout" className="lg:sticky lg:top-8 lg:self-start">
-          <CheckoutForm product={product} />
+          <CheckoutForm product={product} pay={pay} />
         </div>
       </div>
 

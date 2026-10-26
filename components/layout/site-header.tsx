@@ -17,7 +17,7 @@ const navLinks = [
 export function SiteHeader({
   showCta = true,
   ctaHref = "/#programmes",
-  ctaLabel = "Lock my spot — $250",
+  ctaLabel = "Save my seat",
   sticky = true,
 }: {
   showCta?: boolean

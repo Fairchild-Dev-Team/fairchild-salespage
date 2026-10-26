@@ -3,7 +3,6 @@ export type ProductType =
   | "programme-6m"
   | "course"
   | "interview-prep"
-  | "fellowship"
 
 export type PaymentOption = {
   id: string
@@ -238,48 +237,6 @@ export const products: Product[] = [
       },
     ],
   },
-  {
-    slug: "fellowship",
-    name: "Fellowship (Alumni)",
-    type: "fellowship",
-    tagline: "Continue learning after the programme — without starting from zero.",
-    summary:
-      "For alumni who have completed a FairChild programme. Access last year’s programmes and courses, and join one Institute programme next year under Fellowship terms.",
-    duration: "Alumni continuing education",
-    outcomes: [
-      "Access to last year’s programmes and courses",
-      "One Institute programme for next year included",
-      "Additional Institute programmes at $1,000 each",
-      "Flexible $250 start because you are not carrying a balance",
-    ],
-    includes: [
-      "Fellowship fee: $500",
-      "Pay $250 now and spread the rest",
-      "Each extra Institute programme: $1,000",
-    ],
-    paymentOptions: [
-      {
-        id: "fellowship-deposit",
-        label: "Start Fellowship — $250",
-        amountCents: 25_000,
-        description: "Pay $250 now toward the $500 Fellowship fee.",
-        scheduleNote: "Remaining $250 can be spread across the rest of the fee.",
-        highlighted: true,
-      },
-      {
-        id: "fellowship-full",
-        label: "Pay Fellowship in full",
-        amountCents: 50_000,
-        description: "Total $500.",
-      },
-      {
-        id: "extra-programme",
-        label: "Extra Institute programme",
-        amountCents: 100_000,
-        description: "Each additional Institute programme beyond the included one: $1,000.",
-      },
-    ],
-  },
 ]
 
 export function getProduct(slug: string): Product | undefined {
@@ -306,10 +263,7 @@ export const programmes = products.filter(
 )
 
 export const otherOffers = products.filter(
-  (product) =>
-    product.type === "course" ||
-    product.type === "interview-prep" ||
-    product.type === "fellowship"
+  (product) => product.type === "course" || product.type === "interview-prep"
 )
 
 export const typeLabel: Record<ProductType, string> = {
@@ -317,5 +271,4 @@ export const typeLabel: Record<ProductType, string> = {
   "programme-6m": "6-Month Programme",
   course: "Standalone Course",
   "interview-prep": "Interview Prep",
-  fellowship: "Fellowship",
 }

@@ -1,10 +1,10 @@
 export const salesHero = {
   announcement: "2027 Open Enrollment",
-  headlineLines: ["Go beyond job ready.", "Build a life-changing career."],
+  headlineLines: ["40 job offers in 15 months.", "Average start: $120k."],
   support:
-    "Smaller cohorts, practitioner mentors, and interview prep that stays with you until the offer — then lock your 2027 spot with $250.",
-  proofLine: "40 job offers landed in 15 months · $120k avg. starting salary",
-  primaryCta: "Lock my spot — $250",
+    "Smaller cohorts. Practitioner mentors. Interview prep that stays until you are in the seat.",
+  qualifiers: ["Mentors, not slideshows", "Support until the offer", "$250 holds your seat"],
+  primaryCta: "Save my seat",
   secondaryCta: "Compare programmes",
 } as const
 
@@ -40,10 +40,11 @@ export const linkedInProof = {
 } as const
 
 export const problem = {
-  title: "You already know the feeling",
+  eyebrow: "Here's what that means for you",
+  title: "Certificates do not get replies. A sequenced career does.",
   body: [
-    "Tabs full of tutorials. Certificates that never come up in interviews. Applications that go quiet for weeks.",
-    "You are not lazy. The path you were sold was built for completion rates — not for a hire.",
+    "Tabs of tutorials. Badges that never come up in the interview. Applications that go quiet for weeks.",
+    "You are not behind. The path you were sold was built to be finished, not to get you hired.",
   ],
 } as const
 
@@ -63,14 +64,48 @@ export const falseBeliefs = [
 ] as const
 
 export const epiphany = {
-  title: "What actually gets you hired",
-  lead: "FairChild builds careers in a specific order — skill, practice, proof, interview, offer.",
+  eyebrow: "The path to the offer",
+  title: "Five steps. In this order.",
+  lead: "Skill, then practice, then proof, then the interview, then the seat.",
   steps: [
-    "Structured skill — learn in the right sequence, not random playlists",
-    "Mentored practice — practitioners, not slideshow teachers",
-    "Portfolio proof — work recruiters can respect and ask about",
-    "Interview mastery — resume, LinkedIn, mocks, negotiation",
-    "The offer — support that stays until you are in the seat",
+    {
+      title: "Structured skill",
+      body: "Learn the next thing that gets you hired, not another random playlist.",
+    },
+    {
+      title: "Mentored practice",
+      body: "Practitioners who have sat on both sides of the interview table.",
+    },
+    {
+      title: "Portfolio proof",
+      body: "Work a recruiter can open, respect, and ask you about.",
+    },
+    {
+      title: "Interview mastery",
+      body: "Resume, LinkedIn, mocks, and negotiation before the real conversation.",
+    },
+    {
+      title: "The offer",
+      body: "Support stays until you are in the seat, not until the course ends.",
+    },
+  ],
+} as const
+
+export const enrollmentDetails = {
+  title: "All the details",
+  items: [
+    {
+      label: "What",
+      body: "A career programme with cohort learning, a portfolio, and interview support through the offer.",
+    },
+    {
+      label: "When",
+      body: "2027 enrollment. Pay $250 today. The other $250 of the base fee is due before January 2027.",
+    },
+    {
+      label: "Where",
+      body: "You choose the programme on this page. Checkout is on that programme, and you get a receipt by email.",
+    },
   ],
 } as const
 
@@ -99,9 +134,14 @@ export const howItWorks = [
 
 export const midCta = {
   title: "Ready to stop collecting certificates?",
-  body: "Lock a 2027 spot for $250 today. Choose your programme next — tuition options are on each page.",
-  primaryCta: "Choose a programme",
+  body: "$250 holds a 2027 seat. Pick the programme next. Tuition options are on that page.",
+  primaryCta: "Save my seat",
   secondaryCta: "See pricing",
+} as const
+
+export const spotObjection = {
+  title: "Why is the first step only $250?",
+  body: "It is half of the $500 base fee, and that fee counts toward tuition where the programme says so. The other $250 is due before January 2027. Full pay and payment plans are on the programme page, after you choose.",
 } as const
 
 export const pricingOverview = {
@@ -114,47 +154,46 @@ export const pricingOverview = {
       normal: "$5,000",
       highlight: "Best savings" as string | undefined,
       options: "Full pay by end of January: $2,000 · Plan: $3,000",
-      href: "/products/data-analysis-business-intelligence",
+      href: "/#programmes",
     },
     {
       name: "6-Month Programme",
       normal: "$3,000",
       highlight: "Fastest path" as string | undefined,
       options: "One-time: $1,250 · Plan: $2,000 ($500 + $250/mo × 6)",
-      href: "/products/six-month-programme",
+      href: "/#programmes",
     },
     {
       name: "Standalone Course",
       normal: "$500",
       highlight: undefined as string | undefined,
       options: "Pay in full or lock with $250",
-      href: "/products/standalone-course",
+      href: "/#programmes",
     },
     {
       name: "Interview Prep",
       normal: "$500",
       highlight: undefined as string | undefined,
       options: "Pay in full or lock with $250",
-      href: "/products/interview-prep",
-    },
-    {
-      name: "Fellowship (Alumni)",
-      normal: "$500",
-      highlight: undefined as string | undefined,
-      options: "$250 to start · Extra Institute programme $1,000",
-      href: "/products/fellowship",
+      href: "/#programmes",
     },
   ],
 } as const
 
 export const fellowshipBlurb = {
   title: "Fellowship — for alumni who are not done learning",
-  body: "Already completed a FairChild programme? Fellowship gives you last year’s programmes and courses, plus one Institute programme for next year. Extra Institute programmes are $1,000 each. Start with $250 and spread the rest.",
+  body: "Already completed a FairChild programme? Fellowship is a product. Eligible alumni lock it for $250 or pay $500 to start access. An extra Institute programme is a separate product.",
 } as const
 
 export const financialAid = {
   title: "West Africa Financial Aid",
-  body: "If you are in West Africa and standard payment is out of reach, apply for Financial Aid. FairChild reviews applications individually and follows up by email.",
+  lead: "If you are in West Africa and standard payment is out of reach, start in the application portal.",
+  steps: [
+    "Create an account on the application portal.",
+    "Complete your profile.",
+    "Open the Financial Aid menu to start your application.",
+  ],
+  cta: "Apply for Financial Aid",
   email: "info@fairchildinstitute.com",
 } as const
 
@@ -251,6 +290,6 @@ export const faqs = [
   {
     question: "Can I get Financial Aid?",
     answer:
-      "West African applicants who cannot afford standard payment can apply for Financial Aid. Email info@fairchildinstitute.com to start.",
+      "Create an account on the application portal, complete your profile, then open the Financial Aid menu to start your application.",
   },
 ] as const

@@ -4,7 +4,7 @@ import Link from "next/link"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { SiteHeader } from "@/components/layout/site-header"
 import { GradientPillButton } from "@/components/ui/gradient-pill-button"
-import { getStripe } from "@/lib/stripe"
+import { confirmLanderPayment, getCheckoutSummary } from "@/lib/lander"
 
 export const metadata: Metadata = {
   title: "Payment received",
@@ -12,26 +12,29 @@ export const metadata: Metadata = {
 }
 
 type PageProps = {
-  searchParams: Promise<{ session_id?: string }>
+  searchParams: Promise<{ session_id?: string; payment_intent?: string; redirect_status?: string }>
 }
 
 export default async function CheckoutSuccessPage({ searchParams }: PageProps) {
-  const { session_id: sessionId } = await searchParams
+  const { session_id: sessionId, payment_intent: paymentIntentId, redirect_status: redirectStatus } =
+    await searchParams
 
   let productName: string | undefined
   let paymentLabel: string | undefined
   let amountTotal: number | undefined
+  let pending = false
 
-  if (sessionId && process.env.STRIPE_SECRET_KEY) {
-    try {
-      const stripe = getStripe()
-      const session = await stripe.checkout.sessions.retrieve(sessionId)
-      productName = session.metadata?.product_name
-      paymentLabel = session.metadata?.payment_label
-      amountTotal = session.amount_total ?? undefined
-    } catch {
-      // Show generic success if retrieval fails
-    }
+  if (paymentIntentId && redirectStatus !== "failed") {
+    const summary = await confirmLanderPayment(paymentIntentId)
+    productName = summary?.productName
+    paymentLabel = summary?.paymentLabel
+    amountTotal = summary?.amountTotal ?? undefined
+    pending = summary?.status === "processing"
+  } else if (sessionId) {
+    const summary = await getCheckoutSummary(sessionId)
+    productName = summary?.productName
+    paymentLabel = summary?.paymentLabel
+    amountTotal = summary?.amountTotal ?? undefined
   }
 
   const amountDisplay =
@@ -53,10 +56,18 @@ export default async function CheckoutSuccessPage({ searchParams }: PageProps) {
             Payment received
           </p>
           <h1 className="mt-3 font-heading text-heading font-semibold text-[#0E121B]">
-            You are one step closer to 2027
+            {redirectStatus === "failed"
+              ? "Payment did not complete"
+              : pending
+                ? "Payment needs another step"
+                : "You are one step closer to 2027"}
           </h1>
           <p className="mt-4 text-copy text-[#525866]">
-            Stripe confirmed your checkout
+            {redirectStatus === "failed"
+              ? "The card payment did not complete. You can return and try again."
+              : pending
+                ? "Stripe is still processing the card. Access unlocks when it clears."
+                : "Stripe confirmed your card payment"}
             {productName ? (
               <>
                 {" "}

@@ -11,12 +11,14 @@ import { TestimonialVideos } from "@/components/sales/testimonial-videos"
 import {
   credibility,
   employerNames,
+  enrollmentDetails,
   epiphany,
   falseBeliefs,
   faqs,
   fellowshipBlurb,
   financialAid,
   howItWorks,
+  spotObjection,
   linkedInProof,
   midCta,
   moreTestimonials,
@@ -24,13 +26,8 @@ import {
   problem,
   testimonials,
 } from "@/lib/sales-content"
-import {
-  formatUsd,
-  otherOffers,
-  programmes,
-  typeLabel,
-  type Product,
-} from "@/lib/products"
+import { applicationPortalUrl } from "@/lib/application-portal"
+import { getPublicLander } from "@/lib/lander"
 import { cn } from "@/lib/utils"
 
 function SectionShell({
@@ -66,46 +63,56 @@ function SectionShell({
 }
 
 export function CredibilityBar() {
+  const ticker = [...credibility, ...credibility]
+
   return (
-    <SectionShell className="border-b border-[#E8D5E6] bg-[#FEF5FE] !py-8 lg:!py-10">
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {credibility.map((item) => (
-          <div key={item.label} className="text-center sm:text-left">
-            <p className="font-heading text-3xl font-semibold text-accent-gradient sm:text-4xl">
-              {item.value}
-            </p>
-            <p className="mt-1 text-sm text-[#525866]">{item.label}</p>
-          </div>
-        ))}
+    <section className="border-b border-[#E8D5E6] bg-[#FEF5FE]">
+      <div className="proof-marquee py-6">
+        <div className="proof-marquee-track">
+          {ticker.map((item, index) => (
+            <div
+              key={`${item.label}-${index}`}
+              className="flex items-baseline gap-3 px-8"
+            >
+              <p className="font-heading text-3xl font-semibold text-accent-gradient sm:text-4xl">
+                {item.value}
+              </p>
+              <p className="max-w-40 text-sm text-[#525866]">{item.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="mt-8 flex flex-col gap-3 border-t border-[#E8D5E6] pt-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto flex w-full max-w-page flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between lg:px-[120px]">
         <p className="text-xs font-semibold tracking-wide text-[#631760] uppercase">
-          Mentees have worked with firms like
+          Alumni now at
         </p>
         <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
           {employerNames.map((name) => (
             <li
               key={name}
-              className="font-heading text-sm font-semibold tracking-tight text-[#0E121B]/70"
+              className="font-heading text-lg font-semibold tracking-tight text-[#0E121B]/70"
             >
               {name}
             </li>
           ))}
         </ul>
       </div>
-    </SectionShell>
+    </section>
   )
 }
 
 export function ProblemSection() {
   return (
     <SectionShell>
-      <h2 className="font-heading text-heading max-w-3xl font-semibold text-[#0E121B]">
+      <p className="font-miriam-libre text-sm font-semibold tracking-[0.12em] text-[#AD14A7] uppercase">
+        {problem.eyebrow}
+      </p>
+      <h2 className="mt-3 font-heading text-heading max-w-3xl font-semibold text-[#0E121B]">
         {problem.title}
       </h2>
       <div className="mt-6 max-w-2xl space-y-4">
         {problem.body.map((paragraph) => (
-          <p key={paragraph} className="text-copy text-[#525866]">
+          <p key={paragraph} className="text-lg leading-relaxed text-[#525866]">
             {paragraph}
           </p>
         ))}
@@ -114,10 +121,10 @@ export function ProblemSection() {
         {falseBeliefs.map((item) => (
           <div
             key={item.belief}
-            className="rounded-2xl border border-[#E8D5E6] bg-[#FDF5F9] p-5"
+            className="rounded-2xl border border-[#E8D5E6] bg-[#FDF5F9] p-6"
           >
-            <p className="font-heading text-lg font-semibold text-[#631760]">
-              “{item.belief}”
+            <p className="font-heading text-xl font-semibold text-[#631760]">
+              {item.belief}
             </p>
             <p className="mt-3 text-sm leading-relaxed text-[#525866]">{item.truth}</p>
           </div>
@@ -130,23 +137,24 @@ export function ProblemSection() {
 export function EpiphanySection() {
   return (
     <SectionShell bleed className="bg-gradient-purple text-white">
-      <p className="text-sm font-semibold tracking-wide text-[#FA9BF6] uppercase">
-        The FairChild method
+      <p className="font-miriam-libre text-sm font-semibold tracking-[0.12em] text-[#FA9BF6] uppercase">
+        {epiphany.eyebrow}
       </p>
       <h2 className="mt-3 font-heading text-heading max-w-3xl font-semibold">
         {epiphany.title}
       </h2>
-      <p className="mt-4 max-w-2xl text-lg text-white/85">{epiphany.lead}</p>
+      <p className="mt-4 max-w-2xl text-lg text-white/85 italic">{epiphany.lead}</p>
       <ol className="mt-10 grid gap-4 md:grid-cols-2">
         {epiphany.steps.map((step, index) => (
           <li
-            key={step}
-            className="flex gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-[2px]"
+            key={step.title}
+            className="rounded-2xl border border-white/10 bg-white/5 p-6"
           >
-            <span className="font-heading text-2xl font-semibold text-[#FA9BF6]">
+            <p className="font-heading text-5xl font-semibold text-[#FA9BF6]">
               {String(index + 1).padStart(2, "0")}
-            </span>
-            <span className="pt-1 text-base leading-relaxed text-white/90">{step}</span>
+            </p>
+            <h3 className="mt-4 font-heading text-2xl font-semibold">{step.title}</h3>
+            <p className="mt-2 text-base leading-relaxed text-white/80">{step.body}</p>
           </li>
         ))}
       </ol>
@@ -158,18 +166,26 @@ export function HowItWorksSection() {
   return (
     <SectionShell>
       <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
-        How enrollment works
+        {enrollmentDetails.title}
       </h2>
-      <p className="mt-3 max-w-xl text-copy text-[#525866]">
-        Four steps from “interested” to locked spot — no application maze.
-      </p>
-      <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        {howItWorks.map((item) => (
-          <div key={item.step} className="border-t-2 border-[#AD14A7] pt-4">
-            <p className="font-miriam-libre text-sm font-semibold text-[#AD14A7]">
-              {item.step}
+      <div className="mt-8 grid gap-4 md:grid-cols-3">
+        {enrollmentDetails.items.map((item) => (
+          <div
+            key={item.label}
+            className="rounded-2xl border border-[#E8D5E6] bg-[#FEF5FE] p-6"
+          >
+            <p className="font-miriam-libre text-sm font-semibold tracking-[0.14em] text-[#AD14A7] uppercase">
+              {item.label}
             </p>
-            <h3 className="mt-2 font-heading text-xl font-semibold text-[#0E121B]">
+            <p className="mt-3 text-base leading-relaxed text-[#525866]">{item.body}</p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-12 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
+        {howItWorks.map((item) => (
+          <div key={item.step}>
+            <p className="font-heading text-5xl font-semibold text-[#FA9BF6]">{item.step}</p>
+            <h3 className="mt-3 font-heading text-xl font-semibold text-[#0E121B]">
               {item.title}
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-[#525866]">{item.body}</p>
@@ -201,64 +217,120 @@ export function MidCtaBand() {
   )
 }
 
-function ProductCard({ product }: { product: Product }) {
-  const from = product.paymentOptions.reduce(
-    (min, option) => Math.min(min, option.amountCents),
-    product.paymentOptions[0]?.amountCents ?? 0
-  )
-
+function CatalogueCard({
+  title,
+  detail,
+  href,
+  action,
+}: {
+  title: string
+  detail?: string | null
+  href: string
+  action: string
+}) {
   return (
     <Link
-      href={`/products/${product.slug}`}
+      href={href}
       className="group flex h-full flex-col rounded-[1.5rem] border border-[#E8D5E6] bg-white p-6 transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(173,20,167,0.12)]"
     >
-      <p className="text-xs font-semibold tracking-wide text-[#AD14A7] uppercase">
-        {typeLabel[product.type]}
-      </p>
-      <h3 className="mt-2 font-heading text-2xl font-semibold text-[#0E121B] group-hover:text-[#631760]">
-        {product.name}
+      <h3 className="font-heading text-xl font-semibold text-[#0E121B] group-hover:text-[#631760]">
+        {title}
       </h3>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-[#525866]">
-        {product.tagline}
-      </p>
-      <div className="mt-5 flex items-end justify-between gap-3 border-t border-[#E8D5E6] pt-4">
-        <div>
-          <p className="text-xs text-[#525866]">{product.duration}</p>
-          <p className="font-heading text-lg font-semibold text-[#631760]">
-            From {formatUsd(from)}
-          </p>
-        </div>
-        <span className="rounded-full bg-[#FEF5FE] px-3 py-1.5 text-sm font-medium text-[#AD14A7] transition-colors group-hover:bg-[#AD14A7] group-hover:text-white">
-          Lock spot →
-        </span>
-      </div>
+      {detail ? (
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-[#525866]">{detail}</p>
+      ) : (
+        <div className="flex-1" />
+      )}
+      <span className="mt-5 inline-flex w-fit rounded-full bg-[#FEF5FE] px-3 py-1.5 text-sm font-medium text-[#AD14A7] transition-colors group-hover:bg-[#AD14A7] group-hover:text-white">
+        {action}
+      </span>
     </Link>
   )
 }
 
-export function ProgrammesSection() {
+export async function ProgrammesSection() {
+  const lander = await getPublicLander()
+  const programmes = lander?.programmes ?? []
+  const courses = lander?.courses ?? []
+  const products = lander?.products ?? []
+  const hasItems = programmes.length + courses.length + products.length > 0
+
   return (
     <SectionShell id="programmes" bleed className="bg-[#FEF5FE]">
       <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
-        Choose your path
+        Choose a programme
       </h2>
       <p className="mt-3 max-w-2xl text-copy text-[#525866]">
-        Open an offer to lock your spot for $250 or pay tuition. Checkout takes about a
-        minute.
+        Open a programme, course, or product to see the live price. You lock a 2027 spot
+        on that page. Checkout takes about a minute.
       </p>
-      <div className="mt-10 grid gap-5 md:grid-cols-2">
-        {programmes.map((product) => (
-          <ProductCard key={product.slug} product={product} />
-        ))}
-      </div>
-      <h3 className="mt-14 font-heading text-2xl font-semibold text-[#0E121B]">
-        Courses, Interview Prep & Fellowship
-      </h3>
-      <div className="mt-6 grid gap-5 md:grid-cols-3">
-        {otherOffers.map((product) => (
-          <ProductCard key={product.slug} product={product} />
-        ))}
-      </div>
+      {!lander ? (
+        <p className="mt-6 text-sm text-[#631760]">
+          The catalogue is unavailable right now. Email {financialAid.email} and we will
+          help you enrol.
+        </p>
+      ) : !hasItems ? (
+        <p className="mt-6 text-sm text-[#525866]">
+          No programmes are open for enrollment yet.
+        </p>
+      ) : (
+        <div className="mt-10 space-y-12">
+          {programmes.length > 0 ? (
+            <div>
+              <h3 className="font-heading text-2xl font-semibold text-[#0E121B]">Programmes</h3>
+              <div className="mt-6 grid gap-5 md:grid-cols-2">
+                {programmes.map((programme) => (
+                  <CatalogueCard
+                    key={programme.id}
+                    title={programme.title}
+                    detail={
+                      programme.shortDescription ??
+                      programme.description ??
+                      (programme.courses?.length
+                        ? `${programme.courses.length} courses`
+                        : "6-month and 12-month offers")
+                    }
+                    href={`/catalogue/programme/${programme.id}`}
+                    action="See offers"
+                  />
+                ))}
+              </div>
+            </div>
+          ) : null}
+          {courses.length > 0 ? (
+            <div>
+              <h3 className="font-heading text-2xl font-semibold text-[#0E121B]">Courses</h3>
+              <div className="mt-6 grid gap-5 md:grid-cols-3">
+                {courses.map((course) => (
+                  <CatalogueCard
+                    key={course.id}
+                    title={course.title}
+                    detail={course.shortDescription ?? course.description ?? course.duration}
+                    href={`/catalogue/course/${course.id}`}
+                    action="See offers"
+                  />
+                ))}
+              </div>
+            </div>
+          ) : null}
+          {products.length > 0 ? (
+            <div>
+              <h3 className="font-heading text-2xl font-semibold text-[#0E121B]">Products</h3>
+              <div className="mt-6 grid gap-5 md:grid-cols-3">
+                {products.map((product) => (
+                  <CatalogueCard
+                    key={product.id}
+                    title={product.name}
+                    detail={product.shortDescription}
+                    href={`/catalogue/product/${product.id}`}
+                    action="See offers"
+                  />
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+      )}
     </SectionShell>
   )
 }
@@ -331,7 +403,7 @@ export function ProofSection() {
       </div>
 
       <div className="mt-10 flex justify-center">
-        <GradientPillButton href="/#programmes">Lock my spot — $250</GradientPillButton>
+        <GradientPillButton href="/#programmes">Save my seat</GradientPillButton>
       </div>
     </SectionShell>
   )
@@ -375,7 +447,7 @@ export function PricingSection() {
               {row.options}
             </p>
             <span className="mt-4 text-sm font-medium text-[#AD14A7] group-hover:underline">
-              View & pay →
+              Choose a programme →
             </span>
           </Link>
         ))}
@@ -394,25 +466,30 @@ export function FellowshipSection() {
           </h2>
           <p className="mt-4 max-w-2xl text-copy text-[#525866]">{fellowshipBlurb.body}</p>
         </div>
-        <GradientPillButton href="/products/fellowship" className="w-fit">
-          View Fellowship
+        <GradientPillButton href="/#programmes" className="w-fit">
+          View products
         </GradientPillButton>
       </div>
     </SectionShell>
   )
 }
 
-export function FinancialAidSection() {
-  const mailto = `mailto:${financialAid.email}?subject=${encodeURIComponent("Financial Aid Application — West Africa")}`
+export async function FinancialAidSection() {
+  const portalUrl = await applicationPortalUrl()
 
   return (
     <SectionShell bleed className="bg-gradient-cta">
       <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
         {financialAid.title}
       </h2>
-      <p className="mt-4 max-w-2xl text-copy text-[#525866]">{financialAid.body}</p>
+      <p className="mt-4 max-w-2xl text-copy text-[#525866]">{financialAid.lead}</p>
+      <ol className="mt-5 max-w-2xl list-decimal space-y-2 pl-5 text-[#525866]">
+        {financialAid.steps.map((step) => (
+          <li key={step}>{step}</li>
+        ))}
+      </ol>
       <div className="mt-6">
-        <GradientPillButton href={mailto}>Apply for Financial Aid</GradientPillButton>
+        <GradientPillButton href={portalUrl}>{financialAid.cta}</GradientPillButton>
       </div>
     </SectionShell>
   )
@@ -442,27 +519,42 @@ export function FaqSection() {
   )
 }
 
-export function ClosingCta() {
+export function SpotObjectionSection() {
+  return (
+    <SectionShell bleed className="bg-gradient-purple text-white">
+      <h2 className="max-w-3xl font-heading text-heading font-semibold">
+        “{spotObjection.title}”
+      </h2>
+      <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/85">
+        {spotObjection.body}
+      </p>
+      <div className="mt-8">
+        <GradientPillButton href="/#programmes">Save my seat</GradientPillButton>
+      </div>
+    </SectionShell>
+  )
+}
+
+export async function ClosingCta() {
+  const portalUrl = await applicationPortalUrl()
+
   return (
     <SectionShell className="pb-28 md:pb-24">
       <div className="cta-section-card border border-[#E8D5E6] bg-gradient-cta text-center">
-        <p className="text-sm font-semibold tracking-wide text-[#AD14A7] uppercase">
-          40 job offers in 15 months
+        <p className="font-miriam-libre text-sm font-semibold tracking-[0.12em] text-[#AD14A7] uppercase">
+          Quick recap
         </p>
         <h2 className="mt-3 font-heading text-heading font-semibold text-[#0E121B]">
-          Lock your 2027 spot
+          Claim your 2027 seat
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-copy text-[#525866]">
-          $250 today toward the $500 base fee. Pick a programme, pay securely, and get a
-          receipt plus a FairChild follow-up on next steps.
+        <p className="mx-auto mt-4 max-w-xl text-lg text-[#525866]">
+          $250 today toward the $500 base fee. Pick a programme, pay on that page, and
+          get a receipt plus a FairChild follow-up.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <GradientPillButton href="/#programmes">Lock my spot — $250</GradientPillButton>
-          <GradientPillButton
-            href={`mailto:${financialAid.email}?subject=${encodeURIComponent("Financial Aid Application — West Africa")}`}
-            variant="outline"
-          >
-            Apply for Financial Aid
+          <GradientPillButton href="/#programmes">Save my seat</GradientPillButton>
+          <GradientPillButton href={portalUrl} variant="outline">
+            {financialAid.cta}
           </GradientPillButton>
         </div>
       </div>
