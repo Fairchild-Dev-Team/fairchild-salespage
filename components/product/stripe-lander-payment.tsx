@@ -1,7 +1,6 @@
 "use client"
 
 import { FormEvent, useMemo, useState } from "react"
-import { useRouter } from "next/navigation"
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { loadStripe, type Stripe } from "@stripe/stripe-js"
 
@@ -48,7 +47,6 @@ function CardFields({
 }) {
   const stripe = useStripe()
   const elements = useElements()
-  const router = useRouter()
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
@@ -58,31 +56,29 @@ function CardFields({
     setSubmitting(true)
     setError(null)
     try {
+      const returnUrl = `${window.location.origin}/checkout/success?payment_intent=${paymentIntentId}`
       const result = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/checkout/success`,
+          return_url: returnUrl,
         },
         redirect: "if_required",
       })
       if (result.error) {
         setError(result.error.message ?? "Payment failed")
+        setSubmitting(false)
         return
       }
       const status = result.paymentIntent?.status
       if (status !== "succeeded" && status !== "processing") {
         setError("Payment was not completed. Please try again.")
+        setSubmitting(false)
         return
       }
-      await fetch("/api/checkout/confirm", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentIntentId }),
-      })
-      router.push(`/checkout/success?payment_intent=${paymentIntentId}`)
+      // Confirm on the success page — do not block navigation on the API.
+      window.location.assign(returnUrl)
     } catch {
       setError("Network error. Try again.")
-    } finally {
       setSubmitting(false)
     }
   }

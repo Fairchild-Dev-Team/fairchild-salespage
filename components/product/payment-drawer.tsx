@@ -34,9 +34,10 @@ export function PaymentDrawer({
         aria-modal="true"
         aria-label={title}
         className={cn(
-          "absolute inset-y-0 right-0 flex w-full flex-col bg-white shadow-[0_0_40px_rgba(14,18,27,0.18)] transition-transform duration-300 ease-out",
+          // Avoid CSS transform while open — it traps Stripe’s 3DS modal inside the drawer.
+          "absolute inset-y-0 flex w-full flex-col bg-white shadow-[0_0_40px_rgba(14,18,27,0.18)] transition-[right] duration-300 ease-out",
           wide ? "max-w-[560px]" : "max-w-[440px]",
-          open ? "translate-x-0" : "translate-x-full"
+          open ? "right-0" : "-right-full"
         )}
       >
         <div className="flex items-center justify-between border-b border-[#E8D5E6] px-5 py-4">
