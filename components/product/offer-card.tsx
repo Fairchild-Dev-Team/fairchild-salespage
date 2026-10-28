@@ -48,11 +48,13 @@ export function offerSteps(pricing: OfferPricing): string[] {
     steps.push(
       `Then ${formatUsd(Math.floor(remainder / count))}/month for ${count} months (${formatUsd(remainder)}), due at the end of each month from January 2027.`
     )
-  } else if (FULL_PAYMENT_IDS.has(option.id) && remainder > 0) {
-    steps.push(
-      `The remaining ${formatUsd(remainder)} is due by 28 February 2027 (sent as a quote).`
-    )
-  }
+  } 
+  
+  // else if (FULL_PAYMENT_IDS.has(option.id) && remainder > 0) {
+  //   steps.push(
+  //     `The remaining ${formatUsd(remainder)} is due by 28 February 2027 (sent as a quote).`
+  //   )
+  // }
   return steps
 }
 
