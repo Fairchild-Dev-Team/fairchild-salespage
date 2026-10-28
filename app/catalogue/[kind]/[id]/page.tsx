@@ -9,7 +9,6 @@ import {
   loadCataloguePage,
   type CatalogueKind,
 } from "@/lib/lander"
-import { cn } from "@/lib/utils"
 
 type PageProps = {
   params: Promise<{ kind: string; id: string }>
@@ -123,35 +122,17 @@ export default async function CatalogueItemPage({ params, searchParams }: PagePr
             </div>
           ) : null}
 
-          {catalogueKind === "programme" && page.terms.length > 0 ? (
-            <div>
-              <h2 className="font-heading text-2xl font-semibold text-[#0E121B]">Term</h2>
-              <p className="mt-2 text-sm text-[#525866]">
-                Choose 6 months or 12 months. The card charge follows that term.
-              </p>
-              <div className="mt-4 flex flex-wrap gap-3">
-                {page.terms.map((months) => (
-                  <Link
-                    key={months}
-                    href={`/catalogue/programme/${id}?term=${months}`}
-                    className={cn(
-                      "rounded-full border px-4 py-2 text-sm font-medium",
-                      page.selectedTerm === months
-                        ? "border-[#AD14A7] bg-[#FEF5FE] text-[#631760]"
-                        : "border-[#E8D5E6] text-[#525866] hover:border-[#AD14A7]"
-                    )}
-                  >
-                    {months} months
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ) : null}
         </div>
 
         <div id="checkout" className="lg:sticky lg:top-8 lg:self-start">
           {page.product.paymentOptions.length > 0 ? (
-            <CheckoutForm product={page.product} pay={page.pay} catalogue={page.catalogue} />
+            <CheckoutForm
+              product={page.product}
+              pay={page.pay}
+              catalogue={page.catalogue}
+              terms={page.terms}
+              selectedTerm={page.selectedTerm}
+            />
           ) : (
             <p className="rounded-[1.5rem] border border-[#E8D5E6] bg-white p-6 text-sm text-[#525866]">
               This item does not have an online price yet.

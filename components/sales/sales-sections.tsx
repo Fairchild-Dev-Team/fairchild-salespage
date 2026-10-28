@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 
 import {
@@ -104,18 +105,32 @@ export function CredibilityBar() {
 export function ProblemSection() {
   return (
     <SectionShell>
-      <p className="font-miriam-libre text-sm font-semibold tracking-[0.12em] text-[#AD14A7] uppercase">
-        {problem.eyebrow}
-      </p>
-      <h2 className="mt-3 font-heading text-heading max-w-3xl font-semibold text-[#0E121B]">
-        {problem.title}
-      </h2>
-      <div className="mt-6 max-w-2xl space-y-4">
-        {problem.body.map((paragraph) => (
-          <p key={paragraph} className="text-lg leading-relaxed text-[#525866]">
-            {paragraph}
+      <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <div>
+          <p className="font-miriam-libre text-sm font-semibold tracking-[0.12em] text-[#AD14A7] uppercase">
+            {problem.eyebrow}
           </p>
-        ))}
+          <h2 className="mt-3 font-heading text-heading max-w-3xl font-semibold text-[#0E121B]">
+            {problem.title}
+          </h2>
+          <div className="mt-6 max-w-2xl space-y-4">
+            {problem.body.map((paragraph) => (
+              <p key={paragraph} className="text-lg leading-relaxed text-[#525866]">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </div>
+        <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] sm:aspect-[5/4] lg:aspect-[4/5]">
+          <Image
+            src="/images/sales/problem-grind.jpg"
+            alt="Professional studying alone at a desk, stuck in the certificate grind"
+            fill
+            sizes="(max-width: 1024px) 100vw, 42vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#631760]/45 via-transparent to-transparent" />
+        </div>
       </div>
       <div className="mt-10 grid gap-4 md:grid-cols-3">
         {falseBeliefs.map((item) => (
@@ -257,13 +272,27 @@ export async function ProgrammesSection() {
 
   return (
     <SectionShell id="programmes" bleed className="bg-[#FEF5FE]">
-      <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
-        Choose a programme
-      </h2>
-      <p className="mt-3 max-w-2xl text-copy text-[#525866]">
-        Open a programme, course, or product to see the live price. You lock a 2027 spot
-        on that page. Checkout takes about a minute.
-      </p>
+      <div className="grid items-end gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+        <div>
+          <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
+            Choose a programme
+          </h2>
+          <p className="mt-3 max-w-2xl text-copy text-[#525866]">
+            Open a programme, course, or product to see the live price. You lock a 2027 spot
+            on that page. Checkout takes about a minute.
+          </p>
+        </div>
+        <div className="relative hidden aspect-[16/10] overflow-hidden rounded-[1.5rem] lg:block">
+          <Image
+            src="/images/sales/cohort-mentorship.jpg"
+            alt="Mentors and mentees working together in a FairChild-style cohort"
+            fill
+            sizes="(max-width: 1024px) 0px, 36vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-[#631760]/25" />
+        </div>
+      </div>
       {!lander ? (
         <p className="mt-6 text-sm text-[#631760]">
           The catalogue is unavailable right now. Email {financialAid.email} and we will
@@ -355,9 +384,20 @@ export function ProofSection() {
             className="rounded-[1.5rem] border border-[#E8D5E6] bg-[#FDF5F9] p-6"
           >
             <p className="text-base leading-relaxed text-[#0E121B]">“{item.quote}”</p>
-            <footer className="mt-5">
-              <p className="font-heading font-semibold text-[#631760]">{item.name}</p>
-              <p className="text-sm text-[#525866]">{item.role}</p>
+            <footer className="mt-5 flex items-center gap-3">
+              {item.portrait ? (
+                <Image
+                  src={item.portrait}
+                  alt={item.name}
+                  width={48}
+                  height={48}
+                  className="size-12 rounded-full object-cover ring-2 ring-[#FA9BF6]/60"
+                />
+              ) : null}
+              <div>
+                <p className="font-heading font-semibold text-[#631760]">{item.name}</p>
+                <p className="text-sm text-[#525866]">{item.role}</p>
+              </div>
             </footer>
           </blockquote>
         ))}
@@ -374,11 +414,22 @@ export function ProofSection() {
           {moreTestimonials.map((item) => (
             <blockquote key={item.name}>
               <p className="text-sm leading-relaxed text-[#0E121B]">“{item.quote}”</p>
-              <footer className="mt-3">
-                <p className="font-heading text-sm font-semibold text-[#631760]">
-                  {item.name}
-                </p>
-                <p className="text-xs text-[#525866]">{item.role}</p>
+              <footer className="mt-3 flex items-center gap-3">
+                {item.portrait ? (
+                  <Image
+                    src={item.portrait}
+                    alt={item.name}
+                    width={40}
+                    height={40}
+                    className="size-10 rounded-full object-cover ring-2 ring-[#E8D5E6]"
+                  />
+                ) : null}
+                <div>
+                  <p className="font-heading text-sm font-semibold text-[#631760]">
+                    {item.name}
+                  </p>
+                  <p className="text-xs text-[#525866]">{item.role}</p>
+                </div>
               </footer>
             </blockquote>
           ))}

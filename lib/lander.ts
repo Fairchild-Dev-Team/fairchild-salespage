@@ -15,6 +15,8 @@ type LanderOffer = {
   totalCents: number
   startsAccess: boolean
   highlighted?: boolean
+  /** Plan offers: number of month-end instalments after the base fee. */
+  installmentCount?: number
 }
 
 type LanderTerm = {
@@ -22,14 +24,6 @@ type LanderTerm = {
   listPriceCents: number
   offers: LanderOffer[]
   baseFeeCents?: number
-  excludedInstallmentCount?: number
-}
-
-type PaymentPlanSettings = {
-  enabled: boolean
-  availability: string
-  maxInstallments: number
-  defaultIntervalDays: number
 }
 
 export type ProgrammeCourseSummary = {
@@ -60,6 +54,7 @@ export type CatalogueOffer = {
   totalCents: number
   startsAccess: boolean
   highlighted?: boolean
+  installmentCount?: number
 }
 
 export type CatalogueCourse = {
@@ -87,22 +82,24 @@ type PublicLander = {
   currency: string
   stripePublishableKey: string | null
   baseFeeCents?: number
-  paymentPlan?: PaymentPlanSettings
   terms: LanderTerm[]
   programmes: PublicProgramme[]
   courses?: CatalogueCourse[]
   products?: CatalogueProduct[]
 }
 
+export type PayOffer = {
+  id: string
+  totalCents: number
+  installmentCount?: number
+}
+
 export type ProgrammePayDetails = {
   termMonths?: 6 | 12
   baseFeeCents: number
-  excludedInstallmentCount: number
-  maxInstallments: number
-  defaultIntervalDays: number
-  offers: { id: string; totalCents: number }[]
-  /** Products have no balance quote. Programmes and courses do. */
-  allowsBaseQuote?: boolean
+  /** Programme terms only. Savings are measured against it. */
+  listPriceCents?: number
+  offers: PayOffer[]
 }
 
 export type CatalogueKind = "programme" | "course" | "product"
@@ -186,20 +183,24 @@ function toPaymentOption(offer: LanderOffer): PaymentOption {
   }
 }
 
+function toPayOffer(offer: LanderOffer): PayOffer {
+  return {
+    id: offer.id,
+    totalCents: offer.totalCents,
+    installmentCount: offer.installmentCount,
+  }
+}
+
 function payFromOffers(
   offers: LanderOffer[],
   lander: PublicLander,
-  termMonths: 6 | 12 | undefined,
-  allowsBaseQuote: boolean
+  term?: LanderTerm
 ): ProgrammePayDetails {
   return {
-    termMonths,
-    baseFeeCents: lander.baseFeeCents ?? 50_000,
-    excludedInstallmentCount: termMonths === 6 ? 6 : termMonths === 12 ? 10 : 0,
-    maxInstallments: lander.paymentPlan?.maxInstallments ?? 12,
-    defaultIntervalDays: lander.paymentPlan?.defaultIntervalDays ?? 30,
-    offers: offers.map((offer) => ({ id: offer.id, totalCents: offer.totalCents })),
-    allowsBaseQuote,
+    termMonths: term?.months,
+    baseFeeCents: term?.baseFeeCents ?? lander.baseFeeCents ?? 50_000,
+    listPriceCents: term?.listPriceCents,
+    offers: offers.map(toPayOffer),
   }
 }
 
@@ -264,7 +265,6 @@ export async function loadCataloguePage(
       price: programme.price,
       lander,
       requestedTerm,
-      allowsBaseQuote: true,
     })
   }
 
@@ -283,7 +283,6 @@ export async function loadCataloguePage(
       price: course.price,
       offers: course.offers ?? [],
       lander,
-      allowsBaseQuote: true,
     })
   }
 
@@ -301,7 +300,6 @@ export async function loadCataloguePage(
     price: product.price,
     offers: product.offers ?? [],
     lander,
-    allowsBaseQuote: false,
   })
 }
 
@@ -317,7 +315,6 @@ function catalogueOfferPage(input: {
   price: number
   offers: LanderOffer[]
   lander: PublicLander
-  allowsBaseQuote: boolean
 }): CataloguePage | null {
   if (input.offers.length === 0) return null
   return {
@@ -336,7 +333,7 @@ function catalogueOfferPage(input: {
       input.type,
       input.offers
     ),
-    pay: payFromOffers(input.offers, input.lander, undefined, input.allowsBaseQuote),
+    pay: payFromOffers(input.offers, input.lander),
     catalogue: { kind: input.kind, id: input.id },
   }
 }
@@ -354,7 +351,6 @@ function catalogueTermPage(input: {
   price: number
   lander: PublicLander
   requestedTerm?: 6 | 12
-  allowsBaseQuote: boolean
 }): CataloguePage | null {
   const terms = input.lander.terms
   const selected =
@@ -379,7 +375,7 @@ function catalogueTermPage(input: {
       input.type,
       selected.offers
     ),
-    pay: payFromOffers(selected.offers, input.lander, selected.months, input.allowsBaseQuote),
+    pay: payFromOffers(selected.offers, input.lander, selected),
     catalogue: { kind: input.kind, id: input.id, termMonths: selected.months },
   }
 }
@@ -392,9 +388,7 @@ function fallbackPay(months: 6 | 12, product: Product): ProgrammePayDetails {
   return {
     termMonths: months,
     baseFeeCents: 50_000,
-    excludedInstallmentCount: months === 6 ? 6 : 10,
-    maxInstallments: 12,
-    defaultIntervalDays: 30,
+    listPriceCents: months === 6 ? 300_000 : 500_000,
     offers: product.paymentOptions.map((option) => ({
       id: option.id,
       totalCents:
@@ -402,9 +396,13 @@ function fallbackPay(months: 6 | 12, product: Product): ProgrammePayDetails {
           ? months === 6
             ? 200_000
             : 300_000
-          : option.id === "spot-lock"
-            ? 50_000
-            : option.amountCents,
+          : option.id === "one-time"
+            ? 125_000
+            : option.id === "full-pay"
+              ? 200_000
+              : option.amountCents,
+      installmentCount:
+        option.id === "payment-plan" ? (months === 6 ? 6 : 10) : undefined,
     })),
   }
 }
@@ -429,19 +427,7 @@ export async function loadProgrammePage(product: Product): Promise<{
       ...product,
       paymentOptions: term.offers.map(toPaymentOption),
     },
-    pay: {
-      termMonths: months,
-      baseFeeCents: term.baseFeeCents ?? lander.baseFeeCents ?? 50_000,
-      excludedInstallmentCount:
-        term.excludedInstallmentCount ?? (months === 6 ? 6 : 10),
-      maxInstallments: lander.paymentPlan?.maxInstallments ?? fallback.maxInstallments,
-      defaultIntervalDays:
-        lander.paymentPlan?.defaultIntervalDays ?? fallback.defaultIntervalDays,
-      offers: term.offers.map((offer) => ({
-        id: offer.id,
-        totalCents: offer.totalCents,
-      })),
-    },
+    pay: payFromOffers(term.offers, lander, term),
   }
 }
 

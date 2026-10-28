@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { AnimatedHeadline } from "@/components/ui/animated-headline"
 import { GradientPillButton } from "@/components/ui/gradient-pill-button"
@@ -5,9 +6,19 @@ import { salesHero } from "@/lib/sales-content"
 
 export function SalesHero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-hero text-white">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(250,155,246,0.28),_transparent_55%)]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#1A0A2E]/40 to-transparent" />
+    <section className="relative overflow-hidden text-white">
+      <Image
+        src="/images/sales/hero-mentee.jpg"
+        alt="FairChild mentees collaborating during a cohort session"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-[center_30%]"
+      />
+      <div className="absolute inset-0 bg-[#1A0A2E]/72" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(173,20,167,0.45),_transparent_58%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#1A0A2E]/90 to-transparent" />
+
       <div className="relative mx-auto flex min-h-[min(88vh,52rem)] w-full max-w-page flex-col justify-center gap-6 px-4 py-16 lg:px-[120px] lg:py-24">
         <p className="font-miriam-libre text-sm font-semibold tracking-[0.14em] text-[#FA9BF6] uppercase">
           {salesHero.announcement}

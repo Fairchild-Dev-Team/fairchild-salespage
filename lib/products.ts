@@ -28,29 +28,30 @@ export type Product = {
   paymentOptions: PaymentOption[]
 }
 
-const spotLock: PaymentOption = {
+const lockCharge: PaymentOption = {
   id: "spot-lock",
-  label: "Lock your spot",
+  label: "Course fee",
   amountCents: 25_000,
-  description: "$250 today toward the $500 base fee ($250 due before January 2027).",
-  scheduleNote: "Remaining $250 of the base fee is due before January 2027.",
+  description: "Total $500.",
+  scheduleNote: "Remaining $250 due before January 2027.",
   highlighted: true,
 }
 
 const oneYearFullPay: PaymentOption = {
   id: "full-pay",
-  label: "Pay in full (by end of January)",
-  amountCents: 200_000,
-  description: "60% off the $5,000 list price. Total: $2,000.",
-  scheduleNote: "Requires the $500 base fee / spot lock before January.",
+  label: "Full payment",
+  amountCents: 25_000,
+  description: "Total $2,000.",
+  scheduleNote: "Balance of $1,500 due 28 February 2027.",
+  highlighted: true,
 }
 
 const oneYearPlan: PaymentOption = {
   id: "payment-plan",
-  label: "Payment plan",
-  amountCents: 50_000,
-  description: "Pay the $500 base fee now. Programme total on plan: $3,000.",
-  scheduleNote: "Remaining balance after the $500 base fee is arranged on the $3,000 plan.",
+  label: "Instalment plan",
+  amountCents: 25_000,
+  description: "Total $3,000.",
+  scheduleNote: "Then 10 × $250 at the end of each month from January 2027.",
 }
 
 function oneYearProgramme(
@@ -76,7 +77,7 @@ function oneYearProgramme(
       "Resume, LinkedIn, and interview support",
       "$500 base fee locks your 2027 spot ($250 now + $250 before January)",
     ],
-    paymentOptions: [spotLock, oneYearFullPay, oneYearPlan],
+    paymentOptions: [oneYearFullPay, oneYearPlan],
   }
 }
 
@@ -150,27 +151,19 @@ export const products: Product[] = [
     ],
     paymentOptions: [
       {
-        id: "spot-lock",
-        label: "Lock your spot",
-        amountCents: 25_000,
-        description:
-          "$250 today toward the $500 base fee ($250 due before January 2027).",
-        scheduleNote: "Remaining $250 of the base fee is due before January 2027.",
-        highlighted: true,
-      },
-      {
         id: "one-time",
-        label: "One-time payment",
-        amountCents: 125_000,
-        description: "Total $1,250 — base fee of $500 + remaining balance.",
+        label: "Full payment",
+        amountCents: 25_000,
+        description: "Total $1,250.",
+        scheduleNote: "Balance of $750 due 28 February 2027.",
         highlighted: true,
       },
       {
         id: "payment-plan",
-        label: "Payment plan",
-        amountCents: 50_000,
-        description: "Total $2,000. Pay the $500 base fee now.",
-        scheduleNote: "Then $1,500 over 6 months = $250/month.",
+        label: "Instalment plan",
+        amountCents: 25_000,
+        description: "Total $2,000.",
+        scheduleNote: "Then 6 × $250 at the end of each month from January 2027.",
       },
     ],
   },
@@ -189,22 +182,7 @@ export const products: Product[] = [
       "Negotiation guidance",
     ],
     includes: ["Full Interview Prep access for next year", "FairChild mentor guidance"],
-    paymentOptions: [
-      {
-        id: "pay-in-full",
-        label: "Pay for Interview Prep",
-        amountCents: 50_000,
-        description: "Total $500.",
-        highlighted: true,
-      },
-      {
-        id: "spot-lock",
-        label: "Lock with $250",
-        amountCents: 25_000,
-        description: "$250 today toward $500 ($250 due before January 2027).",
-        scheduleNote: "Remaining $250 due before January 2027.",
-      },
-    ],
+    paymentOptions: [lockCharge],
   },
   {
     slug: "standalone-course",
@@ -220,22 +198,7 @@ export const products: Product[] = [
       "Clear next step into a full programme if you want it",
     ],
     includes: ["Course access", "Learning support as included for the course"],
-    paymentOptions: [
-      {
-        id: "pay-in-full",
-        label: "Pay for course",
-        amountCents: 50_000,
-        description: "Total $500.",
-        highlighted: true,
-      },
-      {
-        id: "spot-lock",
-        label: "Lock with $250",
-        amountCents: 25_000,
-        description: "$250 today toward $500 ($250 due before January 2027).",
-        scheduleNote: "Remaining $250 due before January 2027.",
-      },
-    ],
+    paymentOptions: [{ ...lockCharge, label: "Course fee" }],
   },
 ]
 

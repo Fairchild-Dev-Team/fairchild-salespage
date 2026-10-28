@@ -8,9 +8,6 @@ type CheckoutBody = {
   email?: string
   firstName?: string
   lastName?: string
-  payMode?: "full" | "base"
-  installmentCount?: number
-  installmentDates?: string[]
   catalogueKind?: "programme" | "course" | "product"
   catalogueId?: string
   termMonths?: 6 | 12
@@ -57,9 +54,6 @@ export async function POST(request: Request) {
       ...(body.catalogueKind === "course" ? { courseId: body.catalogueId } : {}),
       ...(body.catalogueKind === "product" ? { productId: body.catalogueId } : {}),
       ...(body.termMonths ? { termMonths: body.termMonths } : {}),
-      ...(body.payMode ? { payMode: body.payMode } : {}),
-      ...(body.installmentCount ? { installmentCount: body.installmentCount } : {}),
-      ...(body.installmentDates?.length ? { installmentDates: body.installmentDates } : {}),
     }
   } else {
     const slug = body.slug?.trim()
@@ -86,9 +80,6 @@ export async function POST(request: Request) {
       cancelUrl: `${origin}/products/${product.slug}?cancelled=1`,
       ...(purchase.termMonths ? { termMonths: purchase.termMonths } : {}),
       ...(purchase.programmeId ? { programmeId: purchase.programmeId } : {}),
-      ...(body.payMode ? { payMode: body.payMode } : {}),
-      ...(body.installmentCount ? { installmentCount: body.installmentCount } : {}),
-      ...(body.installmentDates?.length ? { installmentDates: body.installmentDates } : {}),
     }
   }
 

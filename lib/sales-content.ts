@@ -215,25 +215,28 @@ export const testimonialVideos = [
   },
 ] as const
 
-/** Featured quotes near CTAs — keep the set short for scannability. */
+/** Featured quotes near CTAs — portraits match fairchildinstitute.com assets. */
 export const testimonials = [
   {
     name: "Swati Soni",
     role: "Senior Salesforce Developer · Class of 2025",
     quote:
       "FairChild gave me the starting point professionals get 20 years into their careers.",
+    portrait: "/images/sales/alumni/swati.png",
   },
   {
     name: "Adewale Banjo",
     role: "Salesforce Administrator · Class of 2025",
     quote:
       "Day 4 in my new Salesforce Admin role still feels unreal. I used to work at a contact centre — I always knew I didn’t belong there.",
+    portrait: "/images/sales/alumni/adewale.png",
   },
   {
     name: "Samson Bavo",
     role: "Salesforce Administrator · Class of 2025",
     quote:
       "FairChild didn’t just help me find a job. You helped a father find work that his family can be proud of.",
+    portrait: "/images/sales/alumni/samson.png",
   },
 ] as const
 
@@ -243,18 +246,22 @@ export const moreTestimonials = [
     role: "Salesforce Administrator · Class of 2025",
     quote:
       "I applied everything from HR prep to one-on-one interview sessions. Interviewers were impressed by how much I knew about their organisation.",
+    portrait: "/images/sales/alumni/juliet.png",
   },
   {
     name: "Ogenna Odebatu",
     role: "Senior Business Consultant · Class of 2025",
     quote:
       "Six months in, I am an improved version of myself — even after landing a six-figure role.",
+    portrait: "/images/sales/alumni/ogenna.png",
   },
   {
     name: "Vicky Agu",
     role: "Senior Business Analyst · Class of 2025",
     quote:
       "FairChild interview preparation helped me land a role I only dreamed about.",
+    /** No dedicated portrait on fairchildinstitute.com. */
+    portrait: undefined,
   },
 ] as const
 
