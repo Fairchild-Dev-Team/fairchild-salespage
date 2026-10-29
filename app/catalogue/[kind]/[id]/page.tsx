@@ -52,6 +52,10 @@ export default async function CatalogueItemPage({ params, searchParams }: PagePr
   const page = await loadCataloguePage(catalogueKind, id, asTerm(term))
   if (!page) notFound()
 
+  const courseInstructors = page.instructors.filter((instructor) =>
+    instructor.name?.trim(),
+  )
+
   return (
     <div className="min-h-screen bg-white">
       <SiteHeader ctaHref="#checkout" ctaLabel="Choose how to pay" />
@@ -103,19 +107,48 @@ export default async function CatalogueItemPage({ params, searchParams }: PagePr
                 Courses in this programme
               </h2>
               <ul className="mt-4 space-y-4">
-                {page.courses.map((course) => (
-                  <li key={course.id} className="rounded-2xl border border-[#E8D5E6] bg-white p-5">
-                    <Link
-                      href={`/catalogue/course/${course.id}`}
-                      className="font-heading text-lg font-semibold text-[#631760] hover:underline"
-                    >
-                      {course.title}
-                    </Link>
-                    {course.description || course.shortDescription ? (
-                      <p className="mt-2 text-sm leading-relaxed text-[#525866]">
-                        {course.description || course.shortDescription}
-                      </p>
-                    ) : null}
+                {page.courses.map((course) => {
+                  const instructors = (course.instructors ?? []).filter((instructor) =>
+                    instructor.name?.trim(),
+                  )
+                  return (
+                    <li key={course.id} className="rounded-2xl border border-[#E8D5E6] bg-white p-5">
+                      <Link
+                        href={`/catalogue/course/${course.id}`}
+                        className="font-heading text-lg font-semibold text-[#631760] hover:underline"
+                      >
+                        {course.title}
+                      </Link>
+                      {course.description || course.shortDescription ? (
+                        <p className="mt-2 text-sm leading-relaxed text-[#525866]">
+                          {course.description || course.shortDescription}
+                        </p>
+                      ) : null}
+                      {instructors.length > 0 ? (
+                        <p className="mt-3 text-sm text-[#525866]">
+                          <span className="font-medium text-[#0E121B]">
+                            {instructors.length === 1 ? "Instructor" : "Instructors"}:
+                          </span>{" "}
+                          {instructors.map((instructor) => instructor.name.trim()).join(", ")}
+                        </p>
+                      ) : null}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          ) : null}
+
+          {catalogueKind === "course" && courseInstructors.length > 0 ? (
+            <div>
+              <h2 className="font-heading text-2xl font-semibold text-[#0E121B]">
+                {courseInstructors.length === 1 ? "Instructor" : "Instructors"}
+              </h2>
+              <ul className="mt-4 space-y-2">
+                {courseInstructors.map((instructor) => (
+                  <li key={instructor.id} className="flex gap-3 text-[#525866]">
+                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[#AD14A7]" />
+                    <span>{instructor.name.trim()}</span>
                   </li>
                 ))}
               </ul>

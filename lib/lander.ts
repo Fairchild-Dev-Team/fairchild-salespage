@@ -26,11 +26,18 @@ type LanderTerm = {
   baseFeeCents?: number
 }
 
+export type CourseInstructorSummary = {
+  id: string
+  name: string
+  isPrimary: boolean
+}
+
 export type ProgrammeCourseSummary = {
   id: string
   title: string
   shortDescription: string | null
   description: string | null
+  instructors?: CourseInstructorSummary[]
 }
 
 type PublicProgramme = {
@@ -67,6 +74,7 @@ export type CatalogueCourse = {
   duration: string | null
   /** Course checkout. Programmes are the only catalogue items with 6- and 12-month terms. */
   offers?: CatalogueOffer[]
+  instructors?: CourseInstructorSummary[]
 }
 
 export type CatalogueProduct = {
@@ -230,6 +238,7 @@ export type CataloguePage = {
   summary: string
   description: string | null
   courses: ProgrammeCourseSummary[]
+  instructors: CourseInstructorSummary[]
   currency: string
   price: number
   terms: Array<6 | 12>
@@ -282,6 +291,7 @@ export async function loadCataloguePage(
       type: "course",
       price: course.price,
       offers: course.offers ?? [],
+      instructors: course.instructors ?? [],
       lander,
     })
   }
@@ -299,6 +309,7 @@ export async function loadCataloguePage(
     type: "course",
     price: product.price,
     offers: product.offers ?? [],
+    instructors: [],
     lander,
   })
 }
@@ -314,6 +325,7 @@ function catalogueOfferPage(input: {
   type: Product["type"]
   price: number
   offers: LanderOffer[]
+  instructors: CourseInstructorSummary[]
   lander: PublicLander
 }): CataloguePage | null {
   if (input.offers.length === 0) return null
@@ -322,6 +334,7 @@ function catalogueOfferPage(input: {
     summary: input.summary,
     description: input.description,
     courses: [],
+    instructors: input.instructors,
     currency: input.lander.currency,
     price: input.price,
     terms: [],
@@ -363,6 +376,7 @@ function catalogueTermPage(input: {
     summary: input.summary,
     description: input.description,
     courses: input.courses,
+    instructors: [],
     currency: input.lander.currency,
     price: input.price,
     terms: terms.map((term) => term.months),
