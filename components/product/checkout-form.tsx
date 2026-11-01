@@ -17,7 +17,7 @@ type CheckoutFormProps = {
   catalogue?: CatalogueCheckoutTarget | null
   /** page opens the card in a right sidebar. panel keeps the card in the parent sidebar. */
   surface?: "page" | "panel"
-  /** Programme term switcher (6 / 12 months), shown under the checkout intro. */
+  /** Program term switcher (6 / 12 months), shown under the checkout intro. */
   terms?: Array<6 | 12>
   selectedTerm?: 6 | 12
 }

@@ -1,178 +1,486 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 
 import { SiteFooter } from "@/components/layout/site-footer"
 import { SiteHeader } from "@/components/layout/site-header"
-import { CheckoutForm } from "@/components/product/checkout-form"
+import { CourseHero } from "@/components/sales/course-hero"
+import { CourseModules } from "@/components/sales/course-modules"
+import { CourseValue } from "@/components/sales/course-value"
+import { fairchildInstructors } from "@/components/sales/fairchild-instructors"
+import { ProgrammeAudience } from "@/components/sales/programme-audience"
+import { ProgrammeBuild } from "@/components/sales/programme-build"
+import { ProgrammeCertifications } from "@/components/sales/programme-certifications"
+import { ProgrammeFaq } from "@/components/sales/programme-faq"
 import {
-  loadCataloguePage,
+  fairchildLearning,
+  ProgrammeLearning,
+  ProgrammeRequirements,
+} from "@/components/sales/programme-foundations"
+import { ProgrammeHero } from "@/components/sales/programme-hero"
+import { ProgrammeHighlights } from "@/components/sales/programme-highlights"
+import { ProgrammeInstructors } from "@/components/sales/programme-instructors"
+import { ProgrammeLearn } from "@/components/sales/programme-learn"
+import { ProgrammeOutcomes } from "@/components/sales/programme-outcomes"
+import { ProgrammeOutline } from "@/components/sales/programme-outline"
+import { ProgrammeRelated } from "@/components/sales/programme-related"
+import { ProgrammeSkills } from "@/components/sales/programme-skills"
+import { ProgrammeSteps } from "@/components/sales/programme-steps"
+import DotGrid from "@/components/ui/dot-grid"
+import { financialAid } from "@/lib/sales-content"
+import {
+  formatCataloguePrice,
+  getCatalogueCourse,
+  getCatalogueProduct,
+  getCatalogueProgramme,
   type CatalogueKind,
-} from "@/lib/lander"
+} from "@/lib/catalogue"
+import { getCoursePage, getProgrammePage } from "@/lib/programmes"
+import { fairchildFaq } from "@/lib/programmes/shared"
 
 type PageProps = {
   params: Promise<{ kind: string; id: string }>
-  searchParams: Promise<{ term?: string; cancelled?: string }>
 }
 
 const KINDS = new Set<CatalogueKind>(["programme", "course", "product"])
+
+const kindLabel: Record<CatalogueKind, string> = {
+  programme: "Program",
+  course: "Course",
+  product: "Product",
+}
 
 function asKind(value: string): CatalogueKind | null {
   return KINDS.has(value as CatalogueKind) ? (value as CatalogueKind) : null
 }
 
-function asTerm(value: string | undefined): 6 | 12 | undefined {
-  if (value === "6") return 6
-  if (value === "12") return 12
-  return undefined
+function loadEntry(kind: CatalogueKind, id: string) {
+  if (kind === "programme") {
+    const programme = getCatalogueProgramme(id)
+    if (!programme) return null
+    const track = programme.track === programme.title ? null : programme.track
+    return {
+      kind,
+      title: programme.title,
+      summary:
+        [track, `Led by ${programme.leader}`].filter(Boolean).join(". ") + ".",
+      priceUsd: programme.priceUsd,
+      duration: programme.duration,
+      leader: programme.leader,
+      parent: null as { href: string; title: string } | null,
+      lines: programme.courses.map((course) => ({
+        key: course.id,
+        title: course.title,
+        href: `/catalogue/course/${course.id}`,
+        summary: course.summary,
+        priceUsd: course.priceUsd,
+      })),
+      linesHeading: "Courses in this program",
+    }
+  }
+
+  if (kind === "course") {
+    const course = getCatalogueCourse(id)
+    if (!course) return null
+    const programme = course.programmeId
+      ? getCatalogueProgramme(course.programmeId)
+      : undefined
+    const product = course.productId
+      ? getCatalogueProduct(course.productId)
+      : undefined
+    const parent = programme ?? product
+    if (!parent) return null
+    return {
+      kind,
+      title: course.title,
+      summary:
+        course.summary ??
+        getCoursePage(course.id)?.summary ??
+        (product
+          ? `Available on its own, and included in ${product.title}.`
+          : `Part of ${programme?.title}.`),
+      priceUsd: course.priceUsd,
+      duration: parent.duration,
+      leader: parent.leader,
+      parent: programme
+        ? {
+            href: `/catalogue/programme/${programme.id}`,
+            title: programme.title,
+          }
+        : {
+            href: `/catalogue/product/${product?.id ?? ""}`,
+            title: parent.title,
+          },
+      lines: [],
+      linesHeading: "",
+    }
+  }
+
+  const product = getCatalogueProduct(id)
+  if (!product) return null
+  return {
+    kind,
+    title: product.title,
+    summary: product.summary,
+    priceUsd: product.priceUsd,
+    duration: product.duration,
+    leader: product.leader,
+    parent: null,
+    lines: product.includes.map((item) => ({
+      key: item.courseId ?? item.title,
+      title: item.title,
+      href: item.courseId ? `/catalogue/course/${item.courseId}` : null,
+      summary: null as string | null,
+      priceUsd: item.priceUsd,
+    })),
+    linesHeading: product.includes.some((item) => item.courseId)
+      ? "Courses you can take on their own"
+      : "Included",
+  }
 }
 
-const kindLabel: Record<CatalogueKind, string> = {
-  programme: "Programme",
-  course: "Course",
-  product: "Product",
+function loadCourseView(id: string) {
+  const content = getCoursePage(id)
+  const course = getCatalogueCourse(id)
+  const programme = course?.programmeId
+    ? getCatalogueProgramme(course.programmeId)
+    : undefined
+  if (!content || !course || !programme) return null
+  return { content, course, programme, priceUsd: course.priceUsd }
 }
 
-export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { kind, id } = await params
-  const { term } = await searchParams
   const catalogueKind = asKind(kind)
   if (!catalogueKind) return { title: "Catalogue" }
-  const page = await loadCataloguePage(catalogueKind, id, asTerm(term))
-  if (!page) return { title: "Catalogue" }
-  return { title: page.title, description: page.summary }
+  const entry = loadEntry(catalogueKind, id)
+  if (!entry) return { title: "Catalogue" }
+  return { title: entry.title, description: entry.summary }
 }
 
-export default async function CatalogueItemPage({ params, searchParams }: PageProps) {
+export default async function CatalogueItemPage({ params }: PageProps) {
   const { kind, id } = await params
-  const { term, cancelled } = await searchParams
   const catalogueKind = asKind(kind)
   if (!catalogueKind) notFound()
 
-  const page = await loadCataloguePage(catalogueKind, id, asTerm(term))
-  if (!page) notFound()
+  const entry = loadEntry(catalogueKind, id)
+  if (!entry) notFound()
 
-  const courseInstructors = page.instructors.filter((instructor) =>
-    instructor.name?.trim(),
-  )
+  const courseView = catalogueKind === "course" ? loadCourseView(id) : null
+  if (catalogueKind === "course" && !courseView) {
+    // A program's only course is covered by the program page itself.
+    const programmeId = getCatalogueCourse(id)?.programmeId
+    const programme = programmeId
+      ? getCatalogueProgramme(programmeId)
+      : undefined
+    if (programme?.courses.length === 1 && getProgrammePage(programme.id)) {
+      redirect(`/catalogue/programme/${programme.id}`)
+    }
+  }
+  const programmePage =
+    catalogueKind === "course" ? undefined : getProgrammePage(id)
+  const purpleHero =
+    catalogueKind === "programme" || programmePage != null || courseView != null
+  const compactHero = programmePage != null || courseView != null
 
   return (
     <div className="min-h-screen bg-white">
-      <SiteHeader ctaHref="#checkout" ctaLabel="Choose how to pay" />
+      {purpleHero ? null : (
+        <SiteHeader ctaHref="/#programmes" ctaLabel="All programs" />
+      )}
 
-      <section className="border-b border-[#E8D5E6] bg-gradient-hero text-white">
-        <div className="mx-auto w-full max-w-page px-4 py-12 lg:px-[120px] lg:py-16">
-          <Link href="/#programmes" className="text-sm text-[#FA9BF6] hover:text-white">
-            ← Catalogue
-          </Link>
-          <p className="mt-6 text-xs font-semibold tracking-wide text-[#FA9BF6] uppercase">
-            {kindLabel[catalogueKind]}
-          </p>
-          <h1 className="mt-3 font-heading text-hero max-w-3xl font-semibold tracking-tight">
-            {page.title}
-          </h1>
-          {page.summary ? (
-            <p className="mt-4 max-w-2xl text-lg text-white/85">{page.summary}</p>
-          ) : null}
+      <section
+        className={
+          compactHero
+            ? "relative min-h-[504px] overflow-hidden border-b border-[#E8D5E6] bg-[linear-gradient(180deg,#94008D_0%,#94008D_43.55%,#4D0044_96.79%)] text-white sm:min-h-[574px] lg:min-h-[644px]"
+            : purpleHero
+              ? "relative min-h-[720px] overflow-hidden border-b border-[#E8D5E6] bg-[linear-gradient(180deg,#94008D_0%,#94008D_43.55%,#4D0044_96.79%)] text-white sm:min-h-[820px] lg:min-h-[920px]"
+              : "bg-gradient-hero relative overflow-hidden border-b border-[#E8D5E6] text-white"
+        }
+      >
+        {purpleHero ? (
+          <>
+            <DotGrid
+              className="pointer-events-none absolute inset-0"
+              baseColor="#A9A9A9"
+              activeColor="#FFFFFF"
+              dotSize={5}
+              gap={24}
+              proximity={130}
+              opacity={0.42}
+              fade={0.85}
+              glow={0}
+            />
+            <div className="relative z-10">
+              <SiteHeader
+                ctaHref="/#programmes"
+                ctaLabel="All programs"
+                tone="hero"
+                sticky={false}
+              />
+            </div>
+          </>
+        ) : null}
+        <div
+          className={
+            compactHero
+              ? "relative z-10 mx-auto w-full max-w-page px-4 pt-10 pb-12 sm:pt-12 lg:px-[120px] lg:pt-16 lg:pb-16"
+              : purpleHero
+                ? "relative z-10 mx-auto w-full max-w-page px-4 pt-2 pb-12 lg:px-[120px] lg:pt-4 lg:pb-16"
+                : "relative z-10 mx-auto w-full max-w-page px-4 py-12 lg:px-[120px] lg:py-16"
+          }
+        >
+          {programmePage ? (
+            <ProgrammeHero
+              title={entry.title}
+              priceUsd={entry.priceUsd}
+              {...programmePage.hero}
+            />
+          ) : courseView ? (
+            <CourseHero
+              title={courseView.course.title}
+              summary={courseView.content.summary}
+              pills={courseView.content.pills}
+              programme={{
+                title: courseView.programme.title,
+                href: `/catalogue/programme/${courseView.programme.id}`,
+                priceUsd: courseView.programme.priceUsd,
+              }}
+              position={{
+                index: courseView.programme.courses.findIndex(
+                  (course) => course.id === courseView.course.id
+                ),
+                total: courseView.programme.courses.length,
+              }}
+              facts={[
+                ...(courseView.content.modules
+                  ? [
+                      {
+                        label: "Modules",
+                        value: String(
+                          courseView.content.modules.modules.length
+                        ),
+                      },
+                      {
+                        label: "Length",
+                        value: `${Math.max(
+                          ...courseView.content.modules.modules.map(
+                            (module) => module.weeks[1]
+                          )
+                        )} weeks`,
+                      },
+                    ]
+                  : []),
+                { label: "Format", value: "100% online, self-paced" },
+              ]}
+              priceUsd={courseView.priceUsd}
+            />
+          ) : (
+            <>
+              <Link
+                href="/#programmes"
+                className="text-sm text-[#FA9BF6] hover:text-white"
+              >
+                ← Catalogue
+              </Link>
+              <p className="mt-6 text-xs font-semibold tracking-wide text-[#FA9BF6] uppercase">
+                {kindLabel[catalogueKind]}
+              </p>
+              <h1 className="mt-3 max-w-3xl font-heading text-hero font-semibold tracking-tight">
+                {entry.title}
+              </h1>
+              {entry.summary ? (
+                <p className="mt-4 max-w-2xl text-lg text-white/85">
+                  {entry.summary}
+                </p>
+              ) : null}
+            </>
+          )}
         </div>
       </section>
 
-      <div className="mx-auto grid w-full max-w-page gap-10 px-4 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:px-[120px] lg:py-16">
-        <div className="space-y-8">
-          {cancelled === "1" ? (
-            <p
-              className="rounded-2xl border border-[#E8D5E6] bg-[#FEF5FE] px-4 py-3 text-sm text-[#631760]"
-              role="status"
-            >
-              Checkout cancelled. Your spot is not locked until payment completes.
-            </p>
+      {courseView ? (
+        <>
+          {courseView.content.learn ? (
+            <ProgrammeLearn {...courseView.content.learn} />
           ) : null}
-
-          {page.description ? (
-            <div>
-              <h2 className="font-heading text-2xl font-semibold text-[#0E121B]">
-                {catalogueKind === "programme"
-                  ? "About this programme"
-                  : catalogueKind === "course"
-                    ? "About this course"
-                    : "About this product"}
-              </h2>
-              <p className="mt-3 text-copy leading-relaxed text-[#525866]">{page.description}</p>
-            </div>
+          {courseView.content.modules ? (
+            <CourseModules {...courseView.content.modules} />
           ) : null}
+          {courseView.content.build ? (
+            <ProgrammeBuild {...courseView.content.build} />
+          ) : null}
+          {courseView.content.skills ? (
+            <ProgrammeSkills {...courseView.content.skills} />
+          ) : null}
+          {courseView.content.certifications ? (
+            <ProgrammeCertifications {...courseView.content.certifications} />
+          ) : null}
+          {courseView.content.requirements ? (
+            <ProgrammeRequirements {...courseView.content.requirements} />
+          ) : null}
+          <ProgrammeLearning {...fairchildLearning} />
+          {courseView.programme.priceUsd != null ? (
+            <CourseValue
+              heading="Take it on its own, or with the full program"
+              course={{
+                id: courseView.course.id,
+                title: courseView.course.title,
+                priceUsd: courseView.priceUsd,
+              }}
+              courseIncludes="One course from the outline."
+              programme={{
+                title: courseView.programme.title,
+                href: `/catalogue/programme/${courseView.programme.id}`,
+                priceUsd: courseView.programme.priceUsd,
+                includes: `All ${courseView.programme.courses.length} courses, all projects, 6- or 12-month access.`,
+                courses: courseView.programme.courses,
+              }}
+            />
+          ) : null}
+          <ProgrammeInstructors {...fairchildInstructors} />
+          <ProgrammeFaq {...fairchildFaq} />
+        </>
+      ) : programmePage ? (
+        <>
+          {programmePage.audience ? (
+            <ProgrammeAudience {...programmePage.audience} />
+          ) : null}
+          {programmePage.learn ? (
+            <ProgrammeLearn {...programmePage.learn} />
+          ) : null}
+          {programmePage.build ? (
+            <ProgrammeBuild {...programmePage.build} />
+          ) : null}
+          {programmePage.skills ? (
+            <ProgrammeSkills {...programmePage.skills} />
+          ) : null}
+          {programmePage.outline ? (
+            <ProgrammeOutline {...programmePage.outline} />
+          ) : null}
+          {programmePage.highlights ? (
+            <ProgrammeHighlights {...programmePage.highlights} />
+          ) : null}
+          {programmePage.steps ? (
+            <ProgrammeSteps {...programmePage.steps} />
+          ) : null}
+          {programmePage.choose ? (
+            <ProgrammeRelated {...programmePage.choose} />
+          ) : null}
+          {programmePage.certifications ? (
+            <ProgrammeCertifications {...programmePage.certifications} />
+          ) : null}
+          {programmePage.requirements ? (
+            <ProgrammeRequirements {...programmePage.requirements} />
+          ) : null}
+          <ProgrammeLearning
+            heading={fairchildLearning.heading}
+            items={fairchildLearning.items.filter(
+              (item) =>
+                !programmePage.hideShared?.learning?.includes(item.title)
+            )}
+          />
+          {programmePage.outcomes ? (
+            <ProgrammeOutcomes {...programmePage.outcomes} />
+          ) : null}
+          <ProgrammeInstructors {...fairchildInstructors} />
+          <ProgrammeFaq
+            heading={fairchildFaq.heading}
+            items={fairchildFaq.items.filter(
+              (item) => !programmePage.hideShared?.faq?.includes(item.question)
+            )}
+          />
+          {programmePage.related ? (
+            <ProgrammeRelated {...programmePage.related} />
+          ) : null}
+        </>
+      ) : (
+        <div className="mx-auto grid w-full max-w-page gap-10 px-4 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:px-[120px] lg:py-16">
+          <div className="space-y-8">
+            {entry.parent ? (
+              <p className="text-sm text-[#525866]">
+                Part of{" "}
+                <Link
+                  href={entry.parent.href}
+                  className="font-medium text-[#631760] hover:underline"
+                >
+                  {entry.parent.title}
+                </Link>
+              </p>
+            ) : null}
 
-          {catalogueKind === "programme" && page.courses.length > 0 ? (
-            <div>
-              <h2 className="font-heading text-2xl font-semibold text-[#0E121B]">
-                Courses in this programme
-              </h2>
-              <ul className="mt-4 space-y-4">
-                {page.courses.map((course) => {
-                  const instructors = (course.instructors ?? []).filter((instructor) =>
-                    instructor.name?.trim(),
-                  )
-                  return (
-                    <li key={course.id} className="rounded-2xl border border-[#E8D5E6] bg-white p-5">
-                      <Link
-                        href={`/catalogue/course/${course.id}`}
-                        className="font-heading text-lg font-semibold text-[#631760] hover:underline"
-                      >
-                        {course.title}
-                      </Link>
-                      {course.description || course.shortDescription ? (
+            {entry.lines.length > 0 ? (
+              <div>
+                <h2 className="font-heading text-2xl font-semibold text-[#0E121B]">
+                  {entry.linesHeading}
+                </h2>
+                <ul className="mt-4 space-y-4">
+                  {entry.lines.map((line) => (
+                    <li
+                      key={line.key}
+                      className="rounded-2xl border border-[#E8D5E6] bg-white p-5"
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        {line.href ? (
+                          <Link
+                            href={line.href}
+                            className="font-heading text-lg font-semibold text-[#631760] hover:underline"
+                          >
+                            {line.title}
+                          </Link>
+                        ) : (
+                          <p className="font-heading text-lg font-semibold text-[#0E121B]">
+                            {line.title}
+                          </p>
+                        )}
+                        {line.priceUsd != null ? (
+                          <p className="shrink-0 font-heading text-base font-semibold text-[#631760]">
+                            {formatCataloguePrice(line.priceUsd)}
+                          </p>
+                        ) : null}
+                      </div>
+                      {line.summary ? (
                         <p className="mt-2 text-sm leading-relaxed text-[#525866]">
-                          {course.description || course.shortDescription}
-                        </p>
-                      ) : null}
-                      {instructors.length > 0 ? (
-                        <p className="mt-3 text-sm text-[#525866]">
-                          <span className="font-medium text-[#0E121B]">
-                            {instructors.length === 1 ? "Instructor" : "Instructors"}:
-                          </span>{" "}
-                          {instructors.map((instructor) => instructor.name.trim()).join(", ")}
+                          {line.summary}
                         </p>
                       ) : null}
                     </li>
-                  )
-                })}
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+
+          <div className="lg:sticky lg:top-8 lg:self-start">
+            <div className="rounded-[1.5rem] border border-[#E8D5E6] bg-white p-6 shadow-[0_12px_40px_rgba(99,23,96,0.08)]">
+              <p className="text-sm font-medium text-[#525866]">
+                Timetable price
+              </p>
+              <p className="mt-2 font-heading text-4xl font-semibold tracking-tight text-[#0E121B]">
+                {entry.priceUsd != null
+                  ? formatCataloguePrice(entry.priceUsd)
+                  : "Price to be set"}
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-[#525866]">
+                {entry.duration ? <li>{entry.duration}</li> : null}
+                {entry.leader ? <li>Led by {entry.leader}</li> : null}
               </ul>
+              <p className="mt-5 text-sm leading-relaxed text-[#525866]">
+                Card checkout is not connected to this timetable. Email{" "}
+                <a
+                  className="font-medium text-[#631760]"
+                  href={`mailto:${financialAid.email}`}
+                >
+                  {financialAid.email}
+                </a>{" "}
+                to enrol.
+              </p>
             </div>
-          ) : null}
-
-          {catalogueKind === "course" && courseInstructors.length > 0 ? (
-            <div>
-              <h2 className="font-heading text-2xl font-semibold text-[#0E121B]">
-                {courseInstructors.length === 1 ? "Instructor" : "Instructors"}
-              </h2>
-              <ul className="mt-4 space-y-2">
-                {courseInstructors.map((instructor) => (
-                  <li key={instructor.id} className="flex gap-3 text-[#525866]">
-                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[#AD14A7]" />
-                    <span>{instructor.name.trim()}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-
+          </div>
         </div>
-
-        <div id="checkout" className="lg:sticky lg:top-8 lg:self-start">
-          {page.product.paymentOptions.length > 0 ? (
-            <CheckoutForm
-              product={page.product}
-              pay={page.pay}
-              catalogue={page.catalogue}
-              terms={page.terms}
-              selectedTerm={page.selectedTerm}
-            />
-          ) : (
-            <p className="rounded-[1.5rem] border border-[#E8D5E6] bg-white p-6 text-sm text-[#525866]">
-              This item does not have an online price yet.
-            </p>
-          )}
-        </div>
-      </div>
+      )}
 
       <div className="mx-auto w-full max-w-page px-4 pb-12 lg:px-[120px]">
         <SiteFooter />

@@ -47,7 +47,7 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
             href="/#programmes"
             className="text-sm text-[#FA9BF6] hover:text-white"
           >
-            ← All programmes
+            ← All programs
           </Link>
           <p className="mt-6 text-xs font-semibold tracking-wide text-[#FA9BF6] uppercase">
             {typeLabel[product.type]}
@@ -105,7 +105,7 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
 
           {product.alumniSalaryRange ? (
             <p className="rounded-2xl border border-[#E8D5E6] bg-[#FDF5F9] px-5 py-4 text-sm text-[#631760]">
-              Alumni salary range cited on FairChild programmes:{" "}
+              Alumni salary range cited on FairChild programs:{" "}
               <strong>{product.alumniSalaryRange}</strong>
             </p>
           ) : null}

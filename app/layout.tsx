@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     template: "%s | FairChild Institute",
   },
   description:
-    "FairChild Institute — programmes, courses, Interview Prep, and Fellowship for ambitious tech careers.",
+    "FairChild Institute — programs, courses, Interview Prep, and Fellowship for ambitious tech careers.",
   icons: {
     icon: [
       { url: "/favicon.ico" },
