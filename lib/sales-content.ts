@@ -15,8 +15,8 @@ export const salesHero = {
     "Get hands-on training, expert mentorship, and dedicated career support to help you compete for high-value IT opportunities. Secure your place in the Class of 2027 with a $250 seat deposit.",
   visual: {
     image: {
-      src: "/images/sales/hero/hero-cohort.png",
-      alt: "Professionals collaborating in a FairChild-style career mentoring session",
+      src: "/images/sales/hero/hero-graduate.jpg",
+      alt: "A graduate in a gown raising her cap in celebration",
     },
     outcomeCard: {
       eyebrow: "Offers secured",
