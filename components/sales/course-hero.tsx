@@ -15,6 +15,7 @@ export type CourseHeroProps = {
   position: { index: number; total: number }
   facts: { label: string; value: string }[]
   priceUsd: number | null
+  ctaHref: string
 }
 
 export function CourseHero({
@@ -25,6 +26,7 @@ export function CourseHero({
   position,
   facts,
   priceUsd,
+  ctaHref,
 }: CourseHeroProps) {
   const courseNumber = String(position.index + 1).padStart(2, "0")
   const courseTotal = String(position.total).padStart(2, "0")
@@ -99,8 +101,8 @@ export function CourseHero({
             </p>
           </>
         ) : null}
-        <button
-          type="button"
+        <Link
+          href={ctaHref}
           className={cn(
             priceUsd != null && "mt-6",
             "inline-flex cursor-pointer items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0E121B] shadow-[0_9px_10.7px_rgba(250,155,246,0.25)]",
@@ -109,7 +111,7 @@ export function CourseHero({
           )}
         >
           Enroll Now
-        </button>
+        </Link>
         {programme.priceUsd != null ? (
           <p className="mt-3 text-sm text-white/70">
             or get all {position.total} courses in the{" "}

@@ -35,8 +35,10 @@ import {
   getCatalogueProgramme,
   type CatalogueKind,
 } from "@/lib/catalogue"
+import { checkoutHref } from "@/lib/checkout"
 import { getCoursePage, getProgrammePage } from "@/lib/programmes"
 import { fairchildFaq } from "@/lib/programmes/shared"
+import { GradientPillButton } from "@/components/ui/gradient-pill-button"
 
 type PageProps = {
   params: Promise<{ kind: string; id: string }>
@@ -184,11 +186,12 @@ export default async function CatalogueItemPage({ params }: PageProps) {
   const purpleHero =
     catalogueKind === "programme" || programmePage != null || courseView != null
   const compactHero = programmePage != null || courseView != null
+  const enrollHref = checkoutHref(catalogueKind, id)
 
   return (
     <div className="min-h-screen bg-white">
       {purpleHero ? null : (
-        <SiteHeader ctaHref="/#programmes" ctaLabel="All programs" />
+        <SiteHeader ctaHref={enrollHref} ctaLabel="Enroll Now" />
       )}
 
       <section
@@ -215,8 +218,8 @@ export default async function CatalogueItemPage({ params }: PageProps) {
             />
             <div className="relative z-10">
               <SiteHeader
-                ctaHref="/#programmes"
-                ctaLabel="All programs"
+                ctaHref={enrollHref}
+                ctaLabel="Enroll Now"
                 tone="hero"
                 sticky={false}
               />
@@ -237,12 +240,14 @@ export default async function CatalogueItemPage({ params }: PageProps) {
               title={entry.title}
               priceUsd={entry.priceUsd}
               {...programmePage.hero}
+              ctaHref={enrollHref}
             />
           ) : courseView ? (
             <CourseHero
               title={courseView.course.title}
               summary={courseView.content.summary}
               pills={courseView.content.pills}
+              ctaHref={enrollHref}
               programme={{
                 title: courseView.programme.title,
                 href: `/catalogue/programme/${courseView.programme.id}`,
@@ -330,6 +335,7 @@ export default async function CatalogueItemPage({ params }: PageProps) {
                 title: courseView.course.title,
                 priceUsd: courseView.priceUsd,
               }}
+              courseCtaHref={enrollHref}
               courseIncludes="One course from the outline."
               programme={{
                 title: courseView.programme.title,
@@ -468,15 +474,21 @@ export default async function CatalogueItemPage({ params }: PageProps) {
                 {entry.leader ? <li>Led by {entry.leader}</li> : null}
               </ul>
               <p className="mt-5 text-sm leading-relaxed text-[#525866]">
-                Card checkout is not connected to this timetable. Email{" "}
+                Pay $250 today to lock your spot. Questions? Email{" "}
                 <a
                   className="font-medium text-[#631760]"
                   href={`mailto:${financialAid.email}`}
                 >
                   {financialAid.email}
-                </a>{" "}
-                to enrol.
+                </a>
+                .
               </p>
+              <GradientPillButton
+                href={enrollHref}
+                className="mt-5 w-full justify-center"
+              >
+                Enroll Now
+              </GradientPillButton>
             </div>
           </div>
         </div>

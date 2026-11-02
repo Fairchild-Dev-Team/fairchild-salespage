@@ -83,6 +83,8 @@ export type CatalogueProduct = {
   slug: string | null
   shortDescription: string | null
   price: number
+  /** From lander; private products require an eligible email at checkout. */
+  visibility?: "public" | "private"
   offers?: CatalogueOffer[]
 }
 

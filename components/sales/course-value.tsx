@@ -19,10 +19,12 @@ export function CourseValue({
   course,
   courseIncludes,
   programme,
+  courseCtaHref,
 }: {
   heading: string
   course: CourseValueCourse
   courseIncludes: string
+  courseCtaHref: string
   programme: {
     title: string
     href: string
@@ -61,12 +63,12 @@ export function CourseValue({
               {courseIncludes}
             </p>
             <div className="mt-auto pt-8">
-              <button
-                type="button"
+              <Link
+                href={courseCtaHref}
                 className="inline-flex cursor-pointer items-center justify-center rounded-full bg-[#0E121B] px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
               >
                 Enroll Now
-              </button>
+              </Link>
             </div>
           </article>
 

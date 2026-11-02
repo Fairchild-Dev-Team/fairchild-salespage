@@ -40,6 +40,11 @@ export type CatalogueProduct = {
   priceUsd: number | null
   summary: string
   includes: CatalogueInclude[]
+  /**
+   * Lander admin product name(s) when they differ from the timetable title.
+   * Checkout matches these (then slug) against lander.products[].name.
+   */
+  landerNames?: string[]
 }
 
 type CourseInput = {
@@ -408,6 +413,8 @@ export const catalogueProducts: CatalogueProduct[] = [
     duration: "12 months",
     priceUsd: 500,
     summary: "Choose any program, plus guided mentorship and career development.",
+    // Prefer the primary lander product when duplicate titles exist.
+    landerNames: ["FairChild Fellowship", "Scholarship Bundle", "Fellowship"],
     includes: [
       { title: "Choose any program", priceUsd: null },
       { title: "Guided Mentorship & Career Development", priceUsd: null },
@@ -421,6 +428,11 @@ export const catalogueProducts: CatalogueProduct[] = [
     priceUsd: 3000,
     summary:
       "Interview preparation, references, certifications, and presentation skills. Each of these can also be paid for on its own.",
+    landerNames: [
+      
+      "Guided Mentorship & Career Development",
+      
+    ],
     includes: guidedMentorshipCourses.map((course) => ({
       title: course.title,
       priceUsd: course.priceUsd,
