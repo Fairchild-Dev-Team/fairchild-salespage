@@ -8,6 +8,7 @@ import {
   getPublicLander,
   type CatalogueCheckoutTarget,
   type CatalogueKind,
+  type CatalogueOffer,
   type ProgrammePayDetails,
 } from "@/lib/lander"
 import { formatUsd, type Product } from "@/lib/products"
@@ -319,7 +320,7 @@ function productCheckoutPage(input: {
   localId: string
   slug: string
   baseFeeCents: number
-  offers?: typeof PRODUCT_LOCK_OFFERS
+  offers?: CatalogueOffer[] | typeof PRODUCT_LOCK_OFFERS
   requiresEligibility?: boolean
 }): SalesCheckoutPage {
   const offers = input.offers?.length ? input.offers : PRODUCT_LOCK_OFFERS
