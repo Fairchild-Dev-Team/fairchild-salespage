@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { ArrowRight, DoorOpen, MailX } from "lucide-react"
 
 import {
   Accordion,
@@ -8,92 +9,72 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { GradientPillButton } from "@/components/ui/gradient-pill-button"
-import { TestimonialVideos } from "@/components/sales/testimonial-videos"
 import {
   credibility,
-  employerNames,
+  employers,
   enrollmentDetails,
   epiphany,
   falseBeliefs,
   faqs,
-  fellowshipBlurb,
   financialAid,
   howItWorks,
-  spotObjection,
-  linkedInProof,
   midCta,
-  moreTestimonials,
   pricingOverview,
   problem,
-  testimonials,
 } from "@/lib/sales-content"
 import { applicationPortalUrl } from "@/lib/application-portal"
-import { getPublicLander } from "@/lib/lander"
+import { ProgrammeBrowser } from "@/components/sales/programme-browser"
+import { SectionShell } from "@/components/sales/section-shell"
 import { cn } from "@/lib/utils"
-
-function SectionShell({
-  id,
-  className,
-  children,
-  bleed,
-}: {
-  id?: string
-  className?: string
-  children: React.ReactNode
-  bleed?: boolean
-}) {
-  return (
-    <section
-      id={id}
-      className={cn(
-        bleed
-          ? "w-full"
-          : "mx-auto w-full max-w-page px-4 py-14 lg:px-[120px] lg:py-20",
-        className
-      )}
-    >
-      {bleed ? (
-        <div className="mx-auto w-full max-w-page px-4 py-14 lg:px-[120px] lg:py-20">
-          {children}
-        </div>
-      ) : (
-        children
-      )}
-    </section>
-  )
-}
 
 export function CredibilityBar() {
   const ticker = [...credibility, ...credibility]
 
   return (
     <section className="border-b border-[#E8D5E6] bg-[#FEF5FE]">
-      <div className="proof-marquee py-6">
+      <div className="proof-marquee pt-7">
         <div className="proof-marquee-track">
           {ticker.map((item, index) => (
             <div
               key={`${item.label}-${index}`}
               className="flex items-baseline gap-3 px-8"
             >
-              <p className="font-heading text-3xl font-semibold text-accent-gradient sm:text-4xl">
+              <p className="text-accent-gradient font-heading text-3xl font-semibold sm:text-4xl">
                 {item.value}
               </p>
-              <p className="max-w-40 text-sm text-[#525866]">{item.label}</p>
+              <p className="max-w-44 text-sm text-[#525866]">{item.label}</p>
             </div>
           ))}
         </div>
       </div>
-      <div className="mx-auto flex w-full max-w-page flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between lg:px-[120px]">
-        <p className="text-xs font-semibold tracking-wide text-[#631760] uppercase">
-          Alumni now at
-        </p>
-        <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
-          {employerNames.map((name) => (
-            <li
-              key={name}
-              className="font-heading text-lg font-semibold tracking-tight text-[#0E121B]/70"
-            >
-              {name}
+      <div className="mx-auto flex w-full max-w-page flex-col gap-5 px-4 pt-2 pb-8 sm:flex-row sm:items-center sm:justify-between sm:gap-8 lg:px-[120px] lg:pt-3 lg:pb-10">
+        <div className="min-w-0 shrink-0">
+          <p className="font-sans text-sm font-normal tracking-[0.08em] text-[#631760] uppercase">
+            FairChild Success Wall
+          </p>
+          <h2 className="mt-2 font-heading text-[clamp(1.35rem,0.7rem+3.2vw,2.75rem)] leading-[1.1] font-medium tracking-[-0.04em] text-[#0E121B]">
+            <span className="block whitespace-nowrap">
+              Our Mentees have worked
+            </span>
+            <span className="block whitespace-nowrap">with top firms like</span>
+          </h2>
+        </div>
+        <ul className="flex flex-wrap items-center gap-x-8 gap-y-4 sm:justify-end sm:gap-x-10">
+          {employers.map((employer) => (
+            <li key={employer.name} className="flex h-8 items-center sm:h-9">
+              {"logo" in employer && employer.logo ? (
+                <Image
+                  src={employer.logo}
+                  alt={employer.name}
+                  width={160}
+                  height={36}
+                  className="partner-logo-tint-brand h-7 w-auto max-w-[9rem] object-contain sm:h-8"
+                />
+              ) : (
+                <span className="font-heading text-xl font-semibold tracking-tight text-[#631760] sm:text-2xl">
+                  {employer.name}
+                </span>
+              )}
             </li>
           ))}
         </ul>
@@ -103,73 +84,258 @@ export function CredibilityBar() {
 }
 
 export function ProblemSection() {
+  const [certificate, tutorials, alone] = falseBeliefs
+
   return (
-    <SectionShell>
-      <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-        <div>
-          <p className="font-miriam-libre text-sm font-semibold tracking-[0.12em] text-[#AD14A7] uppercase">
-            {problem.eyebrow}
-          </p>
-          <h2 className="mt-3 font-heading text-heading max-w-3xl font-semibold text-[#0E121B]">
-            {problem.title}
-          </h2>
-          <div className="mt-6 max-w-2xl space-y-4">
-            {problem.body.map((paragraph) => (
-              <p key={paragraph} className="text-lg leading-relaxed text-[#525866]">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        </div>
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] sm:aspect-[5/4] lg:aspect-[4/5]">
-          <Image
-            src="/images/sales/problem-grind.jpg"
-            alt="Professional studying alone at a desk, stuck in the certificate grind"
-            fill
-            sizes="(max-width: 1024px) 100vw, 42vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#631760]/45 via-transparent to-transparent" />
-        </div>
+    <SectionShell id="holding-back">
+      <div>
+        <p className="font-miriam-libre text-sm font-semibold tracking-[0.12em] text-[#AD14A7] uppercase">
+          {problem.eyebrow}
+        </p>
+        <h2 className="mt-4 max-w-[62rem] font-heading text-[clamp(1.85rem,0.9rem+1.9vw,2.85rem)] leading-[1.08] font-medium tracking-[-0.045em] text-[#0E121B]">
+          <span className="block">{problem.titleLead}</span>
+          <span className="block">{problem.title}</span>
+        </h2>
       </div>
-      <div className="mt-10 grid gap-4 md:grid-cols-3">
-        {falseBeliefs.map((item) => (
-          <div
-            key={item.belief}
-            className="rounded-2xl border border-[#E8D5E6] bg-[#FDF5F9] p-6"
-          >
-            <p className="font-heading text-xl font-semibold text-[#631760]">
-              {item.belief}
+
+      <div className="mt-12 grid gap-5 lg:mt-14 lg:grid-cols-3">
+        <article className="flex min-h-[460px] flex-col overflow-hidden rounded-[28px] bg-[linear-gradient(27deg,#FEF5FE_25.75%,#E7F8FD_101.38%)] sm:rounded-[32px]">
+          <div className="p-6 sm:p-8">
+            <p className="text-base leading-6 text-[#525866]">
+              {certificate.belief}
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-[#525866]">{item.truth}</p>
+            <h3 className="mt-3 font-heading text-[2.25rem] leading-none font-medium tracking-[-0.04em] text-[#0E121B] sm:text-[2.5rem]">
+              {certificate.response}
+            </h3>
+            <p className="mt-4 text-sm leading-6 text-[#525866]">
+              {certificate.truth}
+            </p>
           </div>
-        ))}
+          <div className="relative mt-auto h-40 [mask-image:linear-gradient(to_bottom,transparent,black_28%)]">
+            <Image
+              src="/images/sales/problem/study.jpg"
+              alt="Hands working through notes at a desk"
+              fill
+              className="object-cover object-[center_70%]"
+              sizes="(max-width: 1024px) 100vw, 33vw"
+            />
+          </div>
+        </article>
+
+        <article className="relative flex min-h-[440px] flex-col overflow-hidden rounded-[28px] bg-[linear-gradient(180deg,#FEF6FE_0%,#E2E5ED_42%)] p-6 sm:rounded-[32px] sm:p-8">
+          <div className="relative z-10 flex items-start gap-3">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#0E121B] text-white">
+              <ArrowRight className="size-4" aria-hidden />
+            </span>
+            <div>
+              <h3 className="font-heading text-2xl leading-tight font-medium tracking-[-0.03em] text-[#0E121B]">
+                {tutorials.response}
+              </h3>
+              <p className="mt-3 text-base leading-6 text-[#525866]">
+                {tutorials.belief}
+              </p>
+              <p className="mt-3 text-sm leading-6 text-[#525866]">
+                {tutorials.truth}
+              </p>
+            </div>
+          </div>
+          <div className="relative z-10 mt-6 min-h-[180px] flex-1 overflow-hidden rounded-2xl shadow-[0_18px_40px_rgba(14,18,27,0.12)]">
+            <Image
+              src="/images/sales/problem/tutorials.jpg"
+              alt="Someone pointing at a lesson on a laptop"
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 1024px) 100vw, 33vw"
+            />
+          </div>
+        </article>
+
+        <article className="flex min-h-[460px] flex-col items-center overflow-hidden rounded-[28px] bg-[#EEF6F7] px-6 pt-6 sm:rounded-[32px] sm:px-8 sm:pt-8">
+          <p className="max-w-[16rem] text-center text-base leading-6 text-[#0E121B]">
+            {alone.belief}
+          </p>
+          <p className="mt-2 max-w-[18rem] text-center text-sm leading-6 text-[#525866]">
+            {alone.truth}
+          </p>
+          <div className="relative mt-5 h-[260px] w-full max-w-[260px] overflow-hidden rounded-t-[150px]">
+            <Image
+              src="/images/sales/problem/mentor.jpg"
+              alt="A mentor talking through work with someone at the table"
+              fill
+              className="object-cover object-[center_18%]"
+              sizes="280px"
+            />
+            <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-[#3d2444]/85 to-transparent" />
+            <p className="absolute inset-x-3 bottom-6 text-center font-heading text-[1.35rem] leading-[1.15] font-medium tracking-[-0.03em] text-white">
+              {alone.response}
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <div className="mt-5 grid gap-5 lg:grid-cols-2">
+        <article className="relative min-h-[260px] overflow-hidden rounded-[28px] bg-[#FEF5FE] p-6 sm:min-h-[277px] sm:rounded-[32px] sm:p-8">
+          <div className="relative z-10 max-w-[13.5rem] sm:max-w-[18rem]">
+            <p className="text-lg leading-snug font-medium tracking-[-0.02em] text-[#0E121B] sm:text-2xl">
+              Yet, the interview invitations aren&apos;t coming.
+            </p>
+            <p className="mt-3 text-base leading-7 text-[#525866]">
+              {problem.body[1]}
+            </p>
+          </div>
+          <div className="pointer-events-none absolute right-5 bottom-5 flex size-28 items-center justify-center rounded-full bg-[rgba(251,75,163,0.16)] sm:size-40">
+            <MailX
+              className="size-12 text-[#AD14A7] sm:size-16"
+              aria-hidden
+            />
+          </div>
+        </article>
+
+        <article className="relative flex min-h-[260px] items-center overflow-hidden rounded-[28px] bg-[linear-gradient(115deg,#F0ABFC_0%,#D946EF_38%,#A21CAF_100%)] p-6 sm:min-h-[277px] sm:rounded-[32px] sm:p-8">
+          <div className="relative z-10 max-w-[15rem] sm:max-w-[22rem]">
+            <p className="font-heading text-[clamp(2rem,4vw,3.25rem)] leading-none font-medium tracking-[-0.04em] text-white">
+              Closer to an opportunity.
+            </p>
+            <p className="mt-3 text-lg leading-snug font-medium text-white/95">
+              {problem.body[2]}
+            </p>
+          </div>
+          <div className="pointer-events-none absolute -right-2 bottom-2 flex size-32 items-center justify-center rounded-full bg-white/10 sm:size-44">
+            <DoorOpen
+              className="size-16 text-white/80 sm:size-20"
+              aria-hidden
+            />
+          </div>
+        </article>
       </div>
     </SectionShell>
   )
 }
 
+const stepIllustrations = [
+  "/images/sales/path/skill.svg",
+  "/images/sales/path/practice.svg",
+  "/images/sales/path/proof.svg",
+  "/images/sales/path/interview.svg",
+  "/images/sales/path/offer.svg",
+] as const
+
 export function EpiphanySection() {
+  const lastIndex = epiphany.steps.length - 1
+
   return (
-    <SectionShell bleed className="bg-gradient-purple text-white">
-      <p className="font-miriam-libre text-sm font-semibold tracking-[0.12em] text-[#FA9BF6] uppercase">
-        {epiphany.eyebrow}
-      </p>
-      <h2 className="mt-3 font-heading text-heading max-w-3xl font-semibold">
-        {epiphany.title}
+    <SectionShell
+      bleed
+      className="bg-[linear-gradient(180deg,#94008D_0%,#94008D_43.55%,#4D0044_96.79%)] text-white"
+    >
+      <div className="max-w-[40rem]">
+        <p className="font-miriam-libre text-sm font-semibold tracking-[0.12em] text-[#FA9BF6] uppercase">
+          {epiphany.eyebrow}
+        </p>
+        <h2 className="mt-4 font-heading text-[clamp(1.85rem,0.9rem+1.9vw,2.85rem)] leading-[1.08] font-medium tracking-[-0.045em] text-white">
+          {epiphany.title}
+        </h2>
+        <p className="mt-4 text-lg leading-7 text-white/80">{epiphany.lead}</p>
+      </div>
+
+      <ol className="mt-12 lg:mt-16 lg:grid lg:grid-cols-5 lg:gap-6">
+        {epiphany.steps.map((step, index) => {
+          const isLast = index === lastIndex
+
+          return (
+            <li key={step.title} className="relative pb-10 last:pb-0 lg:pb-0">
+              {index < lastIndex ? (
+                <span
+                  aria-hidden
+                  className="absolute top-[21px] left-[calc(50%+1.375rem)] hidden h-px w-[calc(100%-1.25rem)] bg-white/30 lg:block"
+                />
+              ) : null}
+              <div className="flex justify-center">
+                <span
+                  className={
+                    isLast
+                      ? "relative z-10 flex size-11 items-center justify-center rounded-full bg-[linear-gradient(95.72deg,#F233EA_43.24%,#FA9BF6_98.17%)] font-heading text-sm font-semibold text-white shadow-[0_0_0_2px_rgba(250,155,246,0.45),0_0_18px_6px_rgba(250,155,246,0.7)]"
+                      : "relative z-10 flex size-11 items-center justify-center rounded-full bg-white font-heading text-sm font-semibold text-[#94008D]"
+                  }
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
+              <div className="mt-4 min-w-0">
+                <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-white px-2 sm:h-32">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- SVG illustration; next/image does not optimise SVGs */}
+                  <img
+                    src={stepIllustrations[index]}
+                    alt=""
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <h3 className="mt-4 font-heading text-xl leading-tight font-medium tracking-[-0.03em] text-white">
+                  {step.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-white/75">
+                  {step.body}
+                </p>
+              </div>
+            </li>
+          )
+        })}
+      </ol>
+    </SectionShell>
+  )
+}
+
+const detailIllustrations = [
+  "/images/sales/details/choose.svg",
+  "/images/sales/details/lock.svg",
+  "/images/sales/details/pay.svg",
+  "/images/sales/details/train.svg",
+] as const
+
+export function HowItWorksSection() {
+  return (
+    <SectionShell>
+      <h2 className="max-w-[40rem] font-heading text-[clamp(1.85rem,0.9rem+1.9vw,2.85rem)] leading-[1.08] font-medium tracking-[-0.045em] text-[#0E121B]">
+        {enrollmentDetails.title}
       </h2>
-      <p className="mt-4 max-w-2xl text-lg text-white/85 italic">{epiphany.lead}</p>
-      <ol className="mt-10 grid gap-4 md:grid-cols-2">
-        {epiphany.steps.map((step, index) => (
-          <li
-            key={step.title}
-            className="rounded-2xl border border-white/10 bg-white/5 p-6"
+
+      <dl className="mt-10 grid overflow-hidden rounded-[28px] border border-[#E8D5E6] bg-white sm:grid-cols-3">
+        {enrollmentDetails.items.map((item) => (
+          <div
+            key={item.label}
+            className="border-b border-[#E8D5E6] p-6 last:border-b-0 sm:border-r sm:border-b-0 sm:p-8 sm:last:border-r-0"
           >
-            <p className="font-heading text-5xl font-semibold text-[#FA9BF6]">
-              {String(index + 1).padStart(2, "0")}
+            <dt className="font-heading text-3xl font-medium tracking-[-0.04em] text-[#0E121B]">
+              {item.label}
+            </dt>
+            <dd className="mt-3 text-base leading-7 text-[#525866]">
+              {item.body}
+            </dd>
+          </div>
+        ))}
+      </dl>
+
+      <ol className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {howItWorks.map((item, index) => (
+          <li
+            key={item.step}
+            className="flex flex-col rounded-[28px] bg-[#FEF5FE] p-4 sm:p-5"
+          >
+            <div className="flex h-36 items-center justify-center overflow-hidden rounded-2xl bg-white px-3">
+              {/* eslint-disable-next-line @next/next/no-img-element -- SVG illustration; next/image does not optimise SVGs */}
+              <img
+                src={detailIllustrations[index]}
+                alt=""
+                className="h-full w-full object-contain"
+              />
+            </div>
+            <p className="mt-4 font-heading text-sm font-semibold tracking-[0.08em] text-[#0E121B]">
+              {item.step}
             </p>
-            <h3 className="mt-4 font-heading text-2xl font-semibold">{step.title}</h3>
-            <p className="mt-2 text-base leading-relaxed text-white/80">{step.body}</p>
+            <h3 className="mt-1 font-heading text-xl leading-tight font-medium tracking-[-0.03em] text-[#0E121B]">
+              {item.title}
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-[#525866]">{item.body}</p>
           </li>
         ))}
       </ol>
@@ -177,52 +343,20 @@ export function EpiphanySection() {
   )
 }
 
-export function HowItWorksSection() {
-  return (
-    <SectionShell>
-      <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
-        {enrollmentDetails.title}
-      </h2>
-      <div className="mt-8 grid gap-4 md:grid-cols-3">
-        {enrollmentDetails.items.map((item) => (
-          <div
-            key={item.label}
-            className="rounded-2xl border border-[#E8D5E6] bg-[#FEF5FE] p-6"
-          >
-            <p className="font-miriam-libre text-sm font-semibold tracking-[0.14em] text-[#AD14A7] uppercase">
-              {item.label}
-            </p>
-            <p className="mt-3 text-base leading-relaxed text-[#525866]">{item.body}</p>
-          </div>
-        ))}
-      </div>
-      <div className="mt-12 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
-        {howItWorks.map((item) => (
-          <div key={item.step}>
-            <p className="font-heading text-5xl font-semibold text-[#FA9BF6]">{item.step}</p>
-            <h3 className="mt-3 font-heading text-xl font-semibold text-[#0E121B]">
-              {item.title}
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-[#525866]">{item.body}</p>
-          </div>
-        ))}
-      </div>
-    </SectionShell>
-  )
-}
-
 export function MidCtaBand() {
   return (
     <SectionShell bleed className="bg-[#FEF5FE]">
-      <div className="flex flex-col items-start justify-between gap-6 rounded-[1.75rem] border border-[#E8D5E6] bg-white p-6 shadow-[0_16px_40px_rgba(173,20,167,0.08)] sm:p-8 lg:flex-row lg:items-center lg:p-10">
+      <div className="flex flex-col items-start justify-between gap-6 rounded-[1.75rem] bg-[linear-gradient(180deg,#94008D_0%,#94008D_43.55%,#4D0044_96.79%)] p-6 text-white sm:p-8 lg:flex-row lg:items-center lg:p-10">
         <div className="max-w-xl">
-          <h2 className="font-heading text-2xl font-semibold text-[#0E121B] sm:text-3xl">
+          <h2 className="font-heading text-2xl font-semibold text-white sm:text-3xl">
             {midCta.title}
           </h2>
-          <p className="mt-3 text-copy text-[#525866]">{midCta.body}</p>
+          <p className="mt-3 text-copy text-white/80">{midCta.body}</p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <GradientPillButton href="/#programmes">{midCta.primaryCta}</GradientPillButton>
+          <GradientPillButton href="/#programmes">
+            {midCta.primaryCta}
+          </GradientPillButton>
           <GradientPillButton href="/#pricing" variant="outline">
             {midCta.secondaryCta}
           </GradientPillButton>
@@ -232,230 +366,19 @@ export function MidCtaBand() {
   )
 }
 
-function CatalogueCard({
-  title,
-  detail,
-  href,
-  action,
-}: {
-  title: string
-  detail?: string | null
-  href: string
-  action: string
-}) {
+export function ProgrammesSection() {
   return (
-    <Link
-      href={href}
-      className="group flex h-full flex-col rounded-[1.5rem] border border-[#E8D5E6] bg-white p-6 transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(173,20,167,0.12)]"
-    >
-      <h3 className="font-heading text-xl font-semibold text-[#0E121B] group-hover:text-[#631760]">
-        {title}
-      </h3>
-      {detail ? (
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-[#525866]">{detail}</p>
-      ) : (
-        <div className="flex-1" />
-      )}
-      <span className="mt-5 inline-flex w-fit rounded-full bg-[#FEF5FE] px-3 py-1.5 text-sm font-medium text-[#AD14A7] transition-colors group-hover:bg-[#AD14A7] group-hover:text-white">
-        {action}
-      </span>
-    </Link>
-  )
-}
-
-export async function ProgrammesSection() {
-  const lander = await getPublicLander()
-  const programmes = lander?.programmes ?? []
-  const courses = lander?.courses ?? []
-  const products = lander?.products ?? []
-  const hasItems = programmes.length + courses.length + products.length > 0
-
-  return (
-    <SectionShell id="programmes" bleed className="bg-[#FEF5FE]">
-      <div className="grid items-end gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-        <div>
-          <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
-            Choose a programme
-          </h2>
-          <p className="mt-3 max-w-2xl text-copy text-[#525866]">
-            Open a programme, course, or product to see the live price. You lock a 2027 spot
-            on that page. Checkout takes about a minute.
-          </p>
-        </div>
-        <div className="relative hidden aspect-[16/10] overflow-hidden rounded-[1.5rem] lg:block">
-          <Image
-            src="/images/sales/cohort-mentorship.jpg"
-            alt="Mentors and mentees working together in a FairChild-style cohort"
-            fill
-            sizes="(max-width: 1024px) 0px, 36vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-[#631760]/25" />
-        </div>
-      </div>
-      {!lander ? (
-        <p className="mt-6 text-sm text-[#631760]">
-          The catalogue is unavailable right now. Email {financialAid.email} and we will
-          help you enrol.
+    <SectionShell id="programmes" bleed className="programmes-section">
+      <div>
+        <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
+          Choose a program
+        </h2>
+        <p className="mt-3 max-w-2xl text-copy text-[#525866]">
+          Pick a program to see its courses. View all programs when you want the
+          full list.
         </p>
-      ) : !hasItems ? (
-        <p className="mt-6 text-sm text-[#525866]">
-          No programmes are open for enrollment yet.
-        </p>
-      ) : (
-        <div className="mt-10 space-y-12">
-          {programmes.length > 0 ? (
-            <div>
-              <h3 className="font-heading text-2xl font-semibold text-[#0E121B]">Programmes</h3>
-              <div className="mt-6 grid gap-5 md:grid-cols-2">
-                {programmes.map((programme) => (
-                  <CatalogueCard
-                    key={programme.id}
-                    title={programme.title}
-                    detail={
-                      programme.shortDescription ??
-                      programme.description ??
-                      (programme.courses?.length
-                        ? `${programme.courses.length} courses`
-                        : "6-month and 12-month offers")
-                    }
-                    href={`/catalogue/programme/${programme.id}`}
-                    action="See offers"
-                  />
-                ))}
-              </div>
-            </div>
-          ) : null}
-          {courses.length > 0 ? (
-            <div>
-              <h3 className="font-heading text-2xl font-semibold text-[#0E121B]">Courses</h3>
-              <div className="mt-6 grid gap-5 md:grid-cols-3">
-                {courses.map((course) => (
-                  <CatalogueCard
-                    key={course.id}
-                    title={course.title}
-                    detail={course.shortDescription ?? course.description ?? course.duration}
-                    href={`/catalogue/course/${course.id}`}
-                    action="See offers"
-                  />
-                ))}
-              </div>
-            </div>
-          ) : null}
-          {products.length > 0 ? (
-            <div>
-              <h3 className="font-heading text-2xl font-semibold text-[#0E121B]">Products</h3>
-              <div className="mt-6 grid gap-5 md:grid-cols-3">
-                {products.map((product) => (
-                  <CatalogueCard
-                    key={product.id}
-                    title={product.name}
-                    detail={product.shortDescription}
-                    href={`/catalogue/product/${product.id}`}
-                    action="See offers"
-                  />
-                ))}
-              </div>
-            </div>
-          ) : null}
-        </div>
-      )}
-    </SectionShell>
-  )
-}
-
-export function ProofSection() {
-  return (
-    <SectionShell id="stories">
-      <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
-        Hear it from mentees who got the offer
-      </h2>
-      <p className="mt-3 max-w-2xl text-copy text-[#525866]">
-        Story videos from fairchildinstitute.com — plus Class of 2025 alumni in their own
-        words.
-      </p>
-
-      <TestimonialVideos />
-
-      <div className="mt-10 grid gap-5 md:grid-cols-3">
-        {testimonials.map((item) => (
-          <blockquote
-            key={item.name}
-            className="rounded-[1.5rem] border border-[#E8D5E6] bg-[#FDF5F9] p-6"
-          >
-            <p className="text-base leading-relaxed text-[#0E121B]">“{item.quote}”</p>
-            <footer className="mt-5 flex items-center gap-3">
-              {item.portrait ? (
-                <Image
-                  src={item.portrait}
-                  alt={item.name}
-                  width={48}
-                  height={48}
-                  className="size-12 rounded-full object-cover ring-2 ring-[#FA9BF6]/60"
-                />
-              ) : null}
-              <div>
-                <p className="font-heading font-semibold text-[#631760]">{item.name}</p>
-                <p className="text-sm text-[#525866]">{item.role}</p>
-              </div>
-            </footer>
-          </blockquote>
-        ))}
       </div>
-
-      <details className="group mt-8 rounded-[1.5rem] border border-[#E8D5E6] bg-white open:pb-2">
-        <summary className="cursor-pointer list-none px-5 py-4 font-heading text-base font-semibold text-[#631760] marker:content-none [&::-webkit-details-marker]:hidden">
-          <span className="flex items-center justify-between gap-3">
-            More alumni voices
-            <span className="text-[#AD14A7] transition group-open:rotate-45">+</span>
-          </span>
-        </summary>
-        <div className="grid gap-4 border-t border-[#E8D5E6] px-5 py-5 md:grid-cols-3">
-          {moreTestimonials.map((item) => (
-            <blockquote key={item.name}>
-              <p className="text-sm leading-relaxed text-[#0E121B]">“{item.quote}”</p>
-              <footer className="mt-3 flex items-center gap-3">
-                {item.portrait ? (
-                  <Image
-                    src={item.portrait}
-                    alt={item.name}
-                    width={40}
-                    height={40}
-                    className="size-10 rounded-full object-cover ring-2 ring-[#E8D5E6]"
-                  />
-                ) : null}
-                <div>
-                  <p className="font-heading text-sm font-semibold text-[#631760]">
-                    {item.name}
-                  </p>
-                  <p className="text-xs text-[#525866]">{item.role}</p>
-                </div>
-              </footer>
-            </blockquote>
-          ))}
-        </div>
-      </details>
-
-      <div className="mt-10 rounded-[1.5rem] border border-[#E8D5E6] bg-[#FEF5FE] p-6 sm:p-8">
-        <h3 className="font-heading text-xl font-semibold text-[#631760] sm:text-2xl">
-          {linkedInProof.title}
-        </h3>
-        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[#525866] sm:text-base">
-          {linkedInProof.body}
-        </p>
-        <a
-          href={linkedInProof.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex text-sm font-medium text-[#AD14A7] hover:underline"
-        >
-          {linkedInProof.linkLabel} →
-        </a>
-      </div>
-
-      <div className="mt-10 flex justify-center">
-        <GradientPillButton href="/#programmes">Save my seat</GradientPillButton>
-      </div>
+      <ProgrammeBrowser />
     </SectionShell>
   )
 }
@@ -466,7 +389,9 @@ export function PricingSection() {
       <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
         {pricingOverview.title}
       </h2>
-      <p className="mt-3 max-w-2xl text-copy text-[#525866]">{pricingOverview.baseFee}</p>
+      <p className="mt-3 max-w-2xl text-copy text-[#525866]">
+        {pricingOverview.baseFee}
+      </p>
 
       <div className="mt-8 grid gap-4 lg:grid-cols-2">
         {pricingOverview.rows.map((row) => (
@@ -492,55 +417,18 @@ export function PricingSection() {
             </div>
             <p className="mt-2 font-heading text-2xl font-semibold text-[#631760]">
               {row.normal}
-              <span className="ml-2 text-sm font-medium text-[#525866]">list</span>
+              <span className="ml-2 text-sm font-medium text-[#525866]">
+                list
+              </span>
             </p>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-[#525866]">
               {row.options}
             </p>
             <span className="mt-4 text-sm font-medium text-[#AD14A7] group-hover:underline">
-              Choose a programme →
+              Choose a program →
             </span>
           </Link>
         ))}
-      </div>
-    </SectionShell>
-  )
-}
-
-export function FellowshipSection() {
-  return (
-    <SectionShell id="fellowship">
-      <div className="grid gap-8 rounded-[1.75rem] border border-[#E8D5E6] bg-[#FEF5FE] p-6 sm:p-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:p-10">
-        <div>
-          <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
-            {fellowshipBlurb.title}
-          </h2>
-          <p className="mt-4 max-w-2xl text-copy text-[#525866]">{fellowshipBlurb.body}</p>
-        </div>
-        <GradientPillButton href="/#programmes" className="w-fit">
-          View products
-        </GradientPillButton>
-      </div>
-    </SectionShell>
-  )
-}
-
-export function FinancialAidSection() {
-  const portalUrl = applicationPortalUrl()
-
-  return (
-    <SectionShell bleed className="bg-gradient-cta">
-      <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
-        {financialAid.title}
-      </h2>
-      <p className="mt-4 max-w-2xl text-copy text-[#525866]">{financialAid.lead}</p>
-      <ol className="mt-5 max-w-2xl list-decimal space-y-2 pl-5 text-[#525866]">
-        {financialAid.steps.map((step) => (
-          <li key={step}>{step}</li>
-        ))}
-      </ol>
-      <div className="mt-6">
-        <GradientPillButton href={portalUrl}>{financialAid.cta}</GradientPillButton>
       </div>
     </SectionShell>
   )
@@ -562,26 +450,12 @@ export function FaqSection() {
             <AccordionTrigger className="font-heading text-base text-[#0E121B] hover:no-underline sm:text-lg">
               {item.question}
             </AccordionTrigger>
-            <AccordionContent className="text-[#525866]">{item.answer}</AccordionContent>
+            <AccordionContent className="text-[#525866]">
+              {item.answer}
+            </AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>
-    </SectionShell>
-  )
-}
-
-export function SpotObjectionSection() {
-  return (
-    <SectionShell bleed className="bg-gradient-purple text-white">
-      <h2 className="max-w-3xl font-heading text-heading font-semibold">
-        “{spotObjection.title}”
-      </h2>
-      <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/85">
-        {spotObjection.body}
-      </p>
-      <div className="mt-8">
-        <GradientPillButton href="/#programmes">Save my seat</GradientPillButton>
-      </div>
     </SectionShell>
   )
 }
@@ -591,7 +465,7 @@ export function ClosingCta() {
 
   return (
     <SectionShell className="pb-28 md:pb-24">
-      <div className="cta-section-card border border-[#E8D5E6] bg-gradient-cta text-center">
+      <div className="cta-section-card bg-gradient-cta border border-[#E8D5E6] text-center">
         <p className="font-miriam-libre text-sm font-semibold tracking-[0.12em] text-[#AD14A7] uppercase">
           Quick recap
         </p>
@@ -599,11 +473,13 @@ export function ClosingCta() {
           Claim your 2027 seat
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-lg text-[#525866]">
-          $250 today toward the $500 base fee. Pick a programme, pay on that page, and
-          get a receipt plus a FairChild follow-up.
+          $250 today toward the $500 base fee. Pick a program, pay on that page,
+          and get a receipt plus a FairChild follow-up.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <GradientPillButton href="/#programmes">Save my seat</GradientPillButton>
+          <GradientPillButton href="/#programmes">
+            Save my seat
+          </GradientPillButton>
           <GradientPillButton href={portalUrl} variant="outline">
             {financialAid.cta}
           </GradientPillButton>

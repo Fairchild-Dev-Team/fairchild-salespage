@@ -12,11 +12,11 @@ export default function NotFound() {
           Page not found
         </h1>
         <p className="text-[#525866]">
-          That programme or page does not exist. Head back to enrollment.
+          That program or page does not exist. Head back to enrollment.
         </p>
         <GradientPillButton href="/">Go to sales page</GradientPillButton>
         <Link href="/#programmes" className="text-sm text-[#AD14A7]">
-          Browse programmes
+          Browse programs
         </Link>
       </div>
     </div>

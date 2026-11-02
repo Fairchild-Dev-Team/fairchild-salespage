@@ -4,13 +4,24 @@ import { notFound } from "next/navigation"
 
 import { SiteFooter } from "@/components/layout/site-footer"
 import { SiteHeader } from "@/components/layout/site-header"
-import { CheckoutForm } from "@/components/product/checkout-form"
+import { GradientPillButton } from "@/components/ui/gradient-pill-button"
+import { checkoutHref } from "@/lib/checkout"
 import { loadProgrammePage } from "@/lib/lander"
 import { getProduct, products, typeLabel } from "@/lib/products"
 
 type PageProps = {
   params: Promise<{ slug: string }>
   searchParams: Promise<{ cancelled?: string }>
+}
+
+/** Legacy product slugs → local catalogue checkout targets. */
+const LEGACY_CHECKOUT: Record<
+  string,
+  { kind: "programme" | "course" | "product"; id: string; term?: 6 | 12 }
+> = {
+  "interview-prep": { kind: "course", id: "interview-prep-series" },
+  fellowship: { kind: "product", id: "fellowship" },
+  "six-month-programme": { kind: "programme", id: "cybersecurity", term: 6 },
 }
 
 export function generateStaticParams() {
@@ -32,13 +43,17 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
   const { cancelled } = await searchParams
   const listed = getProduct(slug)
   if (!listed) notFound()
-  const { product, pay } = await loadProgrammePage(listed)
+  const { product } = await loadProgrammePage(listed)
+  const mapped = LEGACY_CHECKOUT[product.slug]
+  const enrollHref = mapped
+    ? checkoutHref(mapped.kind, mapped.id, mapped.term)
+    : "/#programmes"
 
   return (
     <div className="min-h-screen bg-white">
       <SiteHeader
-        ctaHref={`/products/${product.slug}#checkout`}
-        ctaLabel="Pay with Stripe"
+        ctaHref={enrollHref}
+        ctaLabel={mapped ? "Enroll Now" : "Browse programs"}
       />
 
       <section className="border-b border-[#E8D5E6] bg-gradient-hero text-white">
@@ -47,7 +62,7 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
             href="/#programmes"
             className="text-sm text-[#FA9BF6] hover:text-white"
           >
-            ← All programmes
+            ← All programs
           </Link>
           <p className="mt-6 text-xs font-semibold tracking-wide text-[#FA9BF6] uppercase">
             {typeLabel[product.type]}
@@ -67,8 +82,8 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
               className="rounded-2xl border border-[#E8D5E6] bg-[#FEF5FE] px-4 py-3 text-sm text-[#631760]"
               role="status"
             >
-              Checkout cancelled. Your spot is not locked until payment completes — pick an
-              option below when you are ready.
+              Checkout cancelled. Your spot is not locked until payment completes — continue
+              when you are ready.
             </p>
           ) : null}
 
@@ -105,14 +120,27 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
 
           {product.alumniSalaryRange ? (
             <p className="rounded-2xl border border-[#E8D5E6] bg-[#FDF5F9] px-5 py-4 text-sm text-[#631760]">
-              Alumni salary range cited on FairChild programmes:{" "}
+              Alumni salary range cited on FairChild programs:{" "}
               <strong>{product.alumniSalaryRange}</strong>
             </p>
           ) : null}
         </div>
 
         <div id="checkout" className="lg:sticky lg:top-8 lg:self-start">
-          <CheckoutForm product={product} pay={pay} />
+          <div className="flex flex-col gap-4 rounded-[1.5rem] border border-[#E8D5E6] bg-white p-5 shadow-[0_12px_40px_rgba(99,23,96,0.08)] sm:p-6">
+            <h2 className="font-heading text-xl font-semibold tracking-tight text-[#0E121B]">
+              Ready to enrol?
+            </h2>
+            <p className="text-sm leading-relaxed text-[#525866]">
+              Pay $250 today to lock your 2027 spot.{" "}
+              {mapped
+                ? "Continue to secure checkout to choose your payment option and pay."
+                : "Browse the 2027 catalogue, open your program or course, then Enroll Now."}
+            </p>
+            <GradientPillButton href={enrollHref} className="w-full justify-center">
+              {mapped ? "Continue to checkout" : "Browse programs"}
+            </GradientPillButton>
+          </div>
         </div>
       </div>
 

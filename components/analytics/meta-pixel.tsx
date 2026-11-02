@@ -18,6 +18,7 @@ fbq('init', '${PIXEL_ID}');
 fbq('track', 'PageView');`}
       </Script>
       <noscript>
+        {/* eslint-disable-next-line @next/next/no-img-element -- noscript tracking pixel must be a plain img */}
         <img
           height="1"
           width="1"

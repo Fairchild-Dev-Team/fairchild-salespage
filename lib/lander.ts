@@ -72,7 +72,7 @@ export type CatalogueCourse = {
   shortDescription: string | null
   price: number
   duration: string | null
-  /** Course checkout. Programmes are the only catalogue items with 6- and 12-month terms. */
+  /** Course checkout. Programs are the only catalogue items with 6- and 12-month terms. */
   offers?: CatalogueOffer[]
   instructors?: CourseInstructorSummary[]
 }
@@ -83,6 +83,8 @@ export type CatalogueProduct = {
   slug: string | null
   shortDescription: string | null
   price: number
+  /** From lander; private products require an eligible email at checkout. */
+  visibility?: "public" | "private"
   offers?: CatalogueOffer[]
 }
 
@@ -105,7 +107,7 @@ export type PayOffer = {
 export type ProgrammePayDetails = {
   termMonths?: 6 | 12
   baseFeeCents: number
-  /** Programme terms only. Savings are measured against it. */
+  /** Program terms only. Savings are measured against it. */
   listPriceCents?: number
   offers: PayOffer[]
 }
@@ -265,11 +267,11 @@ export async function loadCataloguePage(
       title: programme.title,
       summary:
         programme.shortDescription ??
-        "6-month and 12-month offers on this programme.",
+        "6-month and 12-month offers on this program.",
       description: programme.description ?? null,
       courses: programme.courses ?? [],
       slug: programme.slug ?? programme.id,
-      duration: "Programme",
+      duration: "Program",
       type: "programme-1y",
       price: programme.price,
       lander,
@@ -395,8 +397,8 @@ function catalogueTermPage(input: {
 }
 
 /**
- * Programme pages stay on the local catalogue when the API is unavailable.
- * A 6-month page and a 12-month page are terms of one programme, not two records.
+ * Program pages stay on the local catalogue when the API is unavailable.
+ * A 6-month page and a 12-month page are terms of one program, not two records.
  */
 function fallbackPay(months: 6 | 12, product: Product): ProgrammePayDetails {
   return {

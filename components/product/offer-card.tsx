@@ -2,6 +2,7 @@ import type { PayOffer } from "@/lib/lander"
 import { formatUsd, type PaymentOption } from "@/lib/products"
 import { cn } from "@/lib/utils"
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- kept for the commented-out full-payment branch below
 const FULL_PAYMENT_IDS = new Set(["full-pay", "one-time", "pay-in-full"])
 
 type OfferPricing = {

@@ -132,11 +132,11 @@ export const products: Product[] = [
   ),
   {
     slug: "six-month-programme",
-    name: "6-Month Programme",
+    name: "6-Month Program",
     type: "programme-6m",
     tagline: "A focused path when you need momentum this year.",
     summary:
-      "An accelerated FairChild programme track. Normal price $3,000 — choose one-time or a six-month plan.",
+      "An accelerated FairChild program track. Normal price $3,000 — choose one-time or a six-month plan.",
     duration: "6 months",
     outcomes: [
       "Structured cohort learning",
@@ -190,12 +190,12 @@ export const products: Product[] = [
     type: "course",
     tagline: "One focused skill block when you already know your next step.",
     summary:
-      "Individual FairChild courses priced at $500. Ideal when you need a specific capability without a full programme.",
+      "Individual FairChild courses priced at $500. Ideal when you need a specific capability without a full program.",
     duration: "Course-length",
     outcomes: [
       "Targeted skill building",
       "FairChild teaching standards",
-      "Clear next step into a full programme if you want it",
+      "Clear next step into a full program if you want it",
     ],
     includes: ["Course access", "Learning support as included for the course"],
     paymentOptions: [{ ...lockCharge, label: "Course fee" }],
@@ -230,8 +230,8 @@ export const otherOffers = products.filter(
 )
 
 export const typeLabel: Record<ProductType, string> = {
-  "programme-1y": "1-Year Programme",
-  "programme-6m": "6-Month Programme",
+  "programme-1y": "1-Year Program",
+  "programme-6m": "6-Month Program",
   course: "Standalone Course",
   "interview-prep": "Interview Prep",
 }

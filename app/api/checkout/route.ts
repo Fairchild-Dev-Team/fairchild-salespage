@@ -4,12 +4,16 @@ import { getAppUrl } from "@/lib/stripe"
 
 type CheckoutBody = {
   slug?: string
+  productName?: string
   optionId?: string
   email?: string
   firstName?: string
   lastName?: string
   catalogueKind?: "programme" | "course" | "product"
+  /** Lander UUID used by the tenant API. */
   catalogueId?: string
+  /** Local timetable id for cancel/return URLs on this sales site. */
+  localCatalogueId?: string
   termMonths?: 6 | 12
 }
 
@@ -38,15 +42,16 @@ export async function POST(request: Request) {
   let checkoutBody: Record<string, unknown>
 
   if (body.catalogueKind && body.catalogueId) {
+    const returnId = body.localCatalogueId?.trim() || body.catalogueId
     checkoutBody = {
-      productSlug: body.catalogueId,
-      productName: "Catalogue item",
+      productSlug: body.slug?.trim() || body.catalogueId,
+      productName: body.productName?.trim() || "Catalogue item",
       offerId: optionId,
       customerEmail: body.email?.trim() || undefined,
       firstName: body.firstName?.trim() || undefined,
       lastName: body.lastName?.trim() || undefined,
       successUrl: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancelUrl: `${origin}/catalogue/${body.catalogueKind}/${body.catalogueId}?cancelled=1${body.termMonths ? `&term=${body.termMonths}` : ""}`,
+      cancelUrl: `${origin}/checkout?kind=${body.catalogueKind}&id=${encodeURIComponent(returnId)}&cancelled=1${body.termMonths ? `&term=${body.termMonths}` : ""}`,
       catalogueKind: body.catalogueKind,
       ...(body.catalogueKind === "programme"
         ? { programmeId: body.catalogueId }
@@ -102,9 +107,17 @@ export async function POST(request: Request) {
     }
     const card = payload.response
     if (!response.ok || !card?.clientSecret || !card.publishableKey || !card.paymentIntentId) {
+      const status =
+        response.status === 400 || response.status === 403 ? response.status : 502
       return Response.json(
-        { error: payload.error?.message ?? "Unable to start checkout" },
-        { status: response.status === 400 ? 400 : 502 }
+        {
+          error:
+            payload.error?.message ??
+            (response.status === 403
+              ? "This email is not eligible to purchase this product"
+              : "Unable to start checkout"),
+        },
+        { status }
       )
     }
 
