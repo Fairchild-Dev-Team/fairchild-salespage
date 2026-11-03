@@ -19,7 +19,7 @@
   "env": {
     // `--env production`: the production Worker, deployed from `main`.
     "production": {
-      "name": "fairchild-salespage-production",
+      "name": "fairchild-salespage",
       "vars": {
         "APPLICATION_PORTAL_URL": "https://application.fairchildinstitute.com",
         "FAIRCHILD_API_URL": "https://api.fairchildinstitute.com" 
