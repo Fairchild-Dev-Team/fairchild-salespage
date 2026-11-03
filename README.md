@@ -1,6 +1,6 @@
 # FairChild Salespage
 
-Next.js sales page for FairChild Institute programmes, courses, Interview Prep, and Fellowship — with Stripe Checkout on each product detail page.
+Next.js sales page for FairChild Institute programs, courses, Interview Prep, and Fellowship — with Stripe Checkout on each product detail page.
 
 ## Getting started
 

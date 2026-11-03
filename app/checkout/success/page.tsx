@@ -79,7 +79,7 @@ export default async function CheckoutSuccessPage({ searchParams }: PageProps) {
             receipt. Our team will follow up on next steps and any remaining schedule.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <GradientPillButton href="/#programmes">Back to programmes</GradientPillButton>
+            <GradientPillButton href="/#programmes">Back to programs</GradientPillButton>
             <Link
               href="mailto:info@fairchildinstitute.com"
               className="inline-flex items-center justify-center rounded-full border border-[#E8D5E6] bg-white px-5 py-3 font-heading text-base font-medium text-[#0E121B]"

@@ -1,30 +1,18 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare"
-
 const PRODUCTION_PORTAL = "https://application.fairchildinstitute.com"
 const STAGING_PORTAL = "https://application-staging.fairchildinstitute.com"
-
-declare global {
-  interface CloudflareEnv {
-    APPLICATION_PORTAL_URL?: string
-  }
-}
 
 function normalize(url: string) {
   return url.replace(/\/$/, "")
 }
 
-/** Staging Worker and local dev use the staging portal. Production uses the live portal. */
-export async function applicationPortalUrl(): Promise<string> {
-  try {
-    const { env } = await getCloudflareContext({ async: true })
-    const configured = env.APPLICATION_PORTAL_URL?.trim()
-    if (configured) return normalize(configured)
-  } catch {
-    // next dev can render before the Cloudflare proxy is ready
-  }
-
-  const fromProcess = process.env.APPLICATION_PORTAL_URL?.trim()
-  if (fromProcess) return normalize(fromProcess)
+/**
+ * OpenNext copies wrangler `vars` onto `process.env` for each request.
+ * Staging sets the staging portal. Production (`--env production`) sets the live portal.
+ * Avoid `getCloudflareContext` here: catching its render bailout turns the homepage into a 500.
+ */
+export function applicationPortalUrl(): string {
+  const configured = process.env.APPLICATION_PORTAL_URL?.trim()
+  if (configured) return normalize(configured)
   if (process.env.FAIRCHILD_ENV === "production") return PRODUCTION_PORTAL
   return STAGING_PORTAL
 }

@@ -2,29 +2,30 @@ import type { Metadata } from "next"
 
 import { MetaPixel } from "@/components/analytics/meta-pixel"
 import { SiteFooter } from "@/components/layout/site-footer"
-import { SiteHeader } from "@/components/layout/site-header"
 import { MobileStickyCta } from "@/components/sales/mobile-sticky-cta"
 import { SalesHero } from "@/components/sales/sales-hero"
+import { MenteeStories } from "@/components/sales/mentee-stories"
+import {
+  FellowshipSection,
+  FinancialAidSection,
+  SpotObjectionSection,
+} from "@/components/sales/offer-sections"
 import {
   ClosingCta,
   CredibilityBar,
   EpiphanySection,
   FaqSection,
-  FellowshipSection,
-  FinancialAidSection,
   HowItWorksSection,
   MidCtaBand,
   PricingSection,
   ProblemSection,
   ProgrammesSection,
-  ProofSection,
-  SpotObjectionSection,
 } from "@/components/sales/sales-sections"
 
 export const metadata: Metadata = {
   title: "FairChild Institute — 2027 Enrollment",
   description:
-    "40 job offers in 15 months. Average start $120k. Save a 2027 FairChild seat for $250.",
+    "Land the offer. Change the bracket. FairChild mentees average $120k starting salary — lock a 2027 seat for $250.",
 }
 
 export default function Page() {
@@ -32,7 +33,6 @@ export default function Page() {
     <>
       <MetaPixel />
       <div className="bg-white pb-16 md:pb-0">
-        <SiteHeader />
         <SalesHero />
         <CredibilityBar />
         <ProblemSection />
@@ -40,7 +40,7 @@ export default function Page() {
         <HowItWorksSection />
         <MidCtaBand />
         <ProgrammesSection />
-        <ProofSection />
+        <MenteeStories />
         <PricingSection />
         <FellowshipSection />
         <FinancialAidSection />
