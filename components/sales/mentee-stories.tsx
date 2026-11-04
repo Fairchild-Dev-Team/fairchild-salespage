@@ -4,6 +4,7 @@ import { ArrowUpRight, Play, Quote } from "lucide-react"
 import { GradientPillButton } from "@/components/ui/gradient-pill-button"
 import {
   linkedInProof,
+  menteeLinkedIn,
   menteeStoryColumns,
   testimonialVideos,
   type MenteeStory,
@@ -17,7 +18,32 @@ function initials(name: string) {
   return `${parts[0]?.[0] ?? ""}${parts[parts.length - 1]?.[0] ?? ""}`
 }
 
-function StoryCard({ story }: { story: MenteeStory }) {
+function LinkedInIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden>
+      <rect width="18" height="18" rx="3" fill="#0077B5" />
+      <path
+        d="M4.5 7H6.5V13.5H4.5V7ZM5.5 6C4.948 6 4.5 5.552 4.5 5C4.5 4.448 4.948 4 5.5 4C6.052 4 6.5 4.448 6.5 5C6.5 5.552 6.052 6 5.5 6Z"
+        fill="white"
+      />
+      <path
+        d="M8 7H9.9V7.9C10.2 7.3 11 6.9 11.9 6.9C13.6 6.9 14 8 14 9.4V13.5H12V9.8C12 9.1 11.8 8.5 11 8.5C10.1 8.5 9.9 9.2 9.9 9.8V13.5H8V7Z"
+        fill="white"
+      />
+    </svg>
+  )
+}
+
+/** `duplicate` marks the looping copy, whose links stay out of the tab order. */
+function StoryCard({
+  story,
+  duplicate = false,
+}: {
+  story: MenteeStory
+  duplicate?: boolean
+}) {
+  const linkedin = menteeLinkedIn[story.name]
+
   return (
     <article className="rounded-2xl border border-[#E8D5E6] bg-white p-5 shadow-[0_1px_12px_rgba(99,23,96,0.06)]">
       <Quote className="size-5 text-[#FA9BF6]" strokeWidth={1.75} aria-hidden />
@@ -42,9 +68,23 @@ function StoryCard({ story }: { story: MenteeStory }) {
           </span>
         )}
         <div className="min-w-0">
-          <p className="truncate font-heading text-base font-semibold text-[#0E121B]">
-            {story.name}
-          </p>
+          <div className="flex min-w-0 items-center gap-1.5">
+            <p className="truncate font-heading text-base font-semibold text-[#0E121B]">
+              {story.name}
+            </p>
+            {linkedin ? (
+              <a
+                href={linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${story.name} on LinkedIn`}
+                tabIndex={duplicate ? -1 : undefined}
+                className="shrink-0 transition-opacity hover:opacity-80"
+              >
+                <LinkedInIcon />
+              </a>
+            ) : null}
+          </div>
           <p className="truncate text-sm text-[#525866]">{story.role}</p>
         </div>
       </footer>
@@ -80,7 +120,11 @@ function StoryColumn({
             aria-hidden={copy === 1}
           >
             {stories.map((story, index) => (
-              <StoryCard key={`${copy}-${story.name}-${index}`} story={story} />
+              <StoryCard
+                key={`${copy}-${story.name}-${index}`}
+                story={story}
+                duplicate={copy === 1}
+              />
             ))}
           </div>
         ))}
