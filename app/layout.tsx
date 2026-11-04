@@ -8,6 +8,7 @@ import { ReactLenis } from "lenis/react"
 import type { Metadata } from "next"
 
 import "./globals.css"
+import { WhatsAppChatFab } from "@/components/layout/whatsapp-chat-fab"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 
@@ -73,6 +74,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <ReactLenis root>{children}</ReactLenis>
+          <WhatsAppChatFab />
         </ThemeProvider>
       </body>
     </html>
