@@ -4,6 +4,7 @@ import { MetaPixel } from "@/components/analytics/meta-pixel"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { MobileStickyCta } from "@/components/sales/mobile-sticky-cta"
 import { SalesHero } from "@/components/sales/sales-hero"
+import { StickySalesHeader } from "@/components/sales/sales-hero-nav"
 import { MenteeStories } from "@/components/sales/mentee-stories"
 import {
   FellowshipSection,
@@ -33,15 +34,16 @@ export default function Page() {
     <>
       <MetaPixel />
       <div className="bg-white pb-16 md:pb-0">
+        <StickySalesHeader />
         <SalesHero />
         <CredibilityBar />
+        <ProgrammesSection />
+        <PricingSection />
         <ProblemSection />
         <EpiphanySection />
         <HowItWorksSection />
         <MidCtaBand />
-        <ProgrammesSection />
         <MenteeStories />
-        <PricingSection />
         <FellowshipSection />
         <FinancialAidSection />
         <SpotObjectionSection />

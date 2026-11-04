@@ -184,10 +184,7 @@ export function ProblemSection() {
             </p>
           </div>
           <div className="pointer-events-none absolute right-5 bottom-5 flex size-28 items-center justify-center rounded-full bg-[rgba(251,75,163,0.16)] sm:size-40">
-            <MailX
-              className="size-12 text-[#AD14A7] sm:size-16"
-              aria-hidden
-            />
+            <MailX className="size-12 text-[#AD14A7] sm:size-16" aria-hidden />
           </div>
         </article>
 
@@ -374,8 +371,7 @@ export function ProgrammesSection() {
           Choose a program
         </h2>
         <p className="mt-3 max-w-2xl text-copy text-[#525866]">
-          Pick a program to see its courses. View all programs when you want the
-          full list.
+          Browse every program, or pick one to see its courses.
         </p>
       </div>
       <ProgrammeBrowser />
@@ -415,11 +411,11 @@ export function PricingSection() {
                 </span>
               ) : null}
             </div>
-            <p className="mt-2 font-heading text-2xl font-semibold text-[#631760]">
-              {row.normal}
-              <span className="ml-2 text-sm font-medium text-[#525866]">
-                list
-              </span>
+            <p className="mt-2 flex items-baseline gap-2 font-heading text-2xl font-semibold text-[#631760]">
+              <span>{row.normal}</span>
+              <s className="text-base font-medium text-[#525866]">
+                {row.struck}
+              </s>
             </p>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-[#525866]">
               {row.options}

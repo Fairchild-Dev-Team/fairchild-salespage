@@ -187,10 +187,12 @@ export const pricingOverview = {
   title: "Clear pricing. No surprise math.",
   baseFee:
     "Every course and program spot locks with a $500 base fee: $250 now + $250 before January 2027.",
+  /** `struck` is shown crossed out beside `normal`: 20% above it, as asked by FairChild. */
   rows: [
     {
       name: "1-Year Program",
       normal: "$5,000",
+      struck: "$6,000",
       highlight: "Best savings" as string | undefined,
       options: "Full pay by end of January: $2,000 · Plan: $3,000",
       href: "/#programmes",
@@ -198,6 +200,7 @@ export const pricingOverview = {
     {
       name: "6-Month Program",
       normal: "$3,000",
+      struck: "$3,600",
       highlight: "Fastest path" as string | undefined,
       options: "One-time: $1,250 · Plan: $2,000 ($500 + $250/mo × 6)",
       href: "/#programmes",
@@ -205,6 +208,7 @@ export const pricingOverview = {
     {
       name: "Standalone Course",
       normal: "$500",
+      struck: "$600",
       highlight: undefined as string | undefined,
       options: "Pay in full or lock with $250",
       href: "/#programmes",
@@ -212,6 +216,7 @@ export const pricingOverview = {
     {
       name: "Interview Prep",
       normal: "$500",
+      struck: "$600",
       highlight: undefined as string | undefined,
       options: "Pay in full or lock with $250",
       href: "/#programmes",
@@ -267,6 +272,22 @@ export const testimonialVideos = [
       "Six figures later — Swati on the skills that stuck and starting sooner.",
   },
 ] as const
+
+/** Mentee LinkedIn profiles, from the FairChild event page testimonials. Keyed by MenteeStory name. */
+export const menteeLinkedIn: Record<string, string> = {
+  "Adeyemi Adeleye": "https://www.linkedin.com/in/adeyemi-adeleye",
+  "Adewale Banjo": "https://www.linkedin.com/in/adewale-banjo",
+  "Juliet Onyinye Anyanwu":
+    "https://www.linkedin.com/in/juliet-anyanwu-sfadminexpert",
+  "Samson Bavo": "https://www.linkedin.com/in/samson-bavo-663531235/",
+  "Rapheal Oki": "https://www.linkedin.com/in/raphealoki/",
+  "Swati Soni": "https://www.linkedin.com/in/swati-soni07",
+  "Ogenna Odebatu": "https://www.linkedin.com/in/ogenna-odebeatu/",
+  "Olayinka Abodunde": "https://www.linkedin.com/in/yabodunde",
+  "Bukola Adesuji": "https://www.linkedin.com/in/bukolaadesuji",
+  "Nandhini Monisha Suriyamoorthi":
+    "https://www.linkedin.com/in/nandhini-monisha-suriyamoorthi",
+}
 
 export type MenteeStory = {
   name: string
