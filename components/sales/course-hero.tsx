@@ -4,7 +4,9 @@ import {
   brandPinkHoverClass,
   brandPinkHoverInsetClass,
 } from "@/lib/buttonStyles"
+import { courseSalePrice } from "@/components/sales/course-pricing"
 import { formatCataloguePrice } from "@/lib/catalogue"
+import { COURSE_DISCOUNT } from "@/lib/programmes/shared"
 import { cn } from "@/lib/utils"
 
 export type CourseHeroProps = {
@@ -95,9 +97,17 @@ export function CourseHero({
         <div className="my-6 h-px bg-white/15" />
         {priceUsd != null ? (
           <>
-            <p className="text-sm text-white/70">This course</p>
-            <p className="mt-2 font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
-              {formatCataloguePrice(priceUsd)}
+            <p className="flex items-center gap-2 text-sm text-white/70">
+              This course
+              <span className="rounded-md bg-[#FA9BF6] px-1.5 py-0.5 text-xs font-semibold text-[#631760]">
+                {Math.round(COURSE_DISCOUNT * 100)}% off
+              </span>
+            </p>
+            <p className="mt-2 flex items-baseline gap-3 font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
+              {formatCataloguePrice(courseSalePrice(priceUsd))}
+              <s className="text-xl font-medium text-white/55">
+                {formatCataloguePrice(priceUsd)}
+              </s>
             </p>
           </>
         ) : null}
@@ -116,12 +126,12 @@ export function CourseHero({
           <p className="mt-3 text-sm text-white/70">
             or get all {position.total} courses in the{" "}
             <Link
-              href={programme.href}
+              href={`${programme.href}#pricing`}
               className="cursor-pointer font-medium text-[#FA9BF6] underline underline-offset-4 hover:text-white"
             >
               full program
-            </Link>{" "}
-            for {formatCataloguePrice(programme.priceUsd)}.
+            </Link>
+            .
           </p>
         ) : null}
       </aside>

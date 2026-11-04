@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useSyncExternalStore } from "react"
 
 import { Logo } from "@/components/ui/logo"
 import { MobileMenuButton } from "@/components/ui/mobile-menu-button"
@@ -32,7 +32,7 @@ function HeroNavCta({
     <Link
       href={href}
       className={cn(
-        "box-border inline-flex h-11 shrink-0 appearance-none items-center justify-center rounded-full border border-[#99A0AE] bg-white px-4 font-heading text-[20px] font-medium leading-none tracking-[-1.2px] text-[#0E121B] shadow-[0_9px_10.7px_rgba(250,155,246,0.25),inset_0_4px_6.4px_0_rgba(255,255,255,0.45)] [font-variation-settings:'opsz'_14,'wdth'_100]",
+        "box-border inline-flex h-11 shrink-0 appearance-none items-center justify-center rounded-full border border-[#99A0AE] bg-white px-4 font-heading text-[20px] leading-none font-medium tracking-[-1.2px] text-[#0E121B] shadow-[0_9px_10.7px_rgba(250,155,246,0.25),inset_0_4px_6.4px_0_rgba(255,255,255,0.45)] [font-variation-settings:'opsz'_14,'wdth'_100]",
         brandPinkHoverClass,
         brandPinkHoverInsetClass,
         className
@@ -40,6 +40,42 @@ function HeroNavCta({
     >
       {children}
     </Link>
+  )
+}
+
+function subscribeToScroll(onChange: () => void) {
+  window.addEventListener("scroll", onChange, { passive: true })
+  return () => window.removeEventListener("scroll", onChange)
+}
+
+/** Home page header: sticks to the top and gains a background once the page scrolls. */
+export function StickySalesHeader() {
+  const scrolled = useSyncExternalStore(
+    subscribeToScroll,
+    () => window.scrollY > 12,
+    () => false
+  )
+
+  return (
+    <div className="sticky top-0 z-50 h-0">
+      <header
+        className={cn(
+          "transition-[background,box-shadow,border-color] duration-200",
+          scrolled
+            ? "border-b border-[#E8D5E6]/80 bg-white/90 shadow-[0_8px_30px_rgba(99,23,96,0.06)] backdrop-blur-md"
+            : "border-b border-transparent"
+        )}
+      >
+        <div className="mx-auto w-full max-w-page px-6 lg:px-[120px]">
+          <SalesHeroNav
+            className={cn(
+              "!px-0 transition-[padding] duration-200",
+              scrolled ? "py-3 sm:py-3" : "py-5 pt-9 sm:py-4"
+            )}
+          />
+        </div>
+      </header>
+    </div>
   )
 }
 

@@ -79,3 +79,27 @@ export const fairchildFaq = {
     },
   ],
 }
+
+/** End of the full-payment sale: the end of January 2027, Lagos time. [confirm] */
+export const SALE_ENDS_AT = "2027-01-31T23:59:59+01:00"
+
+/** Course pages show the full price struck through at this discount. */
+export const COURSE_DISCOUNT = 0.5
+
+/** "What's included" in the program pricing box. [confirm] */
+export const programmeIncludes = (courseCount: number) => [
+  `All ${courseCount} courses in the program`,
+  "Real-world projects for your portfolio",
+  "Verifiable certificate of completion",
+  "Preparation for industry certifications",
+  "Fully online and self-paced, through the FairChild learning portal",
+  "Access to the fellows community",
+]
+
+/** "What's included" in the course pricing box. [confirm] */
+export const courseIncludes = [
+  "The full course on the FairChild learning portal",
+  "Real-world projects for your portfolio",
+  "Verifiable certificate of completion",
+  "Fully online and self-paced",
+]
