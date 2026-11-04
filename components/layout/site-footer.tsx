@@ -1,11 +1,17 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 
 import { ProcessSlideIn } from "@/components/motion/process-slide-in"
 import { brandPinkHoverClass } from "@/lib/buttonStyles"
 import { footerMeta, footerSocialLinks } from "@/lib/footer"
 import { cn } from "@/lib/utils"
+
+const legalLinks = [
+  { href: "/terms-of-service", label: "Terms of Service" },
+  { href: "/privacy-policy", label: "Privacy Policy" },
+] as const
 
 export function SiteFooter({ revealed = true }: { revealed?: boolean }) {
   return (
@@ -29,6 +35,20 @@ export function SiteFooter({ revealed = true }: { revealed?: boolean }) {
           <p className="text-sm font-medium leading-[22px] tracking-[-0.084px] text-[#525866]">
             {footerMeta.copyright}
           </p>
+          <nav
+            aria-label="Legal"
+            className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 lg:justify-start"
+          >
+            {legalLinks.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className="text-sm font-medium text-[#631760] underline-offset-2 hover:underline"
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
         </div>
 
         <p className="max-w-[280px] text-sm font-medium leading-[22px] tracking-[-0.084px] text-[#525866] lg:max-w-none lg:flex-1 lg:text-center">

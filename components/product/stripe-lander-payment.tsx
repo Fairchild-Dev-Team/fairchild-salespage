@@ -5,6 +5,7 @@ import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-
 import { loadStripe, type Stripe } from "@stripe/stripe-js"
 import { Loader2 } from "lucide-react"
 
+import { NonRefundableAgreement } from "@/components/product/non-refundable-agreement"
 import { GradientPillButton } from "@/components/ui/gradient-pill-button"
 import { formatUsd } from "@/lib/products"
 
@@ -54,6 +55,7 @@ function CardFields({
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [elementReady, setElementReady] = useState(false)
+  const [nonRefundableAgreed, setNonRefundableAgreed] = useState(false)
 
   useEffect(() => {
     if (!submitting) return
@@ -68,6 +70,10 @@ function CardFields({
   async function onSubmit(event: FormEvent) {
     event.preventDefault()
     if (!stripe || !elements || submitting) return
+    if (!nonRefundableAgreed) {
+      setError("Confirm the non-refundable policy before paying.")
+      return
+    }
     setSubmitting(true)
     setError(null)
     try {
@@ -117,6 +123,12 @@ function CardFields({
       <div className={ready ? undefined : "sr-only"}>
         <PaymentElement onReady={() => setElementReady(true)} />
       </div>
+      {ready ? (
+        <NonRefundableAgreement
+          agreed={nonRefundableAgreed}
+          onAgreedChange={setNonRefundableAgreed}
+        />
+      ) : null}
       {error ? (
         <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
           {error}
@@ -133,7 +145,7 @@ function CardFields({
         </button>
         <GradientPillButton
           type="submit"
-          disabled={!ready || submitting}
+          disabled={!ready || submitting || !nonRefundableAgreed}
           showArrow={!submitting}
           className="flex-1 justify-center disabled:cursor-not-allowed disabled:opacity-60"
         >
