@@ -61,12 +61,47 @@ export function NonRefundableAgreement({
     if (!hasScrolledToEnd && agreed) onAgreedChange(false)
   }, [hasScrolledToEnd, agreed, onAgreedChange])
 
+  // Keep wheel/trackpad scrolling inside this box (Lenis otherwise steals it).
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+
+    const onWheel = (event: WheelEvent) => {
+      const { scrollTop, scrollHeight, clientHeight } = el
+      const atTop = scrollTop <= 0
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 1
+      const scrollingDown = event.deltaY > 0
+      const scrollingUp = event.deltaY < 0
+      if ((scrollingDown && !atBottom) || (scrollingUp && !atTop)) {
+        event.stopPropagation()
+        event.preventDefault()
+        el.scrollTop += event.deltaY
+        checkScroll()
+      }
+    }
+
+    el.addEventListener("wheel", onWheel, { passive: false })
+    return () => el.removeEventListener("wheel", onWheel)
+  }, [checkScroll])
+
   return (
     <div className={cn("space-y-3", className)}>
       <div
         ref={scrollRef}
         onScroll={checkScroll}
-        className="max-h-52 overflow-y-auto rounded-xl border border-[#E8D5E6] bg-[#FEF5FE] p-4 sm:max-h-60 sm:p-5"
+        data-lenis-prevent
+        tabIndex={0}
+        role="region"
+        aria-label="Non-refundable policy"
+        className={cn(
+          "max-h-52 overflow-y-auto overscroll-contain rounded-xl border border-[#E8D5E6] bg-[#FEF5FE] p-4 sm:max-h-60 sm:p-5",
+          "[scrollbar-gutter:stable] [scrollbar-width:thin] [scrollbar-color:#AD14A7_#E8D5E6]",
+          "[&::-webkit-scrollbar]:w-2.5",
+          "[&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#E8D5E6]/60",
+          "[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#AD14A7]/55",
+          "hover:[&::-webkit-scrollbar-thumb]:bg-[#AD14A7]",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#AD14A7]"
+        )}
       >
         <h3 className="font-heading text-base font-semibold text-[#0E121B] sm:text-lg">
           Non-refundable policy
