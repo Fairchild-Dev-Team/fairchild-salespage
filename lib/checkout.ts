@@ -66,7 +66,9 @@ function matchByTitleThenSlug<T extends { id: string; slug?: string | null }>(
 ): T | undefined {
   const titleKey = normalizeKey(localTitle)
   const localSlug = normalizeKey(localId)
-  const titleHits = items.filter((item) => normalizeKey(titleOf(item)) === titleKey)
+  const titleHits = items.filter(
+    (item) => normalizeKey(titleOf(item)) === titleKey
+  )
   if (titleHits.length === 1) return titleHits[0]
   if (titleHits.length > 1) {
     // Duplicate lander names: prefer a slug that contains the local id (e.g. fellowship).
@@ -104,7 +106,12 @@ function matchLanderProduct<
     .map((value) => value.trim())
     .filter(Boolean)
   for (const title of titles) {
-    const hit = matchByTitleThenSlug(products, (item) => item.name, title, localId)
+    const hit = matchByTitleThenSlug(
+      products,
+      (item) => item.name,
+      title,
+      localId
+    )
     if (hit) return hit
   }
   return undefined
@@ -216,7 +223,8 @@ const DEFAULT_PROGRAMME_TERMS: Array<{
         id: "payment-plan",
         label: "Instalment plan",
         description: "Total $2,000.",
-        scheduleNote: "Then 6 × $250 at the end of each month from January 2027.",
+        scheduleNote:
+          "Then 6 × $250 at the end of each month from January 2027.",
         chargeNowCents: 25_000,
         totalCents: 200_000,
         installmentCount: 6,
@@ -241,7 +249,8 @@ const DEFAULT_PROGRAMME_TERMS: Array<{
         id: "payment-plan",
         label: "Instalment plan",
         description: "Total $3,000.",
-        scheduleNote: "Then 10 × $250 at the end of each month from January 2027.",
+        scheduleNote:
+          "Then 10 × $250 at the end of each month from January 2027.",
         chargeNowCents: 25_000,
         totalCents: 300_000,
         installmentCount: 10,
@@ -289,7 +298,10 @@ export function checkoutHref(
  * Invite / private product checkout. `productId` is the lander UUID.
  * Optional `name` is display-only (private products are omitted from the public lander).
  */
-export function checkoutProductInviteHref(productId: string, name?: string): string {
+export function checkoutProductInviteHref(
+  productId: string,
+  name?: string
+): string {
   const params = new URLSearchParams({
     kind: "product",
     id: productId.trim(),
@@ -298,8 +310,11 @@ export function checkoutProductInviteHref(productId: string, name?: string): str
   return `/checkout?${params.toString()}`
 }
 
-export function parseCheckoutKind(value: string | undefined): CatalogueKind | null {
-  if (value === "programme" || value === "course" || value === "product") return value
+export function parseCheckoutKind(
+  value: string | undefined
+): CatalogueKind | null {
+  if (value === "programme" || value === "course" || value === "product")
+    return value
   return null
 }
 
@@ -349,6 +364,90 @@ function productCheckoutPage(input: {
   }
 }
 
+/** Payment terms for a program: its own lander terms, then the lander defaults, then the local mirror. */
+async function programmeTermsFor(local: { id: string; title: string }) {
+  const lander = await getPublicLander()
+  const hit = lander
+    ? matchByTitleThenSlug(
+        lander.programmes,
+        (item) => item.title,
+        local.title,
+        local.id
+      )
+    : undefined
+
+  const sourceTerms =
+    hit?.terms && hit.terms.length > 0
+      ? hit.terms.map((term) => ({
+          months: term.months,
+          listPriceCents: term.listPriceCents,
+          baseFeeCents: term.baseFeeCents ?? lander?.baseFeeCents ?? 50_000,
+          offers: term.offers,
+        }))
+      : lander?.terms?.length
+        ? lander.terms.map((term) => ({
+            months: term.months,
+            listPriceCents: term.listPriceCents,
+            baseFeeCents: term.baseFeeCents ?? lander.baseFeeCents ?? 50_000,
+            offers: term.offers,
+          }))
+        : DEFAULT_PROGRAMME_TERMS
+
+  return { lander, hit, sourceTerms }
+}
+
+export type ProgrammePricingOption = {
+  id: string
+  label: string
+  totalCents: number
+  note?: string
+  recommended: boolean
+  /** Instalment plans: the month-end payments after the base fee. */
+  monthly?: { count: number; amountCents: number }
+}
+
+export type ProgrammePricingTerm = {
+  months: 6 | 12
+  listPriceCents: number
+  baseFeeCents: number
+  options: ProgrammePricingOption[]
+}
+
+/** The same terms checkout charges, shaped for the program page pricing box. */
+export async function loadProgrammePricing(localId: string): Promise<{
+  depositCents: number
+  terms: ProgrammePricingTerm[]
+} | null> {
+  const local = getCatalogueProgramme(localId)
+  if (!local) return null
+  const { sourceTerms } = await programmeTermsFor(local)
+  const terms = sourceTerms.map((term) => ({
+    months: term.months,
+    listPriceCents: term.listPriceCents,
+    baseFeeCents: term.baseFeeCents,
+    options: term.offers.map((offer) => {
+      const count = offer.installmentCount
+      const balance = offer.totalCents - term.baseFeeCents
+      return {
+        id: offer.id,
+        label: offer.label,
+        totalCents: offer.totalCents,
+        note: offer.scheduleNote,
+        recommended: offer.highlighted === true,
+        monthly:
+          count && balance > 0
+            ? { count, amountCents: Math.floor(balance / count) }
+            : undefined,
+      }
+    }),
+  }))
+  const charges = sourceTerms.flatMap((term) =>
+    term.offers.map((offer) => offer.chargeNowCents)
+  )
+  if (terms.length === 0 || charges.length === 0) return null
+  return { depositCents: Math.min(...charges), terms }
+}
+
 /**
  * Resolve a local catalogue selection to lander UUIDs + offers for Stripe checkout.
  * Match: exact title/name (case-insensitive), then slug/local id. Fail closed on ambiguity.
@@ -373,36 +472,14 @@ export async function loadSalesCheckout(
       backHref: `/catalogue/programme/${local.id}${requestedTerm ? `?term=${requestedTerm}` : ""}`,
     }
 
-    const lander = await getPublicLander()
-    const hit = lander
-      ? matchByTitleThenSlug(
-          lander.programmes,
-          (item) => item.title,
-          local.title,
-          local.id
-        )
-      : undefined
-
-    const sourceTerms =
-      hit?.terms && hit.terms.length > 0
-        ? hit.terms.map((term) => ({
-            months: term.months,
-            listPriceCents: term.listPriceCents,
-            baseFeeCents: term.baseFeeCents ?? lander?.baseFeeCents ?? 50_000,
-            offers: term.offers,
-          }))
-        : lander?.terms?.length
-          ? lander.terms.map((term) => ({
-              months: term.months,
-              listPriceCents: term.listPriceCents,
-              baseFeeCents: term.baseFeeCents ?? lander.baseFeeCents ?? 50_000,
-              offers: term.offers,
-            }))
-          : DEFAULT_PROGRAMME_TERMS
+    const { lander, hit, sourceTerms } = await programmeTermsFor(local)
 
     const term = pickProgrammeTerm(sourceTerms, requestedTerm)
     if (!term) {
-      return unmatched(summary, "No payment terms are available for this program.")
+      return unmatched(
+        summary,
+        "No payment terms are available for this program."
+      )
     }
 
     const matchError = !lander
@@ -456,7 +533,10 @@ export async function loadSalesCheckout(
 
     const lander = await getPublicLander()
     if (!lander) {
-      return unmatched(summary, "Payments are unavailable right now. Try again shortly.")
+      return unmatched(
+        summary,
+        "Payments are unavailable right now. Try again shortly."
+      )
     }
 
     const pool = [
@@ -543,7 +623,10 @@ export async function loadSalesCheckout(
 
   if (!lander && !inviteProductId) {
     if (!local) return null
-    return unmatched(summary, "Payments are unavailable right now. Try again shortly.")
+    return unmatched(
+      summary,
+      "Payments are unavailable right now. Try again shortly."
+    )
   }
 
   const hit = lander
@@ -581,7 +664,9 @@ export async function loadSalesCheckout(
 
   // Title/slug miss — allow direct UUID checkout (invite links).
   if (inviteProductId) {
-    const invited = lander?.products?.find((item) => item.id === inviteProductId)
+    const invited = lander?.products?.find(
+      (item) => item.id === inviteProductId
+    )
     return productCheckoutPage({
       landerProductId: inviteProductId,
       title:

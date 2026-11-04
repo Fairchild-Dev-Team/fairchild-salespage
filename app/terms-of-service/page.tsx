@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
 import { SiteFooter } from "@/components/layout/site-footer"
@@ -8,16 +7,12 @@ import { SiteHeader } from "@/components/layout/site-header"
 import { ProcessSlideIn } from "@/components/motion/process-slide-in"
 
 export default function TermsOfServicePage() {
-  const [revealed, setRevealed] = useState(false)
-  const { ref, inView } = useInView({
+  // triggerOnce keeps inView true after the first reveal.
+  const { ref, inView: revealed } = useInView({
     triggerOnce: true,
     threshold: 0.12,
     rootMargin: "0px 0px -4% 0px",
   })
-
-  useEffect(() => {
-    if (inView) setRevealed(true)
-  }, [inView])
 
   return (
     <div className="min-h-screen bg-[#FEF5FE]">
@@ -59,7 +54,7 @@ export default function TermsOfServicePage() {
           className="w-full"
         >
           <div className="mt-8 mb-8 md:mb-16">
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base ">
+            <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
               These Terms of Service (the &ldquo;Terms&rdquo;) govern your use
               of the FairChild Institute websites and mobile applications owned
               or operated by FairChild Institute Inc., operating at 21423
@@ -91,10 +86,10 @@ export default function TermsOfServicePage() {
               and &ldquo;Start Learning&rdquo;, you agree to be bound by the
               Additional Terms.
             </p>
-            <h3 className="font-bold text-lg md:text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-lg font-bold text-gray-700 md:text-xl">
               The FairChild Institute Service
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               The FairChild Institute Service consists of Advanced Professional
               Training Programs offered by FairChild Institute
               (&ldquo;Programs&rdquo;). Upon successful completion of a Program,
@@ -104,18 +99,18 @@ export default function TermsOfServicePage() {
               a certificate of attendance). You understand and acknowledge the
               following:
             </p>
-            <ul className="list-disc ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ul className="my-6 ml-6 list-disc space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 THE FairChild Institute SERVICE PROGRAMS ARE NOT ACCREDITED.
                 FairChild Institute is not an accredited institution and we do
                 not confer formal degrees. A Certificate is not a formal degree.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 YOU WILL NOT RECEIVE ACADEMIC CREDIT FOR YOUR COMPLETION OF A
                 PROGRAM. A Certificate will not entitle you to academic credit
                 recognized by any other institution.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 COMPLETION OF A PROGRAM IS NOT A GUARANTEE OF FUTURE EMPLOYMENT
                 OR ADVANCEMENT. While we believe that your completion of a
                 FairChild Institute & Company Service program will enhance your
@@ -123,33 +118,33 @@ export default function TermsOfServicePage() {
                 employee or employment candidate, we do not and cannot make any
                 representations regarding your future employment or advancement.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 YOUR WORK MUST BE YOUR OWN. The work you perform and submit
                 (e.g., homework assignments, quizzes, exams, and projects) will
                 be your own work (except if you are permitted to work with
                 others).
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 YOU MAY NOT SHARE YOUR WORK WITH OTHERS. You will not share
                 FairChild Institute your work with anyone else or perform work
                 for others (except if you are expressly permitted to share or
                 collaborate).
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 NO CHEATING. You will not engage in any dishonest or improper
                 conduct to improve your results or affect the results of other
                 mentees.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 YOU MAY NOT CHANGE THE PROGRAM FOLLOWING ENROLLMENT, UNLESS
                 AUTHORIZED BY FairChild Institute INC. Additional Fees may apply
                 by FairChild Institute for changing the Program.
               </li>
             </ul>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Your Responsibilities
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
               In order to participate in the Program, you must register. When
               you register, FairChild Institute collects certain personal
               information about you. You agree that FairChild Institute may use
@@ -188,68 +183,68 @@ export default function TermsOfServicePage() {
               ADEQUATELY SAFEGUARD YOUR PASSWORD OR FOR ANY ACTIONS OCCURRING
               UNDER YOUR PASSWORD.
             </p>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               We value the integrity of FairChild Institute community. To
               protect this community, you agree to comply with the Code of
               Conduct. In addition, you agree not to use the FairChild Institute
               Service to:
             </p>
-            <ul className="list-disc ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ul className="my-6 ml-6 list-disc space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Violate any local, state, national or international law or
                 regulation;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Transmit any material that is abusive, harassing, tortious,
                 defamatory, vulgar, pornographic, obscene, libelous, invasive of
                 another&apos;s privacy, hateful or racially, ethnically, or
                 otherwise objectionable;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Stalk, harass, bully, or harm another individual;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Transmit any unsolicited or unauthorized advertising,
                 promotional materials, junk mail, spam, chain letters, pyramid
                 schemes, or any other form of solicitation;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Knowingly transmit any material that contains adware, malware,
                 spyware, software viruses or any other computer code, files or
                 programs designed to interrupt, destroy or limit the
                 functionality of any computer software or hardware or
                 telecommunications equipment;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Defeat or interfere with any security feature of the FairChild
                 Institute & Company Service, or attempt to do so;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Impersonate any person or entity, or otherwise misrepresent your
                 affiliation with a person or entity;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Interfere with or disrupt the FairChild Institute Service or
                 servers or networks connected to the FairChild Institute
                 Service, or disobey any requirements, procedures, policies, or
                 regulations of networks connected to the FairChild Institute
                 Service; or
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Alter or modify any content or component of the FairChild
                 Institute, other than your User Content (as defined below).
               </li>
             </ul>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               You also agree not to use or launch any automated system,
               including, without limitation, &ldquo;robots,&rdquo;
               &ldquo;spiders,&rdquo; &ldquo;offline readers&rdquo; or the like,
               that access the FairChild Institute & Company Service.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Fees and Payment, Refunds, Suspension, and Break Payment.
             </h3>
-            <ol className="list-decimal ml-6 mt-4 space-y-3 text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ol className="mt-4 ml-6 list-decimal space-y-3 text-sm leading-relaxed text-gray-700 lg:text-base">
               <li>
                 You are responsible for paying the then-current tuition fees for
                 the Programs you take.
@@ -273,7 +268,7 @@ export default function TermsOfServicePage() {
               <li>
                 By selecting recurring payments, you authorize FairChild
                 Institute to automatically charge your payment method:
-                <ul className="list-disc ml-6 mt-2 space-y-1">
+                <ul className="mt-2 ml-6 list-disc space-y-1">
                   <li>First payment: on the purchase date</li>
                   <li>Second payment: 26 days from the Program Start date</li>
                   <li>
@@ -296,18 +291,18 @@ export default function TermsOfServicePage() {
                 Taxes.
               </li>
             </ol>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Mentee&apos;s Right to Cancellation, Withdrawal, & Refunds
               Cancellation Policy & Refund Policy
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               If you cancel your enrollment in accordance with the terms below,
               all payments made by you, or on your behalf, will NOT be refunded.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Third-party financing, loans, and payment processing.
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               If you finance FairChild Institute Service through a third-party
               loan or financial services provider, the contracts with those
               providers may prevail over these Terms on payment, refund, and
@@ -330,27 +325,27 @@ export default function TermsOfServicePage() {
               FairChild Institute shall approve such payments only after the
               loan has been approved by the respective financial provider.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Suspension and Termination by FairChild Institute.
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               We may suspend your participation in the Program and/or you may
               receive a warning from us describing the nature of a given concern
               under the following circumstances:
             </p>
-            <ol className="list-[lower-alpha] ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ol className="my-6 ml-6 list-[lower-alpha] space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 If you fail to pay your tuition fees or we are unable to process
                 your payment;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 If you breach these Terms and/or the Code of Conduct;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 If you fail the Program deadlines for submitting tasks or
                 projects; or
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 If you fail to sign the enrollment agreement or any other
                 required paperwork before the Program Start Date and/or within
                 14 calendar days following your receipt of the paperwork,
@@ -364,12 +359,12 @@ export default function TermsOfServicePage() {
                 access to the program without refunding you any fees paid.
               </li>
             </ol>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Regardless of the reason for your suspension or break, you will
               continue to be charged during the time of your suspension/break
               until the cost of your Program is fully paid.
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               <span className="font-bold text-gray-900">
                 Request for Break:{" "}
               </span>
@@ -384,12 +379,12 @@ export default function TermsOfServicePage() {
               studies will require new enrollment into the Program, without any
               discount or offset.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Regardless of the reason for your suspension or break, you will
               continue to be charged during the time of your suspension/break
               until the cost of your Program is fully paid.
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               <span className="font-bold text-gray-900">
                 Ownership of FairChild Institute Content, Restrictions on
                 Use:{" "}
@@ -425,10 +420,10 @@ export default function TermsOfServicePage() {
               other content protection or access control measure associated with
               the Content.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               User Content
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               The FairChild Institute Service may enable users, among other
               things, to post and share work, make comments, post messages and
               other content to the FairChild Institute Service (collectively,
@@ -492,10 +487,10 @@ export default function TermsOfServicePage() {
               equitable rights or remedies you may have against FairChild
               Institute with respect to such User Content.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Third-Party Projects. Third-Party Content.
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               FairChild Institute Service may enable third party companies doing
               business in the industry to provide you with real world projects
               related to the field of your training (the &ldquo;Third-Party
@@ -548,8 +543,8 @@ export default function TermsOfServicePage() {
               against FairChild Institute with respect to such Third-Party
               Content or Third-Party Projects.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">Feedback</h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">Feedback</h3>
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               You agree that FairChild Institute and its affiliates are free to
               use for any purpose whatsoever, ideas, know-how, concepts,
               techniques, comments, criticisms, reports, or other feedback
@@ -562,10 +557,10 @@ export default function TermsOfServicePage() {
               Institute has no duties to you (including any duty to compensate
               you for your Feedback), with respect to such Feedback.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Infringement Notice Procedures: Copyrights and Trademarks
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               Copyright Infringement Notification. FairChild Institute respects
               the intellectual property rights of others. Upon proper notice,
               FairChild Institute will remove or disable content on the Service
@@ -588,58 +583,58 @@ export default function TermsOfServicePage() {
               agent a Notification of claimed infringement with all of the
               following information:
             </p>
-            <ol className="list-[lower-alpha] ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ol className="my-6 ml-6 list-[lower-alpha] space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Identification of the copyrighted work claimed to have been
                 infringed, or, if multiple copyrighted works are covered by a
                 single Notification, a representative list of such works;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Identification of the claimed infringing material and
                 information reasonably sufficient to permit FairChild Institute
                 to locate the material on the FairChild Institute Service;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Information reasonably sufficient to permit FairChild Institute
                 to contact you, such as an address, telephone number, and, if
                 available, an e-mail address;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 A statement by you that you have a good faith belief that the
                 disputed use is not authorized by the copyright owner, its agent
                 or the law;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 A statement by you, made under penalty of perjury, that the
                 above information in your Notification is accurate and that you
                 are the copyright owner or authorized to act on the copyright
                 owner&apos;s behalf; and
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Your physical or electronic signature. Please provide us with a
                 Notification that includes all the above enumerated information
                 and e-mail or mail it to the following FairChild Institute
                 copyright agent:
               </li>
             </ol>
-            <div className="ml-6 mt-4">
-              <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <div className="mt-4 ml-6">
+              <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 FairChild Institute Inc.
               </p>
-              <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 21423 Monterrico Bay Drive,
               </p>
-              <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Cypress, TX 77433 USA
               </p>
-              <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 E-mail: info@fairchildinstitute.com
               </p>
             </div>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Modifications to FairChild Institute Service
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               FairChild Institute reserves the right to modify or discontinue
               the FairChild Institute Service with or without notice to you,
               including the right to cancel, interrupt, or reschedule any
@@ -648,8 +643,8 @@ export default function TermsOfServicePage() {
               exercise its right to modify or discontinue the FairChild
               Institute Service.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">Links</h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">Links</h3>
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               The FairChild Institute Service may contain links to Third-Party
               websites and other Internet resources that are not owned or
               controlled by FairChild Institute (“Third-Party Materials”).
@@ -662,10 +657,10 @@ export default function TermsOfServicePage() {
               THIRD-PARTY ACCESSED THROUGH THE FairChild Institute SERVICE OR
               ANY LINKED WEBSITE.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Disclaimer of Warranties
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               YOU USE THE FairChild Institute SERVICE AT YOUR SOLE RISK. THE
               FairChild Institute SERVICE IS PROVIDED ON AN &ldquo;AS IS&rdquo;
               AND &ldquo;AS AVAILABLE&rdquo; BASIS. TO THE FULLEST EXTENT
@@ -675,7 +670,7 @@ export default function TermsOfServicePage() {
               NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS
               FOR A PARTICULAR USE OR PURPOSE AND NON-INFRINGEMENT).
             </p>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               <span className="font-bold text-gray-900">
                 Without limiting:{" "}
               </span>
@@ -694,43 +689,43 @@ export default function TermsOfServicePage() {
               to the FairChild Institute Service and assume no liability or
               responsibility for any:
             </p>
-            <ol className="list-[lower-alpha] ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ol className="my-6 ml-6 list-[lower-alpha] space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Errors, mistakes or inaccuracies of content or confidentiality;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Personal injury or property damage, of any nature whatsoever,
                 resulting from your access to or use of the FairChild Institute
                 Service;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Any unauthorized access to or use of our servers and/or any and
                 all personal information and/or financial information stored
                 therein (including any and all User Content);
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Any interruption or cessation of transmission to or from the
                 FairChild Institute Service;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Any bugs, viruses, Trojan horses or the like which may be
                 transmitted to or through the FairChild Institute Service by any
                 third party;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 For any loss or damage of any kind incurred as a result of the
                 use of any content posted, e-mailed, transmitted or otherwise
                 made available on or through the FairChild Institute Service;
                 and/or
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 If the services and Content do not meet Your educational needs.
                 You are solely responsible for ensuring that the services comply
                 with your professional goals and objectives and suit your
                 current level of education and background.
               </li>
             </ol>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               The provisions of this Section shall be applicable to all
               components of the FairChild Institute Service and the Content.
               SPECIFICALLY, FairChild Institute PROVIDES NO WARRANTIES OR
@@ -746,10 +741,10 @@ export default function TermsOfServicePage() {
               limitations, delays, and other problems inherent in the use of
               such communications facilities.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               LIMITATION OF LIABILITY
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               TO THE EXTENT PERMITTED UNDER APPLICABLE LAW, IN NO EVENT WILL
               FairChild Institute OR ITS OFFICERS, EMPLOYEES, DIRECTORS,
               SHAREHOLDERS, SUBSIDIARIES, AFFILIATES, AGENTS OR LICENSORS BE
@@ -766,10 +761,10 @@ export default function TermsOfServicePage() {
               FairChild Institute&apos;S LIABILITY TO YOU EXCEED THE AMOUNTS
               PAID BY YOU TO FairChild Institute FOR THE SERVICE.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Exclusions and Limitations
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               You acknowledge and agree that FairChild Institute has based its
               pricing for the FairChild Institute Service in reliance upon the
               limitations of liability and disclaimers of warranties and damages
@@ -786,10 +781,10 @@ export default function TermsOfServicePage() {
               Institute&apos;s liability shall be the minimum permitted under
               such applicable law.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Indemnification
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               You agree to indemnify, defend and hold harmless FairChild
               Institute , its subsidiaries, affiliates, officers, directors,
               employees, consultants and agents from and against any and all
@@ -797,18 +792,18 @@ export default function TermsOfServicePage() {
               (including reasonable attorney&apos;s fees and costs) that they
               may incur as a result of or arising from:
             </p>
-            <ol className="list-[lower-alpha] ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ol className="my-6 ml-6 list-[lower-alpha] space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 any information (including, without limitation, your User
                 Content, Feedback or any other content) you submit, post or
                 transmit on or through the FairChild Institute Service or
                 otherwise provide to us;
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 our violation of these Terms or any Additional Terms established
                 by us; or
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 your violation of law or any rights of any other person or
                 entity, including, without limitation, any copyright, patent,
                 trademark, trade secret or other proprietary rights of any
@@ -819,10 +814,10 @@ export default function TermsOfServicePage() {
                 any available defenses.
               </li>
             </ol>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Minors, Ability to Accept Terms of Service
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               The FairChild Institute Service is not intended for children under
               18 years of age. If you are under 18 years of age you may not use
               the FairChild Institute Service.
@@ -841,15 +836,15 @@ export default function TermsOfServicePage() {
               protections may be found on the Internet by searching
               &ldquo;parental control protection&rdquo; or similar terms.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Sanctions Compliance
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               You represent, warrant, and undertake that with respect to this
               Agreement:
             </p>
-            <ol className="list-[lower-alpha] ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ol className="my-6 ml-6 list-[lower-alpha] space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 You shall comply with all applicable trade, economic, and
                 financial laws, and regulations, including those administered
                 and enforced by Switzerland, United States, European Union and
@@ -857,25 +852,25 @@ export default function TermsOfServicePage() {
                 any other government bodies with jurisdictions relevant to this
                 Agreement (collectively, &ldquo;Sanctions&rdquo;)
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Neither you nor your agents, representatives, employees, or
                 other affiliates are in, or a resident or national of, any
                 country that is subject to an export embargo, nor identified on
                 any Sanctions lists, nor is owned or, where relevant under
                 Sanctions, controlled by the same.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 You will not, directly or indirectly, engage in any unauthorized
                 business or dealings with any persons under Sanctions or
                 otherwise engage in any activities prohibited by Sanctions.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 You should promptly notify FairChild Institute of the occurrence
                 of any fact or event that would render any representation or
                 warranty in this Section incorrect or misleading.
               </li>
             </ol>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               You acknowledge and agree that FairChild Institute is entitled
               from time to time to request you to provide documents and
               information verifying that you are in compliance with the
@@ -901,11 +896,11 @@ export default function TermsOfServicePage() {
               in a country or territory of Cuba, Iran, North Korea, Crimea, and
               Syria.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Choice of Law, Arbitration. Waiver of Class Action.
             </h3>
-            <ol className="list-[lower-alpha] ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ol className="my-6 ml-6 list-[lower-alpha] space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 These Terms of Use and the rights of the parties hereunder shall
                 be governed by and construed in accordance with the laws of the
                 State of Delaware, exclusive of conflict or choice of law rules.
@@ -942,14 +937,14 @@ export default function TermsOfServicePage() {
                 the arbitration. The arbitrator shall not have the power to
                 award punitive damages against any party.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 BY ENTERING INTO THIS AGREEMENT, YOU HEREBY IRREVOCABLY WAIVE
                 ANY RIGHT YOU MAY HAVE TO JOIN CLAIMS WITH THOSE OF OTHERS IN
                 THE FORM OF A CLASS ACTION OR SIMILAR PROCEDURAL DEVICE. ANY
                 CLAIMS ARISING OUT OF, RELATING TO, OR CONNECTED WITH THIS
                 AGREEMENT MUST BE ASSERTED INDIVIDUALLY.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Batching. To increase the efficiency of administration and
                 resolution of arbitrations, in the event 50 or more similar
                 arbitration demands presented by or with the assistance or
@@ -976,7 +971,7 @@ export default function TermsOfServicePage() {
                 unique defenses as to each claimant in connection with this
                 process.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Fees. Your responsibility to pay any JAMS filing,
                 administrative, and/or arbitrator fees will be solely as set
                 forth in the applicable JAMS Rules (as modified by Section 17(c)
@@ -988,10 +983,10 @@ export default function TermsOfServicePage() {
                 cost-prohibitive to you.
               </li>
             </ol>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Miscellaneous
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               These Terms and any Additional Terms, together with your
               Enrollment Agreement, constitute the entire and exclusive and
               final statement of the agreement between you and FairChild
@@ -1007,10 +1002,10 @@ export default function TermsOfServicePage() {
               section titles in these Terms and any Additional Terms are for
               convenience only and have no legal or contractual effect
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Modifications to Terms
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               FairChild Institute may, in its sole and absolute discretion,
               change these Terms from time to time. All changes to the Terms or
               the Privacy Policy will be effective when posted, and we will
@@ -1022,8 +1017,8 @@ export default function TermsOfServicePage() {
               changes, your sole recourse shall be to stop using the FairChild
               Institute Service.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">Assignment</h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">Assignment</h3>
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               FairChild Institute may, in its sole and absolute discretion,
               assign, transfer, charge, subcontract, or deal in any other manner
               with all or any of its rights or liabilities under these Terms
@@ -1031,343 +1026,343 @@ export default function TermsOfServicePage() {
               the rights to claim for your liabilities to third parties and
               submit necessary information about your outstanding liabilities.
             </p>
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Complaint procedure
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               To initiate a complaint, please follow these steps:
             </p>
-            <ul className="list-disc ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ul className="my-6 ml-6 list-disc space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Compose a written complaint outlining the specific nature of the
                 issue you encountered.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Provide a detailed description of the problem, including any
                 relevant circumstances.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 If applicable, attach any supporting documentation that may
                 assist in our investigation. Please forward your complaint to
                 the following address:
               </li>
             </ul>
-            <div className="ml-6 mt-4">
-              <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <div className="mt-4 ml-6">
+              <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 FairChild Institute Inc.
               </p>
-              <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 21423 Monterrico Bay Drive,
               </p>
-              <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Cypress, TX 77433 USA
               </p>
-              <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 E-mail: info@fairchildinstitute.com
               </p>
-              <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+              <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
                 Our team will promptly begin investigating your concern upon
                 receipt. We will provide you with a reply within 30 days.
               </p>
             </div>
 
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Program participation and mentee terms
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               The following terms apply to your participation in FairChild
               Institute programmes as a mentee, in addition to the Terms above.
             </p>
 
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Conditions to Learning
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               Mentees are expected to maintain professionalism, discipline, and
               active participation throughout their learning journey. To ensure
               a productive learning environment, mentees must:
             </p>
-            <ul className="list-disc ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ul className="my-6 ml-6 list-disc space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Attend classes regularly and participate actively.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Complete assignments, quizzes, projects, and other required
                 tasks within stipulated deadlines.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Maintain respectful conduct towards management, mentors,
                 instructors, and fellow mentees.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Adhere to all programme guidelines, due process, and community
                 standards.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Refrain from disruptive, unethical, or inappropriate behavior
                 during classes and community interactions.
               </li>
             </ul>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               Failure to comply with these conditions may result in warnings,
               restricted access, suspension, or removal from the programme where
               necessary.
             </p>
 
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Conditions to Graduation
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               Mentees will only qualify for graduation upon successful
               completion of all programme requirements, which may include but
               are not limited to:
             </p>
-            <ul className="list-disc ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ul className="my-6 ml-6 list-disc space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Satisfactory class participation and attendance.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Completion of all required assignments, projects, and
                 assessments.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Active participation in mentorship and practical sessions where
                 applicable.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Compliance with all academic, ethical, and community guidelines
                 established by FairChild Institute.
               </li>
             </ul>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               FairChild Institute reserves the right to withhold graduation
               status, certificates, or programme completion recognition where
               the stated conditions have not been met.
             </p>
 
-            <h3 className="font-bold text-xl mt-8 text-gray-700">Attendance</h3>
-            <ul className="list-disc ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">Attendance</h3>
+            <ul className="my-6 ml-6 list-disc space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Mentees are expected to attend all live classes promptly and
                 consistently.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Mentees may not join a live class later than 30 minutes after
                 the scheduled start time.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Repeated lateness or absenteeism may affect participation
                 records, certificate eligibility, graduation status, or
                 continued access to programme benefits.
               </li>
             </ul>
 
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Certificate Eligibility (Fairchild Institute Certificate
               Eligibility)
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               To qualify for the Fairchild Institute Certificate, mentees must
               satisfy all of the following requirements:
             </p>
-            <ul className="list-disc ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ul className="my-6 ml-6 list-disc space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Minimum of 75% participation throughout the programme.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Consistent attendance in live classes and programme activities.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Completion of all assignments and required tasks.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Attempting all quizzes and assessments associated with the
                 programme.
               </li>
             </ul>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               Failure to meet any of the above requirements may result in
               disqualification from certificate eligibility.
             </p>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               Certificates will only be issued to mentees who successfully
               fulfill all stipulated programme requirements and completion
               criteria.
             </p>
 
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Service Level Agreement (SLA)
             </h3>
-            <ul className="list-disc ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ul className="my-6 ml-6 list-disc space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 As part of FairChild Institute&apos;s commitment to mentees, all
                 class video recordings will be made available within 24 hours
                 after each live session.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 While every effort will be made to maintain this timeline
                 consistently, exceptional technical circumstances may
                 occasionally result in minor delays.
               </li>
             </ul>
 
-            <h4 className="font-semibold text-base md:text-lg mt-8 text-gray-700">
+            <h4 className="mt-8 text-base font-semibold text-gray-700 md:text-lg">
               Registration Flow (Pre-Payment)
             </h4>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               Before proceeding to payment during registration, mentees should
               be presented with a concise Terms of Service summary, including
               the following:
             </p>
-            <ul className="list-disc ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ul className="my-6 ml-6 list-disc space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Attendance and participation are mandatory.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Programme access is time-bound and automatically expires upon
                 subscription expiry.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Sharing or redistribution of course materials is prohibited.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Certificates are issued only upon fulfillment of all eligibility
                 requirements.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Mentees must maintain professional conduct throughout the
                 programme.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 FairChild Institute reserves the right to modify, suspend, or
                 cancel programmes where necessary.
               </li>
             </ul>
 
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Resource &amp; Access Policy (Third-Party Projects Section)
             </h3>
 
-            <h4 className="font-semibold text-base md:text-lg mt-8 text-gray-700">
+            <h4 className="mt-8 text-base font-semibold text-gray-700 md:text-lg">
               Proprietary Resources &amp; Assets
             </h4>
-            <ul className="list-disc ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ul className="my-6 ml-6 list-disc space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 All FairChild Institute resources, materials, recordings,
                 templates, assets, and learning content remain the intellectual
                 property of FairChild Institute and are provided strictly for
                 individual mentee use.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Sharing, forwarding, reproducing, distributing, or
                 redistributing any programme content is prohibited under the
                 single-user access agreement.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Unauthorized distribution or misuse of programme materials may
                 result in access termination, certificate disqualification, or
                 additional disciplinary actions.
               </li>
             </ul>
 
-            <h4 className="font-semibold text-base md:text-lg mt-8 text-gray-700">
+            <h4 className="mt-8 text-base font-semibold text-gray-700 md:text-lg">
               Access Duration Policy
             </h4>
-            <ul className="list-disc ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ul className="my-6 ml-6 list-disc space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Mentorship Courses include one (1) year of access from the date
                 of enrollment.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Mentorship Programmes include six (6) months of access from the
                 date of enrollment.
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Access is automatically restricted upon subscription expiry.
               </li>
             </ul>
 
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Skills &amp; Values (Core Values at FairChild Institute)
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               FairChild Institute promotes a culture built on professionalism,
               growth, and excellence. All mentees are expected to uphold the
               following core values:
             </p>
-            <ul className="list-disc ml-6 my-6 space-y-2">
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <ul className="my-6 ml-6 list-disc space-y-2">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Discipline
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Collaboration
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Teamwork
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Due Process
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Respect for Management
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Respect for Mentors
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Respect for Instructors
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Professional Communication
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Accountability
               </li>
-              <li className="text-gray-700 leading-relaxed text-sm lg:text-base">
+              <li className="text-sm leading-relaxed text-gray-700 lg:text-base">
                 Continuous Learning
               </li>
             </ul>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               Mentees are expected to demonstrate these values throughout their
               learning journey and interactions within the FairChild Institute
               ecosystem.
             </p>
 
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Additional Terms
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               FairChild Institute reserves the right to cancel any class,
               course, or programme with or without prior notice.
             </p>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               FairChild Institute reserves the right to update, modify, or amend
               these Terms of Service at any time where necessary.
             </p>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               All mentees are expected to comply with platform rules, community
               standards, and programme guidelines at all times.
             </p>
 
-            <h3 className="font-bold text-xl mt-8 text-gray-700">
+            <h3 className="mt-8 text-xl font-bold text-gray-700">
               Contact Information
             </h3>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base mt-4">
+            <p className="mt-4 text-sm leading-relaxed text-gray-700 lg:text-base">
               You may contact us at:
             </p>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base font-semibold">
+            <p className="text-sm leading-relaxed font-semibold text-gray-700 lg:text-base">
               FairChild Institute Inc.,
             </p>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
               21423 Monterrico Bay Drive,
             </p>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
               Cypress, TX 77433
             </p>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
               United States
             </p>
-            <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
+            <p className="text-sm leading-relaxed text-gray-700 lg:text-base">
               Email: info@fairchildinstitute.com
             </p>
           </div>

@@ -18,7 +18,7 @@ type Selection =
 
 export function ProgrammeBrowser() {
   const first = catalogueProgrammes[0]
-  const [mode, setMode] = useState<"browse" | "all">("browse")
+  const [mode, setMode] = useState<"browse" | "all">("all")
   const [selection, setSelection] = useState<Selection>(
     first
       ? { kind: "programme", id: first.id }
@@ -93,7 +93,11 @@ export function ProgrammeBrowser() {
 
   return (
     <div className="mt-10 grid gap-6 lg:grid-cols-[16.5rem_minmax(0,1fr)] lg:items-start lg:gap-8">
-      <nav ref={navRef} aria-label="Programs" className="flex flex-col gap-2">
+      <nav
+        ref={navRef}
+        aria-label="Programs"
+        className="flex flex-col gap-2 rounded-[1.25rem] bg-[#F3DCF0] p-2"
+      >
         {catalogueProgrammes.map((item) => (
           <ListButton
             key={item.id}
@@ -131,7 +135,7 @@ export function ProgrammeBrowser() {
 
       <div
         className={cn(
-          "flex min-w-0 flex-col",
+          "flex min-w-0 flex-col rounded-[1.5rem] bg-[#F3DCF0] p-4 sm:p-6",
           browsingProgramme && "lg:h-[var(--programme-list-h)]"
         )}
         style={
@@ -291,8 +295,8 @@ function ListButton({
       className={cn(
         "cursor-pointer rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors",
         active
-          ? "bg-[#AD14A7] text-white"
-          : "bg-white text-[#0E121B] hover:bg-[#FEF5FE]"
+          ? "bg-[#AD14A7] text-white shadow-[0_6px_16px_rgba(173,20,167,0.25)]"
+          : "bg-white text-[#0E121B] shadow-[0_1px_3px_rgba(99,23,96,0.12)] hover:bg-[#FEF5FE]"
       )}
     >
       {children}

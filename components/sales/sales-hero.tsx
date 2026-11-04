@@ -1,7 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { SalesHeroNav } from "@/components/sales/sales-hero-nav"
 import { AnimatedHeadline } from "@/components/ui/animated-headline"
 import { ButtonArrowIcon } from "@/components/ui/button-arrow-icon"
 import {
@@ -28,9 +27,10 @@ export function SalesHero() {
   return (
     <section className="hero-section relative flex min-h-0 w-full flex-col overflow-x-hidden text-[#0E121B] lg:min-h-svh">
       <div className="relative z-10 mx-auto flex min-h-0 w-full max-w-page flex-1 flex-col px-6 lg:px-[120px]">
-        <SalesHeroNav className="!px-0 py-5 pt-9 sm:py-4" />
+        {/* Room for the sticky SalesHeroNav that the page lays over the hero. */}
+        <div className="h-[100px] shrink-0 sm:h-[76px]" aria-hidden />
 
-        <div className="relative mx-auto grid min-h-0 w-full max-w-[1200px] flex-1 grid-cols-1 gap-8 pb-12 pt-4 sm:gap-10 sm:pb-16 sm:pt-6 lg:grid-cols-2 lg:items-center lg:gap-8 lg:pb-10 lg:pt-6 xl:gap-10">
+        <div className="relative mx-auto grid min-h-0 w-full max-w-[1200px] flex-1 grid-cols-1 gap-8 pt-4 pb-12 sm:gap-10 sm:pt-6 sm:pb-16 lg:grid-cols-2 lg:items-center lg:gap-8 lg:pt-6 lg:pb-10 xl:gap-10">
           <div className="min-w-0">
             <div className="hero-enrolling-badge mb-4 sm:mb-6">
               <StatusDot />
@@ -95,9 +95,9 @@ export function SalesHero() {
             </div>
           </div>
 
-          <div className="relative mx-auto flex w-full min-w-0 max-w-[520px] items-center justify-center justify-self-center overflow-visible lg:max-w-none lg:justify-self-end">
-            <div className="relative mx-auto w-full min-w-0 max-w-[min(520px,100%)] py-8 sm:py-10 lg:py-4">
-              <div className="hero-image-frame relative mx-auto h-[min(360px,52vh)] w-full min-w-0 max-w-[520px] overflow-visible sm:h-[min(440px,58vh)] md:h-[min(520px,65vh)] lg:h-[min(593px,72vh)] lg:w-full">
+          <div className="relative mx-auto flex w-full max-w-[520px] min-w-0 items-center justify-center justify-self-center overflow-visible lg:max-w-none lg:justify-self-end">
+            <div className="relative mx-auto w-full max-w-[min(520px,100%)] min-w-0 py-8 sm:py-10 lg:py-4">
+              <div className="hero-image-frame relative mx-auto h-[min(360px,52vh)] w-full max-w-[520px] min-w-0 overflow-visible sm:h-[min(440px,58vh)] md:h-[min(520px,65vh)] lg:h-[min(593px,72vh)] lg:w-full">
                 <div className="hero-image-media absolute inset-0 overflow-hidden rounded-[inherit]">
                   <Image
                     src={visual.image.src}

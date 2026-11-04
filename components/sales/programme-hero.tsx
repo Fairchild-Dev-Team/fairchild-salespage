@@ -20,10 +20,13 @@ export function ProgrammeHero({
   ctaHref,
   cardLabel = "Program outline",
   priceLabel = "Full program",
+  depositUsd,
 }: ProgrammeHeroContent & {
   title: string
   priceUsd: number | null
   ctaHref: string
+  /** Programs lead with the deposit; the full prices live in the pricing box. */
+  depositUsd?: number
 }) {
   return (
     <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.72fr)] lg:gap-12">
@@ -60,7 +63,20 @@ export function ProgrammeHero({
           ))}
         </dl>
         <div className="my-6 h-px bg-white/15" />
-        {priceUsd != null ? (
+        {depositUsd != null ? (
+          <>
+            <p className="text-sm text-white/70">Secure your spot with</p>
+            <p className="mt-2 font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
+              {formatCataloguePrice(depositUsd)}
+            </p>
+            <a
+              href="#pricing"
+              className="mt-2 block w-fit text-sm text-[#FA9BF6] underline underline-offset-4 hover:text-white"
+            >
+              See 6-month and 1-year pricing
+            </a>
+          </>
+        ) : priceUsd != null ? (
           <>
             <p className="text-sm text-white/70">{priceLabel}</p>
             <p className="mt-2 font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
@@ -72,7 +88,7 @@ export function ProgrammeHero({
           href={ctaHref}
           className={cn(
             "inline-flex cursor-pointer items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0E121B] shadow-[0_9px_10.7px_rgba(250,155,246,0.25)]",
-            priceUsd != null && "mt-6",
+            (priceUsd != null || depositUsd != null) && "mt-6",
             brandPinkHoverClass,
             brandPinkHoverInsetClass
           )}

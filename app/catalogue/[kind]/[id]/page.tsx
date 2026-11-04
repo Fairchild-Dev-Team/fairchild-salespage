@@ -6,7 +6,6 @@ import { SiteFooter } from "@/components/layout/site-footer"
 import { SiteHeader } from "@/components/layout/site-header"
 import { CourseHero } from "@/components/sales/course-hero"
 import { CourseModules } from "@/components/sales/course-modules"
-import { CourseValue } from "@/components/sales/course-value"
 import { fairchildInstructors } from "@/components/sales/fairchild-instructors"
 import { ProgrammeAudience } from "@/components/sales/programme-audience"
 import { ProgrammeBuild } from "@/components/sales/programme-build"
@@ -35,9 +34,16 @@ import {
   getCatalogueProgramme,
   type CatalogueKind,
 } from "@/lib/catalogue"
-import { checkoutHref } from "@/lib/checkout"
+import { checkoutHref, loadProgrammePricing } from "@/lib/checkout"
 import { getCoursePage, getProgrammePage } from "@/lib/programmes"
-import { fairchildFaq } from "@/lib/programmes/shared"
+import {
+  courseIncludes,
+  fairchildFaq,
+  programmeIncludes,
+  SALE_ENDS_AT,
+} from "@/lib/programmes/shared"
+import { CoursePricing } from "@/components/sales/course-pricing"
+import { ProgrammePricing } from "@/components/sales/programme-pricing"
 import { GradientPillButton } from "@/components/ui/gradient-pill-button"
 
 type PageProps = {
@@ -187,10 +193,26 @@ export default async function CatalogueItemPage({ params }: PageProps) {
     catalogueKind === "programme" || programmePage != null || courseView != null
   const compactHero = programmePage != null || courseView != null
   const enrollHref = checkoutHref(catalogueKind, id)
+  const programmeEntry =
+    catalogueKind === "programme" ? getCatalogueProgramme(id) : undefined
+  const pricing =
+    programmeEntry?.priceUsd != null ? await loadProgrammePricing(id) : null
+  // Show only the terms the program's documented length allows; no length means both.
+  const pricingTerms = pricing?.terms.filter(
+    (term) =>
+      !programmeEntry?.duration ||
+      !/\b(6|12)\b/.test(programmeEntry.duration) ||
+      new RegExp(`\\b${term.months}\\b`).test(programmeEntry.duration)
+  )
 
   return (
     <div className="min-h-screen bg-white">
-      {purpleHero ? null : (
+      {purpleHero ? (
+        // Zero-height sticky layer, so the header sits over the hero and follows the scroll.
+        <div className="sticky top-0 z-50 h-0">
+          <SiteHeader ctaHref={enrollHref} ctaLabel="Enroll Now" tone="hero" />
+        </div>
+      ) : (
         <SiteHeader ctaHref={enrollHref} ctaLabel="Enroll Now" />
       )}
 
@@ -216,14 +238,8 @@ export default async function CatalogueItemPage({ params }: PageProps) {
               fade={0.85}
               glow={0}
             />
-            <div className="relative z-10">
-              <SiteHeader
-                ctaHref={enrollHref}
-                ctaLabel="Enroll Now"
-                tone="hero"
-                sticky={false}
-              />
-            </div>
+            {/* Room for the sticky header above. */}
+            <div className="h-[68px] lg:h-[76px]" aria-hidden />
           </>
         ) : null}
         <div
@@ -241,6 +257,11 @@ export default async function CatalogueItemPage({ params }: PageProps) {
               priceUsd={entry.priceUsd}
               {...programmePage.hero}
               ctaHref={enrollHref}
+              depositUsd={
+                pricing && pricingTerms?.length
+                  ? pricing.depositCents / 100
+                  : undefined
+              }
             />
           ) : courseView ? (
             <CourseHero
@@ -327,22 +348,17 @@ export default async function CatalogueItemPage({ params }: PageProps) {
             <ProgrammeRequirements {...courseView.content.requirements} />
           ) : null}
           <ProgrammeLearning {...fairchildLearning} />
-          {courseView.programme.priceUsd != null ? (
-            <CourseValue
-              heading="Take it on its own, or with the full program"
-              course={{
-                id: courseView.course.id,
-                title: courseView.course.title,
-                priceUsd: courseView.priceUsd,
-              }}
-              courseCtaHref={enrollHref}
-              courseIncludes="One course from the outline."
+          {courseView.priceUsd != null ? (
+            <CoursePricing
+              title={courseView.course.title}
+              priceUsd={courseView.priceUsd}
+              includes={courseIncludes}
+              saleEndsAt={SALE_ENDS_AT}
+              ctaHref={enrollHref}
               programme={{
                 title: courseView.programme.title,
                 href: `/catalogue/programme/${courseView.programme.id}`,
-                priceUsd: courseView.programme.priceUsd,
-                includes: `All ${courseView.programme.courses.length} courses, all projects, 6- or 12-month access.`,
-                courses: courseView.programme.courses,
+                courseCount: courseView.programme.courses.length,
               }}
             />
           ) : null}
@@ -390,6 +406,15 @@ export default async function CatalogueItemPage({ params }: PageProps) {
           />
           {programmePage.outcomes ? (
             <ProgrammeOutcomes {...programmePage.outcomes} />
+          ) : null}
+          {pricing && programmeEntry && pricingTerms?.length ? (
+            <ProgrammePricing
+              programmeId={programmeEntry.id}
+              depositCents={pricing.depositCents}
+              terms={pricingTerms}
+              includes={programmeIncludes(programmeEntry.courses.length)}
+              saleEndsAt={SALE_ENDS_AT}
+            />
           ) : null}
           <ProgrammeInstructors {...fairchildInstructors} />
           <ProgrammeFaq
