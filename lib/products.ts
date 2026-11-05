@@ -146,7 +146,7 @@ export const products: Product[] = [
     ],
     includes: [
       "Base fee of $500 secures your place",
-      "One-time total $1,250 (base fee + balance)",
+      "One-time total $1,500 (base fee + balance)",
       "Or $2,000 plan: $500 base + $250/month for 6 months",
     ],
     paymentOptions: [
@@ -154,8 +154,8 @@ export const products: Product[] = [
         id: "one-time",
         label: "Full payment",
         amountCents: 25_000,
-        description: "Total $1,250.",
-        scheduleNote: "Balance of $750 due 28 February 2027.",
+        description: "Total $1,500.",
+        scheduleNote: "Balance of $1,000 due 28 February 2027.",
         highlighted: true,
       },
       {

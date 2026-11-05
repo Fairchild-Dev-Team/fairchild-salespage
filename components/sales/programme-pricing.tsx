@@ -2,7 +2,7 @@
 
 import { ArrowRight, Check } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useId, useState } from "react"
 
 import { SaleCountdown } from "@/components/sales/sale-countdown"
 import {
@@ -17,12 +17,15 @@ const termLabel = (months: 6 | 12) => (months === 12 ? "1 year" : "6 months")
 
 /** Program pricing box: term toggle, full payment vs instalments, what is included, countdown. */
 export function ProgrammePricing({
+  id = "pricing",
   programmeId,
   depositCents,
   terms,
   includes,
   saleEndsAt,
 }: {
+  /** The page shows this box twice (after the hero and lower down), so each copy needs its own id. */
+  id?: string
   programmeId: string
   depositCents: number
   terms: ProgrammePricingTerm[]
@@ -34,6 +37,7 @@ export function ProgrammePricing({
   )
   const term = terms.find((item) => item.months === months) ?? terms[0]
   const [optionId, setOptionId] = useState<string | null>(null)
+  const headingId = useId()
   const selected =
     term.options.find((option) => option.id === optionId) ??
     term.options.find((option) => option.recommended) ??
@@ -41,16 +45,16 @@ export function ProgrammePricing({
 
   return (
     <section
-      id="pricing"
-      className="border-b border-[#E8D5E6] bg-[#FEF5FE]"
-      aria-labelledby="pricing-heading"
+      id={id}
+      className="scroll-mt-20 border-b border-[#E8D5E6] bg-[#FEF5FE]"
+      aria-labelledby={headingId}
     >
       <div className="mx-auto w-full max-w-page px-4 py-14 lg:px-[120px] lg:py-20">
         <p className="text-sm font-medium tracking-[0.08em] text-[#631760] uppercase">
           Pricing
         </p>
         <h2
-          id="pricing-heading"
+          id={headingId}
           className="mt-3 max-w-3xl font-heading text-[clamp(1.85rem,0.9rem+1.9vw,2.85rem)] leading-[1.08] font-medium tracking-[-0.045em] text-[#0E121B]"
         >
           Secure your spot with {formatUsd(depositCents)}
@@ -122,7 +126,7 @@ export function ProgrammePricing({
                     <div className="flex items-center gap-3 p-4">
                       <input
                         type="radio"
-                        name={`pricing-${programmeId}`}
+                        name={`${headingId}-option`}
                         value={option.id}
                         checked={active}
                         onChange={() => setOptionId(option.id)}
