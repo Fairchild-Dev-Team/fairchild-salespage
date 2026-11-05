@@ -187,36 +187,40 @@ export const pricingOverview = {
   title: "Clear pricing. No surprise math.",
   baseFee:
     "Every course and program spot locks with a $500 base fee: $250 now + $250 before January 2027.",
-  /** `struck` is shown crossed out beside `normal`: 20% above it, as asked by FairChild. */
+  /** `struck` is the real list price, shown crossed out beside the offer price in `normal`. */
   rows: [
     {
       name: "1-Year Program",
-      normal: "$5,000",
-      struck: "$6,000",
+      normal: "$2,000",
+      struck: "$5,000" as string | undefined,
+      saving: "60% off" as string | undefined,
       highlight: "Best savings" as string | undefined,
       options: "Full pay by end of January: $2,000 · Plan: $3,000",
       href: "/#programmes",
     },
     {
       name: "6-Month Program",
-      normal: "$3,000",
-      struck: "$3,600",
+      normal: "$1,500",
+      struck: "$3,000" as string | undefined,
+      saving: "50% off" as string | undefined,
       highlight: "Fastest path" as string | undefined,
-      options: "One-time: $1,250 · Plan: $2,000 ($500 + $250/mo × 6)",
+      options: "One-time: $1,500 · Plan: $2,000 ($500 + $250/mo × 6)",
       href: "/#programmes",
     },
     {
       name: "Standalone Course",
       normal: "$500",
-      struck: "$600",
+      struck: undefined as string | undefined,
+      saving: undefined as string | undefined,
       highlight: undefined as string | undefined,
       options: "Pay in full or lock with $250",
       href: "/#programmes",
     },
     {
-      name: "Interview Prep",
+      name: "FairChild Fellowship",
       normal: "$500",
-      struck: "$600",
+      struck: undefined as string | undefined,
+      saving: undefined as string | undefined,
       highlight: undefined as string | undefined,
       options: "Pay in full or lock with $250",
       href: "/#programmes",
@@ -256,22 +260,15 @@ export const financialAid = {
 } as const
 
 /** Vimeo embeds live on fairchildinstitute.com program storytelling. */
-export const testimonialVideos = [
-  {
-    vimeoId: "1203229291",
-    name: "Samson Bavo",
-    role: "Salesforce Administrator · Class of 2025",
-    caption:
-      "From retail to a role his family can be proud of — Samson’s FairChild story.",
-  },
-  {
-    vimeoId: "1203229292",
-    name: "Swati Soni",
-    role: "Senior Salesforce Developer · Class of 2025",
-    caption:
-      "Six figures later — Swati on the skills that stuck and starting sooner.",
-  },
-] as const
+/**
+ * Portrait (9:16) mentee video on Vimeo, the same one the FairChild event page uses.
+ * Its embed is restricted to approved domains, so each domain serving this page must be
+ * on the video's Vimeo embed allowlist.
+ */
+export const testimonialVideo = {
+  vimeoId: "1243277631",
+  title: "FairChild mentee story",
+} as const
 
 /** Mentee LinkedIn profiles, from the FairChild event page testimonials. Keyed by MenteeStory name. */
 export const menteeLinkedIn: Record<string, string> = {
@@ -449,7 +446,7 @@ export const faqs = [
   {
     question: "How does the 6-month plan work?",
     answer:
-      "Normal price $3,000. One-time payment is $1,250 (base fee of $500 + balance). Payment plan is $2,000: $500 base fee + $1,500 over 6 months at $250/month.",
+      "Normal price $3,000. One-time payment is $1,500 (base fee of $500 + balance). Payment plan is $2,000: $500 base fee + $1,500 over 6 months at $250/month.",
   },
   {
     question: "Who is Fellowship for?",

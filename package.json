@@ -18,6 +18,7 @@
     "@base-ui/react": "^1.8.0",
     "@stripe/react-stripe-js": "^7.0.0",
     "@stripe/stripe-js": "^10.1.0",
+    "@vimeo/player": "^2.30.4",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.4.0",
     "embla-carousel-autoplay": "^8.6.0",

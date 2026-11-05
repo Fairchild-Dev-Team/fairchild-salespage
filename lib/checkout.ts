@@ -213,10 +213,10 @@ const DEFAULT_PROGRAMME_TERMS: Array<{
       {
         id: "one-time",
         label: "Full payment",
-        description: "Total $1,250.",
-        scheduleNote: "Balance of $750 due 28 February 2027.",
+        description: "Total $1,500.",
+        scheduleNote: "Balance of $1,000 due 28 February 2027.",
         chargeNowCents: 25_000,
-        totalCents: 125_000,
+        totalCents: 150_000,
         highlighted: true,
       },
       {
