@@ -7,13 +7,10 @@ import {
   brandPinkHoverInsetClass,
 } from "@/lib/buttonStyles"
 import { formatCataloguePrice } from "@/lib/catalogue"
-import { COURSE_DISCOUNT } from "@/lib/programmes/shared"
+import { COURSE_DEPOSIT_USD, courseOffer } from "@/lib/programmes/shared"
 import { cn } from "@/lib/utils"
 
-export const courseSalePrice = (priceUsd: number) =>
-  Math.round(priceUsd * (1 - COURSE_DISCOUNT))
-
-/** Course pricing box: one price, the full price struck through, a countdown. */
+/** Course pricing box: one price, the sheet price struck through when higher, a countdown. */
 export function CoursePricing({
   title,
   priceUsd,
@@ -23,12 +20,14 @@ export function CoursePricing({
   programme,
 }: {
   title: string
-  priceUsd: number
+  priceUsd: number | null
   includes: string[]
   saleEndsAt: string
   ctaHref: string
   programme: { title: string; href: string; courseCount: number }
 }) {
+  const offer = courseOffer(priceUsd)
+
   return (
     <section
       id="pricing"
@@ -49,16 +48,27 @@ export function CoursePricing({
         <div className="mt-10 grid gap-4 lg:grid-cols-2">
           <div className="flex flex-col rounded-[28px] border border-[#AD14A7] bg-white p-6 ring-1 ring-[#AD14A7]/20 sm:p-8">
             <p className="text-sm font-medium text-[#631760]">This course</p>
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <s className="text-lg text-[#525866]">
-                {formatCataloguePrice(priceUsd)}
-              </s>
-              <span className="rounded-md bg-[#FA9BF6] px-2 py-0.5 text-sm font-semibold text-[#631760]">
-                {Math.round(COURSE_DISCOUNT * 100)}% off
-              </span>
-            </div>
+            {offer.struckUsd != null ? (
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <s className="text-lg text-[#525866]">
+                  {formatCataloguePrice(offer.struckUsd)}
+                </s>
+                <span className="rounded-md bg-[#FA9BF6] px-2 py-0.5 text-sm font-semibold text-[#631760]">
+                  {offer.percentOff}% off
+                </span>
+              </div>
+            ) : null}
             <p className="mt-2 font-heading text-5xl font-semibold tracking-[-0.04em] text-[#0E121B]">
-              {formatCataloguePrice(courseSalePrice(priceUsd))}
+              {formatCataloguePrice(offer.offerUsd)}
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-[#525866]">
+              Secure your spot with{" "}
+              <span className="font-semibold text-[#0E121B]">
+                {formatCataloguePrice(COURSE_DEPOSIT_USD)}
+              </span>{" "}
+              today. The other{" "}
+              {formatCataloguePrice(offer.offerUsd - COURSE_DEPOSIT_USD)} is
+              paid before the class starts.
             </p>
             <SaleCountdown endsAt={saleEndsAt} className="mt-6" />
             <Link
