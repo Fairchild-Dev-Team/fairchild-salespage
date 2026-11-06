@@ -54,8 +54,31 @@ export function isLanderUuid(value: string | undefined | null): boolean {
   return Boolean(value && UUID_RE.test(value.trim()))
 }
 
+/** Decode common HTML entities + strip tags so lander/local titles compare equally. */
+function decodeHtmlEntities(value: string): string {
+  return value
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&#(\d+);/g, (_, code: string) =>
+      String.fromCharCode(Number(code))
+    )
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex: string) =>
+      String.fromCharCode(Number.parseInt(hex, 16))
+    )
+}
+
 function normalizeKey(value: string): string {
-  return value.trim().toLowerCase().replace(/\s+/g, " ")
+  return decodeHtmlEntities(value)
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&/g, " and ")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ")
 }
 
 function matchByTitleThenSlug<T extends { id: string; slug?: string | null }>(
@@ -213,10 +236,10 @@ const DEFAULT_PROGRAMME_TERMS: Array<{
       {
         id: "one-time",
         label: "Full payment",
-        description: "Total $1,250.",
-        scheduleNote: "Balance of $750 due 28 February 2027.",
+        description: "Total $1,500.",
+        scheduleNote: "Balance of $1,000 due 28 February 2027.",
         chargeNowCents: 25_000,
-        totalCents: 125_000,
+        totalCents: 150_000,
         highlighted: true,
       },
       {

@@ -65,7 +65,7 @@ export const fairchildFaq = {
     {
       question: "Are classes live?",
       answer:
-        "No. All learning is self-paced online, so you can study from any time zone.",
+        "Yes. Classes are held live online, and you can also take them self-paced.",
     },
     {
       question: "Will I get a certificate?",
@@ -80,11 +80,50 @@ export const fairchildFaq = {
   ],
 }
 
-/** End of the full-payment sale: the end of January 2027, Lagos time. [confirm] */
-export const SALE_ENDS_AT = "2027-01-31T23:59:59+01:00"
+/** The sale countdown runs to the end of 31 December 2026, Lagos time. */
+export const SALE_ENDS_AT = "2026-12-31T23:59:59+01:00"
 
-/** Course pages show the full price struck through at this discount. */
-export const COURSE_DISCOUNT = 0.5
+/**
+ * Program offer prices, paid in full. Every program is the same; these match the
+ * full-payment terms checkout charges (DEFAULT_PROGRAMME_TERMS in lib/checkout.ts).
+ */
+export const PROGRAMME_OFFERS = [
+  { months: 12, label: "1 year", offerUsd: 2000, listUsd: 5000 },
+  { months: 6, label: "6 months", offerUsd: 1500, listUsd: 3000 },
+] as const
+
+/** The offers a program's documented length allows; no length means both. */
+export function programmeOffers(duration: string | null) {
+  return PROGRAMME_OFFERS.filter(
+    (offer) =>
+      !duration ||
+      !/\b(6|12)\b/.test(duration) ||
+      new RegExp(`\\b${offer.months}\\b`).test(duration)
+  )
+}
+
+/** Every course sells at this price on the current offer. */
+export const COURSE_OFFER_USD = 500
+
+/** Paid today to secure a course spot; the rest is due before the class starts. */
+export const COURSE_DEPOSIT_USD = 250
+
+/**
+ * A course's offer: $500, with the sheet price struck through when it is higher.
+ * Courses already at $500 (or unpriced) get no strike and no discount.
+ */
+export function courseOffer(listUsd: number | null) {
+  const struckUsd =
+    listUsd != null && listUsd > COURSE_OFFER_USD ? listUsd : null
+  return {
+    offerUsd: COURSE_OFFER_USD,
+    struckUsd,
+    percentOff:
+      struckUsd != null
+        ? Math.round((1 - COURSE_OFFER_USD / struckUsd) * 100)
+        : null,
+  }
+}
 
 /** "What's included" in the program pricing box. [confirm] */
 export const programmeIncludes = (courseCount: number) => [

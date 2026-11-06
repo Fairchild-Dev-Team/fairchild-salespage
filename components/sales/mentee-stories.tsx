@@ -1,12 +1,12 @@
 import Image from "next/image"
-import { ArrowUpRight, Play, Quote } from "lucide-react"
+import { ArrowUpRight, Quote } from "lucide-react"
 
+import { MenteeVideo } from "@/components/sales/mentee-video"
 import { GradientPillButton } from "@/components/ui/gradient-pill-button"
 import {
   linkedInProof,
   menteeLinkedIn,
   menteeStoryColumns,
-  testimonialVideos,
   type MenteeStory,
 } from "@/lib/sales-content"
 import { cn } from "@/lib/utils"
@@ -133,44 +133,6 @@ function StoryColumn({
   )
 }
 
-function StoryVideos() {
-  return (
-    <div className="mt-12 grid gap-5 lg:grid-cols-2">
-      {testimonialVideos.map((video) => (
-        <figure
-          key={video.vimeoId}
-          className="overflow-hidden rounded-[24px] border border-[#E8D5E6] bg-white shadow-[0_16px_40px_rgba(99,23,96,0.08)]"
-        >
-          <div className="relative aspect-video w-full bg-[#1A0614]">
-            <iframe
-              src={`https://player.vimeo.com/video/${video.vimeoId}?title=0&byline=0&portrait=0`}
-              title={`${video.name} — FairChild mentee story`}
-              className="absolute inset-0 h-full w-full"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-              loading="lazy"
-            />
-          </div>
-          <figcaption className="flex items-start gap-4 px-5 py-5 sm:px-6">
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(180deg,#94008D_0%,#4D0044_100%)] text-white">
-              <Play className="size-4 fill-current" aria-hidden />
-            </span>
-            <div className="min-w-0">
-              <p className="font-heading text-lg font-semibold tracking-[-0.02em] text-[#0E121B]">
-                {video.name}
-              </p>
-              <p className="text-sm text-[#631760]">{video.role}</p>
-              <p className="mt-2 text-sm leading-relaxed text-[#525866]">
-                {video.caption}
-              </p>
-            </div>
-          </figcaption>
-        </figure>
-      ))}
-    </div>
-  )
-}
-
 export function MenteeStories() {
   const allStories = menteeStoryColumns.flat()
 
@@ -194,7 +156,7 @@ export function MenteeStories() {
           </p>
         </header>
 
-        <StoryVideos />
+        <MenteeVideo />
 
         <div
           className="mentees-grid-mask relative mt-12 h-[min(560px,64vh)] overflow-hidden lg:hidden"

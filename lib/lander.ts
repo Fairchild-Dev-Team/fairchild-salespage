@@ -413,7 +413,7 @@ function fallbackPay(months: 6 | 12, product: Product): ProgrammePayDetails {
             ? 200_000
             : 300_000
           : option.id === "one-time"
-            ? 125_000
+            ? 150_000
             : option.id === "full-pay"
               ? 200_000
               : option.amountCents,

@@ -348,25 +348,33 @@ export default async function CatalogueItemPage({ params }: PageProps) {
             <ProgrammeRequirements {...courseView.content.requirements} />
           ) : null}
           <ProgrammeLearning {...fairchildLearning} />
-          {courseView.priceUsd != null ? (
-            <CoursePricing
-              title={courseView.course.title}
-              priceUsd={courseView.priceUsd}
-              includes={courseIncludes}
-              saleEndsAt={SALE_ENDS_AT}
-              ctaHref={enrollHref}
-              programme={{
-                title: courseView.programme.title,
-                href: `/catalogue/programme/${courseView.programme.id}`,
-                courseCount: courseView.programme.courses.length,
-              }}
-            />
-          ) : null}
+          <CoursePricing
+            title={courseView.course.title}
+            priceUsd={courseView.priceUsd}
+            includes={courseIncludes}
+            saleEndsAt={SALE_ENDS_AT}
+            ctaHref={enrollHref}
+            programme={{
+              title: courseView.programme.title,
+              href: `/catalogue/programme/${courseView.programme.id}`,
+              courseCount: courseView.programme.courses.length,
+            }}
+          />
           <ProgrammeInstructors {...fairchildInstructors} />
           <ProgrammeFaq {...fairchildFaq} />
         </>
       ) : programmePage ? (
         <>
+          {/* A copy of the pricing box right after the hero, so mobile visitors see the price without scrolling. */}
+          {pricing && programmeEntry && pricingTerms?.length ? (
+            <ProgrammePricing
+              programmeId={programmeEntry.id}
+              depositCents={pricing.depositCents}
+              terms={pricingTerms}
+              includes={programmeIncludes(programmeEntry.courses.length)}
+              saleEndsAt={SALE_ENDS_AT}
+            />
+          ) : null}
           {programmePage.audience ? (
             <ProgrammeAudience {...programmePage.audience} />
           ) : null}
@@ -409,6 +417,7 @@ export default async function CatalogueItemPage({ params }: PageProps) {
           ) : null}
           {pricing && programmeEntry && pricingTerms?.length ? (
             <ProgrammePricing
+              id="pricing-breakdown"
               programmeId={programmeEntry.id}
               depositCents={pricing.depositCents}
               terms={pricingTerms}
