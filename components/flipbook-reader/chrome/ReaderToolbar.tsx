@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react"
 import type { FlipbookOverlay } from "../types";
 import {
   buildSpreadLeaves,
@@ -240,19 +240,15 @@ function PageJumpField({
     [pageCount, spread],
   );
   const currentLabel =
-    leafForPage(leaves, currentPage)?.label ?? String(currentPage);
-  const [draft, setDraft] = useState(currentLabel);
-  const [focused, setFocused] = useState(false);
-
-  useEffect(() => {
-    if (!focused) setDraft(currentLabel);
-  }, [currentLabel, focused]);
+    leafForPage(leaves, currentPage)?.label ?? String(currentPage)
+  const [draft, setDraft] = useState(currentLabel)
+  const [focused, setFocused] = useState(false)
 
   const commit = () => {
-    const page = parsePageJump(draft, pageCount, spread);
-    if (page) onJump(page);
-    setFocused(false);
-  };
+    const page = parsePageJump(draft, pageCount, spread)
+    if (page) onJump(page)
+    setFocused(false)
+  }
 
   return (
     <label className="flipbook-reader__page-label">
@@ -263,16 +259,16 @@ function PageJumpField({
         value={focused ? draft : currentLabel}
         aria-label={spread ? "Go to page or spread" : "Go to page"}
         onFocus={() => {
-          setFocused(true);
-          setDraft(currentLabel);
+          setFocused(true)
+          setDraft(currentLabel)
         }}
         onChange={(event) => setDraft(event.target.value)}
         onBlur={commit}
         onKeyDown={(event) => {
-          if (event.key === "Enter") event.currentTarget.blur();
+          if (event.key === "Enter") event.currentTarget.blur()
         }}
       />
       <span>/ {pageCount || "…"}</span>
     </label>
-  );
+  )
 }

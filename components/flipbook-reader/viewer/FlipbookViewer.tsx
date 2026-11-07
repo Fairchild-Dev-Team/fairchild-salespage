@@ -102,21 +102,26 @@ export const FlipbookViewer = forwardRef<
   } | null>(null);
   const pointers = useRef(new Map<number, { x: number; y: number }>());
   const pinch = useRef<{ distance: number; scale: number } | null>(null);
-  const onPageChangeRef = useRef(onPageChange);
-  const onFlipRef = useRef(onFlip);
-  const onPanRef = useRef(onPan);
-  const onScaleRef = useRef(onScale);
-  const scaleRef = useRef(scale);
-  const panRef = useRef(pan);
-  onPageChangeRef.current = onPageChange;
-  onFlipRef.current = onFlip;
-  onPanRef.current = onPan;
-  onScaleRef.current = onScale;
-  scaleRef.current = scale;
-  panRef.current = pan;
+  const onPageChangeRef = useRef(onPageChange)
+  const onFlipRef = useRef(onFlip)
+  const onPanRef = useRef(onPan)
+  const onScaleRef = useRef(onScale)
+  const scaleRef = useRef(scale)
+  const panRef = useRef(pan)
+  const fittedRef = useRef({ width: 612, height: 792 })
+  const engineConfig = useRef({ spread, pageCount })
 
-  const viewport = useElementSize(viewportRef);
-  const pageBox = geometry[0] ?? { width: 612, height: 792 };
+  useEffect(() => {
+    onPageChangeRef.current = onPageChange
+    onFlipRef.current = onFlip
+    onPanRef.current = onPan
+    onScaleRef.current = onScale
+    scaleRef.current = scale
+    panRef.current = pan
+  })
+
+  const viewport = useElementSize(viewportRef)
+  const pageBox = geometry[0] ?? { width: 612, height: 792 }
   const fitted = fitPageSize({
     pageWidth: pageBox.width,
     pageHeight: pageBox.height,
@@ -125,10 +130,8 @@ export const FlipbookViewer = forwardRef<
     spread,
     padding: 28,
     magnify: textScale,
-  });
-  const bookWidth = fitted.width * (spread ? 2 : 1);
-  const fittedRef = useRef(fitted);
-  fittedRef.current = fitted;
+  })
+  const bookWidth = fitted.width * (spread ? 2 : 1)
   const slots = useMemo(() => buildSlots(pageCount), [pageCount])
   const ready = viewport.width > 32 && viewport.height > 32
   const zoomed = scale > 1.02 || textScale > 1.02
@@ -145,52 +148,58 @@ export const FlipbookViewer = forwardRef<
         ? "back"
         : "open"
   const coverShiftX = coverAlignOffset(coverFace, fitted.width)
-  const engineConfig = useRef({ spread, pageCount })
-  if (
-    stashRef.current &&
-    (engineConfig.current.spread !== spread ||
-      engineConfig.current.pageCount !== pageCount)
-  ) {
-    const stash = stashRef.current;
-    const host = hostRef.current;
-    if (host) {
+
+  useEffect(() => {
+    fittedRef.current = fitted
+  }, [fitted])
+
+  useLayoutEffect(() => {
+    if (
+      engineConfig.current.spread === spread &&
+      engineConfig.current.pageCount === pageCount
+    ) {
+      return
+    }
+    const stash = stashRef.current
+    const host = hostRef.current
+    if (stash && host) {
       for (const node of Array.from(
-        host.querySelectorAll<HTMLElement>("[data-pdf-page]"),
+        host.querySelectorAll<HTMLElement>("[data-pdf-page]")
       )) {
         try {
-          stash.appendChild(node);
+          stash.appendChild(node)
         } catch {
           /* already parked */
         }
       }
       for (const node of Array.from(
-        host.querySelectorAll("[data-flip-page]:not([data-pdf-page])"),
+        host.querySelectorAll("[data-flip-page]:not([data-pdf-page])")
       )) {
-        node.remove();
+        node.remove()
       }
     }
     if (flipRef.current) {
       try {
-        flipRef.current.destroy();
+        flipRef.current.destroy()
       } catch {
         /* engine already gone */
       }
-      flipRef.current = null;
+      flipRef.current = null
     }
-    host?.querySelector(".flipbook-reader__flip-engine")?.remove();
-    engineConfig.current = { spread, pageCount };
-  }
+    host?.querySelector(".flipbook-reader__flip-engine")?.remove()
+    engineConfig.current = { spread, pageCount }
+  }, [spread, pageCount])
 
   useEffect(() => {
-    const node = viewportRef.current;
-    if (!node) return;
+    const node = viewportRef.current
+    if (!node) return
     const onWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      onScaleRef.current(event.deltaY > 0 ? -0.12 : 0.12);
-    };
-    node.addEventListener("wheel", onWheel, { passive: false });
-    return () => node.removeEventListener("wheel", onWheel);
-  }, []);
+      event.preventDefault()
+      onScaleRef.current(event.deltaY > 0 ? -0.12 : 0.12)
+    }
+    node.addEventListener("wheel", onWheel, { passive: false })
+    return () => node.removeEventListener("wheel", onWheel)
+  }, [])
 
   useImperativeHandle(ref, () => ({
     next: () => flipRef.current?.flipNext("top"),

@@ -130,6 +130,10 @@ function ThumbFace({
     };
   }, [pageNumber, pdf, visible]);
 
-  if (url) return <img src={url} alt="" />;
-  return <span className="flipbook-reader__thumb-shell">{pageNumber}</span>;
+  if (url) {
+    // Canvas snapshot data URL — next/image is not appropriate here.
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={url} alt="" />
+  }
+  return <span className="flipbook-reader__thumb-shell">{pageNumber}</span>
 }

@@ -62,6 +62,7 @@ export function FlipbookReader({
   const [fullscreen, setFullscreen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [activeUrl, setActiveUrl] = useState(url);
   const persistKey = storageKey ?? url;
   const lite = useNarrow();
   const {
@@ -72,24 +73,39 @@ export function FlipbookReader({
     increase: increaseText,
   } = useTextSize();
 
+  // Reset document UI when the source URL changes (avoid setState-in-effect).
+  if (url !== activeUrl) {
+    setActiveUrl(url);
+    setPdf(null);
+    setPageCount(descriptor?.pages?.length ?? 0);
+    setError(null);
+    setProgress(0);
+    setScale(1);
+    setPan({ x: 0, y: 0 });
+    setOverlay(null);
+    setQuery("");
+  }
+
   const onLoadRef = useRef(onLoad);
   const onErrorRef = useRef(onError);
   const onProgressRef = useRef(onProgress);
   const onPageChangeRef = useRef(onPageChange);
-  onLoadRef.current = onLoad;
-  onErrorRef.current = onError;
-  onProgressRef.current = onProgress;
-  onPageChangeRef.current = onPageChange;
 
-  const store = useMemo(
-    () =>
-      createPageWindowStore({
-        currentPage: 1,
-        pageCount,
-        spread: true,
-      }),
-    [url],
-  );
+  useEffect(() => {
+    onLoadRef.current = onLoad;
+    onErrorRef.current = onError;
+    onProgressRef.current = onProgress;
+    onPageChangeRef.current = onPageChange;
+  });
+
+  const store = useMemo(() => {
+    void url
+    return createPageWindowStore({
+      currentPage: 1,
+      pageCount: 0,
+      spread: true,
+    })
+  }, [url])
 
   const currentPage = useSyncExternalStore(
     store.subscribe,
@@ -116,11 +132,7 @@ export function FlipbookReader({
   useEffect(() => {
     let destroyed = false;
     let doc: PDFDocumentProxy | null = null;
-    setError(null);
-    setProgress(0);
-    setScale(1);
-    setPan({ x: 0, y: 0 });
-    loadPdfDocument({
+    void loadPdfDocument({
       url,
       onProgress: (ratio) => {
         if (destroyed) return;
@@ -153,11 +165,8 @@ export function FlipbookReader({
     return () => {
       destroyed = true;
       doc?.destroy();
-      setPdf(null);
-      setPageCount(descriptor?.pages?.length ?? 0);
-      setError(null);
     };
-  }, [url, store, initialPage, persistKey]);
+  }, [url, store, initialPage]);
 
   useEffect(() => {
     store.setMeta(pageCount, spread);

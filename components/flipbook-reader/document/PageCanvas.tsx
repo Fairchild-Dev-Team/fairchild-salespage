@@ -59,115 +59,115 @@ export function PageCanvas({
   }, [rendered]);
 
   useEffect(() => {
-    if (!rendered) {
-      setPainted(false);
-      return;
-    }
-    if (!pdf || displayWidth < 2) return;
-    const canvas = canvasRef.current;
-    const textLayerDiv = textRef.current;
-    const linksDiv = linksRef.current;
-    if (!canvas) return;
+    if (!rendered || !pdf || displayWidth < 2) return
+    const canvas = canvasRef.current
+    const textLayerDiv = textRef.current
+    const linksDiv = linksRef.current
+    if (!canvas) return
 
-    let cancelled = false;
-    let renderTask: RenderTask | null = null;
-    let page: PDFPageProxy | null = null;
-    setPainted(false);
+    let cancelled = false
+    let renderTask: RenderTask | null = null
+    let page: PDFPageProxy | null = null
 
-    (async () => {
-      await acquireRenderSlot();
+    void (async () => {
+      // Defer state updates so they are not synchronous in the effect body.
+      await Promise.resolve()
+      if (cancelled) return
+      setPainted(false)
+
+      await acquireRenderSlot()
       if (cancelled) {
-        releaseRenderSlot();
-        return;
+        releaseRenderSlot()
+        return
       }
       try {
-        page = await pdf.getPage(pageNumber);
-        const rotation = geometry?.rotation ?? page.rotate;
-        const unscaled = page.getViewport({ scale: 1, rotation });
-        const cssScale = displayWidth / unscaled.width;
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        page = await pdf.getPage(pageNumber)
+        const rotation = geometry?.rotation ?? page.rotate
+        const unscaled = page.getViewport({ scale: 1, rotation })
+        const cssScale = displayWidth / unscaled.width
+        const dpr = Math.min(window.devicePixelRatio || 1, 2)
         const viewport = page.getViewport({
           scale: cssScale * dpr,
           rotation,
-        });
-        const context = canvas.getContext("2d");
-        if (!context || cancelled) return;
+        })
+        const context = canvas.getContext("2d")
+        if (!context || cancelled) return
 
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+        canvas.width = viewport.width
+        canvas.height = viewport.height
         renderTask = page.render({
           canvasContext: context,
           canvas,
           viewport,
-        } as never);
-        await renderTask.promise;
-        if (cancelled) return;
-        setPainted(true);
+        } as never)
+        await renderTask.promise
+        if (cancelled) return
+        setPainted(true)
 
-        const cssViewport = page.getViewport({ scale: cssScale, rotation });
+        const cssViewport = page.getViewport({ scale: cssScale, rotation })
         if (textLayerDiv) {
-          textLayerDiv.replaceChildren();
-          textLayerDiv.style.width = `${cssViewport.width}px`;
-          textLayerDiv.style.height = `${cssViewport.height}px`;
-          const textContent = await page.getTextContent();
+          textLayerDiv.replaceChildren()
+          textLayerDiv.style.width = `${cssViewport.width}px`
+          textLayerDiv.style.height = `${cssViewport.height}px`
+          const textContent = await page.getTextContent()
           for (const item of textContent.items) {
-            if (!("str" in item) || !item.str) continue;
-            const span = document.createElement("span");
-            const tx = item.transform;
-            span.textContent = item.str;
-            span.style.left = `${tx[4] * cssScale}px`;
-            span.style.top = `${cssViewport.height - tx[5] * cssScale}px`;
-            span.style.fontSize = `${Math.abs(tx[3]) * cssScale}px`;
-            textLayerDiv.appendChild(span);
+            if (!("str" in item) || !item.str) continue
+            const span = document.createElement("span")
+            const tx = item.transform
+            span.textContent = item.str
+            span.style.left = `${tx[4] * cssScale}px`
+            span.style.top = `${cssViewport.height - tx[5] * cssScale}px`
+            span.style.fontSize = `${Math.abs(tx[3]) * cssScale}px`
+            textLayerDiv.appendChild(span)
           }
         }
 
         if (linksDiv) {
-          linksDiv.replaceChildren();
-          const annotations = await page.getAnnotations();
+          linksDiv.replaceChildren()
+          const annotations = await page.getAnnotations()
           for (const annotation of annotations) {
-            if (annotation.subtype !== "Link") continue;
+            if (annotation.subtype !== "Link") continue
             const [x1, y1, x2, y2] = page
               .getViewport({ scale: cssScale, rotation })
-              .convertToViewportRectangle(annotation.rect);
-            const button = document.createElement("a");
-            button.className = "flipbook-reader__link";
-            button.style.left = `${Math.min(x1, x2)}px`;
-            button.style.top = `${Math.min(y1, y2)}px`;
-            button.style.width = `${Math.abs(x2 - x1)}px`;
-            button.style.height = `${Math.abs(y2 - y1)}px`;
+              .convertToViewportRectangle(annotation.rect)
+            const button = document.createElement("a")
+            button.className = "flipbook-reader__link"
+            button.style.left = `${Math.min(x1, x2)}px`
+            button.style.top = `${Math.min(y1, y2)}px`
+            button.style.width = `${Math.abs(x2 - x1)}px`
+            button.style.height = `${Math.abs(y2 - y1)}px`
             if (annotation.url) {
-              button.href = annotation.url;
-              button.target = "_blank";
-              button.rel = "noopener noreferrer";
+              button.href = annotation.url
+              button.target = "_blank"
+              button.rel = "noopener noreferrer"
             } else if (annotation.dest) {
-              button.href = "#";
+              button.href = "#"
               button.addEventListener("click", async (event) => {
-                event.preventDefault();
-                const dest = await pdf.getDestination(annotation.dest);
+                event.preventDefault()
+                const dest = await pdf.getDestination(annotation.dest)
                 const explicit = dest
                   ? await pdf.getPageIndex(dest[0])
-                  : null;
-                if (explicit != null) store.setPage(explicit + 1);
-              });
+                  : null
+                if (explicit != null) store.setPage(explicit + 1)
+              })
             }
-            linksDiv.appendChild(button);
+            linksDiv.appendChild(button)
           }
         }
       } catch {
-        if (!cancelled) setPainted(true);
+        if (!cancelled) setPainted(true)
       } finally {
-        releaseRenderSlot();
+        releaseRenderSlot()
       }
-    })();
+    })()
 
     return () => {
-      cancelled = true;
-      renderTask?.cancel();
-      if (textRef.current) textRef.current.replaceChildren();
-      if (linksRef.current) linksRef.current.replaceChildren();
-    };
-  }, [displayWidth, geometry?.rotation, pageNumber, pdf, rendered, store]);
+      cancelled = true
+      renderTask?.cancel()
+      textLayerDiv?.replaceChildren()
+      linksDiv?.replaceChildren()
+    }
+  }, [displayWidth, geometry?.rotation, pageNumber, pdf, rendered, store])
 
   return (
     <div ref={wrapRef} className="flipbook-reader__page">
