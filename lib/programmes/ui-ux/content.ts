@@ -1,6 +1,6 @@
 /**
- * Content shared by the program page and its course pages.
- * Source: "UI UX Design Institute (UDI) - Program Page Content (Nov 1, 2026)".
+ * Content shared by the institute page and its course pages.
+ * Source: "UI UX Design Institute (UDI) - Institute Page Content (Nov 1, 2026)".
  */
 
 import { illustrations } from "@/lib/programmes/shared"
@@ -15,7 +15,7 @@ export const course = (id: string, title: string) => ({
   title,
 })
 
-/** Program learning outcomes, in document order. Course pages pick from these. */
+/** Institute learning outcomes, in document order. Course pages pick from these. */
 export const outcomes = [
   "Apply design thinking to understand problems before jumping to solutions.",
   "Plan and run user research: interviews, surveys and competitor reviews.",

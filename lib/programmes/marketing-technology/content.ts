@@ -1,6 +1,6 @@
 /**
- * Content shared by the program page and its course pages.
- * Source: "Marketing Technology Institute (MTI) - Program Page Content (Nov 1, 2026)".
+ * Content shared by the institute page and its course pages.
+ * Source: "Marketing Technology Institute (MTI) - Institute Page Content (Nov 1, 2026)".
  */
 
 import { illustrations } from "@/lib/programmes/shared"
@@ -36,7 +36,7 @@ export const baConsulting = course(
   "Business Analysis & Consulting"
 )
 
-/** Program learning outcomes, in document order. Course pages pick from these. */
+/** Institute learning outcomes, in document order. Course pages pick from these. */
 export const outcomes = [
   "Build and send email campaigns and multi-step customer journeys with Email Studio, Journey Builder and Automation Studio.",
   "Personalise content at scale with AMPscript, SSJS, HTML and CSS.",

@@ -76,7 +76,7 @@ export function CourseValue({
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="text-sm font-medium text-[#FA9BF6]">
-                  Full program
+                  Full institute
                 </p>
                 <h3 className="mt-3 font-heading text-2xl leading-tight font-semibold tracking-[-0.03em]">
                   {programme.title}
@@ -132,7 +132,7 @@ export function CourseValue({
                 brandPinkHoverInsetClass
               )}
             >
-              View program
+              View institute
               <ArrowRight className="size-4" aria-hidden />
             </Link>
           </article>

@@ -1,6 +1,6 @@
 /**
  * UI/UX Design Institute.
- * Source: "UI UX Design Institute (UDI) - Program Page Content" (Nov 1, 2026).
+ * Source: "UI UX Design Institute (UDI) - Institute Page Content" (Nov 1, 2026).
  * The sheet has no individual course prices, so the hero has no "from" price.
  */
 
@@ -41,7 +41,7 @@ export const uiUx: ProgrammePageContent = {
     ],
   },
   audience: {
-    heading: "Who this program is for",
+    heading: "Who this institute is for",
     audiences: [
       {
         title: "Career changers",
@@ -96,7 +96,7 @@ export const uiUx: ProgrammePageContent = {
     ],
   },
   outline: {
-    heading: "Program outline",
+    heading: "Institute outline",
     facts: [
       { value: "10", label: "courses" },
       { value: "5", label: "projects" },
@@ -107,7 +107,7 @@ export const uiUx: ProgrammePageContent = {
   certifications: {
     heading: "Certification pathway",
     intro:
-      "UX design has no single industry exam that employers expect. Hiring managers judge designers mainly on their portfolio, so the program is built around five portfolio projects and a capstone case study.",
+      "UX design has no single industry exam that employers expect. Hiring managers judge designers mainly on their portfolio, so the institute is built around five portfolio projects and a capstone case study.",
     note: certificationNote,
     certifications,
   },
@@ -125,7 +125,7 @@ export const uiUx: ProgrammePageContent = {
     ],
   },
   related: {
-    heading: "Related programs",
+    heading: "Related institutes",
     programmes: [
       {
         title: "Software Engineering Institute",

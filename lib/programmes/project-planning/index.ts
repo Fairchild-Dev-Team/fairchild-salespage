@@ -1,7 +1,7 @@
 /**
  * Project Planning Institute.
- * Source: "Project Planning Institute - Program Page Content" (Nov 1, 2026).
- * The sheet has no price or duration for this program or its courses [confirm].
+ * Source: "Project Planning Institute - Institute Page Content" (Nov 1, 2026).
+ * The sheet has no price or duration for this institute or its courses [confirm].
  */
 
 import {
@@ -42,7 +42,7 @@ export const projectPlanning: ProgrammePageContent = {
     ],
   },
   audience: {
-    heading: "Who this program is for",
+    heading: "Who this institute is for",
     audiences: [
       {
         title: "Career changers",
@@ -95,7 +95,7 @@ export const projectPlanning: ProgrammePageContent = {
     ],
   },
   outline: {
-    heading: "Program outline",
+    heading: "Institute outline",
     facts: [
       { value: "4", label: "courses" },
       { value: "5", label: "projects" },
@@ -106,7 +106,7 @@ export const projectPlanning: ProgrammePageContent = {
   certifications: {
     heading: "Certification pathway",
     intro:
-      "The program prepares fellows for these industry certifications. Exams are taken with the certifying body, and exam fees are paid separately.",
+      "The institute prepares fellows for these industry certifications. Exams are taken with the certifying body, and exam fees are paid separately.",
     note: certificationNote,
     certifications,
   },
@@ -124,7 +124,7 @@ export const projectPlanning: ProgrammePageContent = {
     ],
   },
   related: {
-    heading: "Related programs",
+    heading: "Related institutes",
     programmes: [
       {
         title: "Business Innovation Institute",

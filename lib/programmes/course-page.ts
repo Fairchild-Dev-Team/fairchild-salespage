@@ -27,7 +27,7 @@ export function pick<T>(
   return found
 }
 
-/** Certifications whose "Prepared in" list names this course, as the program document maps them. */
+/** Certifications whose "Prepared in" list names this course, as the institute document maps them. */
 export function certificationsFor(
   certifications: ProgrammeCertification[],
   courseId: string
@@ -39,17 +39,17 @@ export function certificationsFor(
 
 function projectsIntro(projects: ProgrammeProject[]) {
   if (projects.length > 1) {
-    return `This course feeds ${projects.length} of the program's portfolio pieces.`
+    return `This course feeds ${projects.length} of the institute's portfolio pieces.`
   }
   const [only] = projects
   return only.title.startsWith("Capstone")
-    ? "This course feeds the program's capstone portfolio piece."
-    : `This course feeds the program's ${only.title} portfolio piece.`
+    ? "This course feeds the institute's capstone portfolio piece."
+    : `This course feeds the institute's ${only.title} portfolio piece.`
 }
 
 /**
- * Builds a course page from a program document: the course's outline description,
- * plus the program outcomes, projects, skills, tools and certifications that match it.
+ * Builds a course page from an institute document: the course's outline description,
+ * plus the institute outcomes, projects, skills, tools and certifications that match it.
  */
 export function coursePage(
   course: ProgrammeOutlineCourse,

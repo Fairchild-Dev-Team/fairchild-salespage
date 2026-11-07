@@ -1,6 +1,6 @@
 /**
  * Code the Future Institute (teens).
- * Source: "Code the Future Institute - Program Page Content" (Nov 1, 2026).
+ * Source: "Code the Future Institute - Institute Page Content" (Nov 1, 2026).
  * Price, duration and age range are not in the sheet yet [confirm].
  */
 
@@ -36,7 +36,7 @@ export const codeTheFuture: ProgrammePageContent = {
     ctaLabel: "Enroll Your Teen",
   },
   audience: {
-    heading: "Who this program is for",
+    heading: "Who this institute is for",
     audiences: [
       {
         title: "Curious beginners",
@@ -122,10 +122,10 @@ export const codeTheFuture: ProgrammePageContent = {
     ],
   },
   outline: {
-    heading: "Program outline",
+    heading: "Institute outline",
     // The six modules are proposals for the lead to review [confirm].
     intro:
-      "The program is one course, AI-Powered Web Design for Teens, organised into six modules.",
+      "The institute is one course, AI-Powered Web Design for Teens, organised into six modules.",
     facts: [
       { value: "1", label: "course" },
       { value: "6", label: "modules" },
@@ -218,7 +218,7 @@ export const codeTheFuture: ProgrammePageContent = {
       },
       {
         title: "Parental consent",
-        body: "A parent or guardian must enroll and agree to the program terms.",
+        body: "A parent or guardian must enroll and agree to the institute terms.",
         illustration: illustrations.proof,
       },
     ],
@@ -242,7 +242,7 @@ export const codeTheFuture: ProgrammePageContent = {
       },
       {
         title:
-          "Later study in FairChild's Software Engineering or UI/UX Design programs",
+          "Later study in FairChild's Software Engineering or UI/UX Design institutes",
         icon: Award,
       },
     ],
@@ -252,11 +252,11 @@ export const codeTheFuture: ProgrammePageContent = {
     learning: ["Choose your pace", "Add mentorship and career support"],
     faq: [
       "What is the difference between the 6-month and 12-month pace?",
-      "Does the program include job placement?",
+      "Does the institute include job placement?",
     ],
   },
   related: {
-    heading: "Related programs",
+    heading: "Related institutes",
     programmes: [
       {
         title: "Software Engineering Institute",

@@ -1,8 +1,8 @@
 /**
  * Marketing Technology Institute course pages.
- * The MTI document gives each course a one-line description in the program outline,
+ * The MTI document gives each course a one-line description in the institute outline,
  * and names the courses that prepare for each certification. Each page adds the
- * program outcomes, projects, skills and tools that match that course. No course
+ * institute outcomes, projects, skills and tools that match that course. No course
  * has modules in the sheet, and four courses have no price yet.
  */
 
@@ -52,7 +52,7 @@ function course(id: string, parts: CoursePageParts) {
     { pills, requirements },
     {
       certifications: certificationsFor(certifications, courseId),
-      // The program's note covers every MTI certification level, so it goes on each one.
+      // The institute's note covers every MTI certification level, so it goes on each one.
       certificationNote,
       ...parts,
     }

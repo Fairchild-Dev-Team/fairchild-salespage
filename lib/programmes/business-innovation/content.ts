@@ -1,6 +1,6 @@
 /**
- * Business Innovation Institute content shared by the program page and its course pages.
- * Source: "Business Innovation & Strategy (BII) - Program Page Content" (Oct 31, 2026).
+ * Business Innovation Institute content shared by the institute page and its course pages.
+ * Source: "Business Innovation & Strategy (BII) - Institute Page Content" (Oct 31, 2026).
  */
 
 import { illustrations } from "@/lib/programmes/shared"
@@ -71,7 +71,7 @@ export const requirements = {
   ],
 }
 
-/** Program learning outcomes, in document order. Course pages pick from these. */
+/** Institute learning outcomes, in document order. Course pages pick from these. */
 export const outcomes = [
   "Explain the business analyst's role across the software development lifecycle and work within agile and Scrum teams.",
   "Identify stakeholders, run discovery sessions and manage expectations from first meeting to sign-off.",
@@ -89,7 +89,7 @@ export const outlineCourses: ProgrammeOutlineCourse[] = [
     title: "Business Analysis with AI",
     priceUsd: 2000,
     summary:
-      "The core of the program: the business analyst role, stakeholders, the development lifecycle and requirements, with AI tools used throughout.",
+      "The core of the institute: the business analyst role, stakeholders, the development lifecycle and requirements, with AI tools used throughout.",
   },
   {
     id: "business-innovation-change-management",
@@ -163,7 +163,7 @@ export const outlineCourses: ProgrammeOutlineCourse[] = [
   },
 ]
 
-/** One-line description of a course, from the program outline. */
+/** One-line description of a course, from the institute outline. */
 export const courseSummary = (id: string) => {
   const match = outlineCourses.find((item) => item.id === id)
   if (!match) throw new Error(`Unknown BII course: ${id}`)

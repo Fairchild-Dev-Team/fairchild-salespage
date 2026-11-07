@@ -1,6 +1,6 @@
 /**
- * Content shared by the program page and its course pages.
- * Source: "Project Planning Institute - Program Page Content (Nov 1, 2026)".
+ * Content shared by the institute page and its course pages.
+ * Source: "Project Planning Institute - Institute Page Content (Nov 1, 2026)".
  */
 
 import { illustrations } from "@/lib/programmes/shared"
@@ -28,7 +28,7 @@ export const dataAnalysis = course(
   "Fundamentals of Data Analysis"
 )
 
-/** Program learning outcomes, in document order. Course pages pick from these. */
+/** Institute learning outcomes, in document order. Course pages pick from these. */
 export const outcomes = [
   "Explain the project lifecycle and the main predictive, agile and hybrid approaches.",
   "Define scope, build a work breakdown structure and create realistic schedules.",
@@ -124,7 +124,7 @@ export const certifications: ProgrammeCertification[] = [
 ]
 
 export const certificationNote =
-  "PMP requires documented experience leading projects as well as 35 hours of project management education. Fellows new to project management usually start with CAPM. The PMP exam content was updated in July 2026 and now places more weight on AI in project work, which this program covers."
+  "PMP requires documented experience leading projects as well as 35 hours of project management education. Fellows new to project management usually start with CAPM. The PMP exam content was updated in July 2026 and now places more weight on AI in project work, which this institute covers."
 
 export const requirements = {
   heading: "Prerequisites and requirements",

@@ -1,6 +1,6 @@
 /**
- * Content shared by the program page and its course pages.
- * Source: "Cybersecurity Institute (ICI) - Program Page Content (Nov 1, 2026)".
+ * Content shared by the institute page and its course pages.
+ * Source: "Cybersecurity Institute (ICI) - Institute Page Content (Nov 1, 2026)".
  */
 
 import { illustrations } from "@/lib/programmes/shared"
@@ -22,7 +22,7 @@ export const certPrep = course(
   "Cybersecurity Certification Prep Quizbank"
 )
 
-/** Program learning outcomes, in document order. Course pages pick from these. */
+/** Institute learning outcomes, in document order. Course pages pick from these. */
 export const outcomes = [
   "Explain core security concepts: threats, vulnerabilities, controls and the attacker mindset.",
   "Monitor systems and networks for suspicious activity in a security operations centre (SOC).",
