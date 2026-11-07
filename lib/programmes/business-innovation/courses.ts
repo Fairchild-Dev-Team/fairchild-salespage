@@ -1,7 +1,7 @@
 /**
  * Business Innovation Institute course pages.
- * The BII document gives each course a one-line description in the program outline.
- * Each page adds the program outcomes, projects, skills, tools and certifications
+ * The BII document gives each course a one-line description in the institute outline.
+ * Each page adds the institute outcomes, projects, skills, tools and certifications
  * that match that course. Only Business Analysis with AI has modules, from the
  * sheet's Business Analysis Modules tab.
  */
@@ -80,7 +80,7 @@ const businessAnalysisWithAi: CoursePageContent = {
   build: {
     heading: "What you will build",
     intro:
-      "The stakeholder and requirements work in this course feeds two of the program's portfolio pieces.",
+      "The stakeholder and requirements work in this course feeds two of the institute's portfolio pieces.",
     projects: [
       project("Stakeholder and Discovery Pack"),
       project("Requirements Specification"),

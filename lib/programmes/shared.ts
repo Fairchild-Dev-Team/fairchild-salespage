@@ -1,4 +1,4 @@
-/** unDraw illustrations reused across program and course pages. */
+/** unDraw illustrations reused across institute and course pages. */
 export const illustrations = {
   experience: "/images/sales/path/skill.svg",
   language: "/images/sales/path/interview.svg",
@@ -41,8 +41,8 @@ export const toolLogos = {
 }
 
 /**
- * FAQ shown on every program and course page.
- * Worded to fit any program, per the CRM review note on the shared FAQ.
+ * FAQ shown on every institute and course page.
+ * Worded to fit any institute, per the CRM review note on the shared FAQ.
  */
 export const fairchildFaq = {
   heading: "FAQ",
@@ -50,16 +50,16 @@ export const fairchildFaq = {
     {
       question: "Do I need a technical background?",
       answer:
-        "No. Every program starts with the basics and builds up step by step.",
+        "No. Every institute starts with the basics and builds up step by step.",
     },
     {
       question: "What is the difference between the 6-month and 12-month pace?",
       answer:
-        "Where a program offers both, the content is the same. The 6-month pace needs more study hours each week; the 12-month pace suits people working full time.",
+        "Where an institute offers both, the content is the same. The 6-month pace needs more study hours each week; the 12-month pace suits people working full time.",
     },
     {
-      question: "Can I take a single course instead of the full program?",
-      // Not every program saves money as a bundle (Cybersecurity costs more), so no saving claim.
+      question: "Can I take a single course instead of the full institute?",
+      // Not every institute saves money as a bundle (Cybersecurity costs more), so no saving claim.
       answer: "Yes. Each course can be bought on its own.",
     },
     {
@@ -73,9 +73,9 @@ export const fairchildFaq = {
         "Yes. Fellows receive a FairChild certificate of completion. Industry certification exams are booked with the certifying body.",
     },
     {
-      question: "Does the program include job placement?",
+      question: "Does the institute include job placement?",
       answer:
-        "The program builds job-ready skills and a portfolio. Interview preparation and career coaching are available through Guided Mentorship & Career Development or the FairChild Fellowship.",
+        "The institute builds job-ready skills and a portfolio. Interview preparation and career coaching are available through Guided Mentorship & Career Development or the FairChild Fellowship.",
     },
   ],
 }
@@ -84,7 +84,7 @@ export const fairchildFaq = {
 export const SALE_ENDS_AT = "2026-12-31T23:59:59+01:00"
 
 /**
- * Program offer prices, paid in full. Every program is the same; these match the
+ * Institute offer prices, paid in full. Every institute is the same; these match the
  * full-payment terms checkout charges (DEFAULT_PROGRAMME_TERMS in lib/checkout.ts).
  */
 export const PROGRAMME_OFFERS = [
@@ -92,7 +92,7 @@ export const PROGRAMME_OFFERS = [
   { months: 6, label: "6 months", offerUsd: 1500, listUsd: 3000 },
 ] as const
 
-/** The offers a program's documented length allows; no length means both. */
+/** The offers an institute's documented length allows; no length means both. */
 export function programmeOffers(duration: string | null) {
   return PROGRAMME_OFFERS.filter(
     (offer) =>
@@ -125,9 +125,9 @@ export function courseOffer(listUsd: number | null) {
   }
 }
 
-/** "What's included" in the program pricing box. [confirm] */
+/** "What's included" in the institute pricing box. [confirm] */
 export const programmeIncludes = (courseCount: number) => [
-  `All ${courseCount} courses in the program`,
+  `All ${courseCount} courses in the institute`,
   "Real-world projects for your portfolio",
   "Verifiable certificate of completion",
   "Preparation for industry certifications",

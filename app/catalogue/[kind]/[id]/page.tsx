@@ -53,7 +53,7 @@ type PageProps = {
 const KINDS = new Set<CatalogueKind>(["programme", "course", "product"])
 
 const kindLabel: Record<CatalogueKind, string> = {
-  programme: "Program",
+  programme: "Institute",
   course: "Course",
   product: "Product",
 }
@@ -83,7 +83,7 @@ function loadEntry(kind: CatalogueKind, id: string) {
         summary: course.summary,
         priceUsd: course.priceUsd,
       })),
-      linesHeading: "Courses in this program",
+      linesHeading: "Courses in this institute",
     }
   }
 
@@ -178,7 +178,7 @@ export default async function CatalogueItemPage({ params }: PageProps) {
 
   const courseView = catalogueKind === "course" ? loadCourseView(id) : null
   if (catalogueKind === "course" && !courseView) {
-    // A program's only course is covered by the program page itself.
+    // An institute's only course is covered by the institute page itself.
     const programmeId = getCatalogueCourse(id)?.programmeId
     const programme = programmeId
       ? getCatalogueProgramme(programmeId)
@@ -197,7 +197,7 @@ export default async function CatalogueItemPage({ params }: PageProps) {
     catalogueKind === "programme" ? getCatalogueProgramme(id) : undefined
   const pricing =
     programmeEntry?.priceUsd != null ? await loadProgrammePricing(id) : null
-  // Show only the terms the program's documented length allows; no length means both.
+  // Show only the terms the institute's documented length allows; no length means both.
   const pricingTerms = pricing?.terms.filter(
     (term) =>
       !programmeEntry?.duration ||

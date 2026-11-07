@@ -1,7 +1,7 @@
 /**
  * UI/UX Design Institute course pages.
- * The UDI document gives each course a one-line description in the program outline.
- * Each page adds the program outcomes, projects, skills and tools that match that
+ * The UDI document gives each course a one-line description in the institute outline.
+ * Each page adds the institute outcomes, projects, skills and tools that match that
  * course. No course has modules or a price in the sheet, and UX has no industry
  * exam per course, so there is no certification section.
  */

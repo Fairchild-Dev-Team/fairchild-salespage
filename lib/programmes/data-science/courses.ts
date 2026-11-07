@@ -1,8 +1,8 @@
 /**
  * Data Science Institute course pages.
- * The DSI document gives each course a one-line description in the program outline,
+ * The DSI document gives each course a one-line description in the institute outline,
  * and names the courses that prepare for each certification. Each page adds the
- * program outcomes, projects, skills and tools that match that course. No course
+ * institute outcomes, projects, skills and tools that match that course. No course
  * has modules or a price in the sheet.
  */
 

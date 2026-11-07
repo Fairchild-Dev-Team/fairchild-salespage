@@ -1,6 +1,6 @@
 /**
  * Business Innovation Institute.
- * Source: "Business Innovation & Strategy (BII) - Program Page Content" (Oct 31, 2026).
+ * Source: "Business Innovation & Strategy (BII) - Institute Page Content" (Oct 31, 2026).
  */
 
 import {
@@ -42,7 +42,7 @@ export const businessInnovation: ProgrammePageContent = {
     priceNote: "or take individual courses from $500.",
   },
   audience: {
-    heading: "Who this program is for",
+    heading: "Who this institute is for",
     audiences: [
       {
         title: "Career changers",
@@ -98,7 +98,7 @@ export const businessInnovation: ProgrammePageContent = {
     ],
   },
   outline: {
-    heading: "Program outline",
+    heading: "Institute outline",
     facts: [
       { value: "11", label: "courses" },
       { value: "5", label: "projects" },
@@ -109,7 +109,7 @@ export const businessInnovation: ProgrammePageContent = {
   certifications: {
     heading: "Certification pathway",
     intro:
-      "The program prepares fellows for these industry certifications. Exams are taken with the certifying body, and exam fees are paid separately.",
+      "The institute prepares fellows for these industry certifications. Exams are taken with the certifying body, and exam fees are paid separately.",
     note: ecbaNote,
     certifications,
   },
@@ -130,7 +130,7 @@ export const businessInnovation: ProgrammePageContent = {
     ],
   },
   related: {
-    heading: "Related programs",
+    heading: "Related institutes",
     programmes: [
       {
         title: "CRM Institute",

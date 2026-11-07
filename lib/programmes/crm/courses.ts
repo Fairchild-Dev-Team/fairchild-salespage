@@ -1,8 +1,8 @@
 /**
  * CRM Institute course pages.
- * The CRM document gives each course a one-line description in the program outline,
+ * The CRM document gives each course a one-line description in the institute outline,
  * and names the courses that prepare for each certification. Each page adds the
- * program outcomes, projects, skills and tools that match that course. No course
+ * institute outcomes, projects, skills and tools that match that course. No course
  * has modules in the sheet.
  */
 
@@ -71,7 +71,7 @@ export const crmCourses: Record<string, CoursePageContent> = {
     projects: [salesServiceProject],
     skills: ["Case management"],
     tools: [{ name: "Service Cloud" }],
-    // Consultant-level certification, so the program's experience note applies.
+    // Consultant-level certification, so the institute's experience note applies.
     certificationNote,
   }),
   "crm-agent-sales-cloud": course("agent-sales-cloud", {
@@ -79,7 +79,7 @@ export const crmCourses: Record<string, CoursePageContent> = {
     projects: [salesServiceProject],
     skills: ["Sales process design"],
     tools: [{ name: "Sales Cloud" }],
-    // Consultant-level certification, so the program's experience note applies.
+    // Consultant-level certification, so the institute's experience note applies.
     certificationNote,
   }),
   "crm-marketing-cloud-1": course("marketing-cloud-1", {
@@ -121,7 +121,7 @@ export const crmCourses: Record<string, CoursePageContent> = {
     learn: [otherPlatforms],
     skills: ["Customer portals"],
     tools: [{ name: "Experience Cloud" }],
-    // Consultant-level certification, so the program's experience note applies.
+    // Consultant-level certification, so the institute's experience note applies.
     certificationNote,
   }),
   "crm-agentforce": course("agentforce", {

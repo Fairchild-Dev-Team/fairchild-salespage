@@ -370,10 +370,10 @@ export function ProgrammesSection() {
     <SectionShell id="programmes" bleed className="programmes-section">
       <div>
         <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
-          Choose a program
+          Choose an institute
         </h2>
         <p className="mt-3 max-w-2xl text-copy text-[#525866]">
-          Browse every program, or pick one to see its courses.
+          Browse every institute, or pick one to see its courses.
         </p>
       </div>
       <ProgrammeBrowser />
@@ -438,7 +438,7 @@ export function PricingSection() {
               {row.options}
             </p>
             <span className="mt-4 text-sm font-medium text-[#AD14A7] group-hover:underline">
-              Choose a program →
+              Choose an institute →
             </span>
           </Link>
         ))}
@@ -486,7 +486,7 @@ export function ClosingCta() {
           Claim your 2027 seat
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-lg text-[#525866]">
-          $250 today toward the $500 base fee. Pick a program, pay on that page,
+          $250 today toward the $500 base fee. Pick an institute, pay on that page,
           and get a receipt plus a FairChild follow-up.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">

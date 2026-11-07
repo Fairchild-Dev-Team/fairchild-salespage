@@ -1,6 +1,6 @@
 /**
- * CRM Institute content shared by the program page and its course pages.
- * Source: "CRM Revenue Ops & Marketing (CRI) - Program Page Content" (Nov 1, 2026).
+ * CRM Institute content shared by the institute page and its course pages.
+ * Source: "CRM Revenue Ops & Marketing (CRI) - Institute Page Content" (Nov 1, 2026).
  */
 
 import { illustrations } from "@/lib/programmes/shared"
@@ -15,7 +15,7 @@ export const course = (id: string, title: string) => ({
   title,
 })
 
-/** Program learning outcomes, in document order. Course pages pick from these. */
+/** Institute learning outcomes, in document order. Course pages pick from these. */
 export const outcomes = [
   "Set up and manage a Salesforce org: users, security, data model, reports and dashboards.",
   "Configure Sales Cloud and Service Cloud to support real sales pipelines and customer service processes.",
@@ -214,7 +214,7 @@ export const requirements = {
   items: [
     {
       title: "Prior experience",
-      body: "None. The program starts with Salesforce administration. Coding is introduced later, in the Apex and Lightning Web Components courses.",
+      body: "None. The institute starts with Salesforce administration. Coding is introduced later, in the Apex and Lightning Web Components courses.",
       illustration: illustrations.experience,
     },
     {

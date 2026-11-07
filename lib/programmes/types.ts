@@ -33,21 +33,21 @@ export type ProgrammeHeroContent = {
   pills: string[]
   headline: string
   summary: string
-  /** Rows in the hero card, under "Program outline". */
+  /** Rows in the hero card, under "Institute outline". */
   facts: { label: string; value: string }[]
   /** Line under Enroll Now. */
   priceNote?: string
   /** Button label, when not "Enroll Now". */
   ctaLabel?: string
-  /** Heading over the facts, when not "Program outline". */
+  /** Heading over the facts, when not "Institute outline". */
   cardLabel?: string
-  /** Label over the price, when not "Full program". */
+  /** Label over the price, when not "Full institute". */
   priceLabel?: string
 }
 
 /**
  * Copy for one course page. Sections left out are not shown.
- * Title, price and position in the program come from the catalogue.
+ * Title, price and position in the institute come from the catalogue.
  */
 export type CoursePageContent = {
   summary: string
@@ -72,7 +72,7 @@ export type CoursePageContent = {
 }
 
 /**
- * Copy for one program or product page, from its "Program Page Content" document.
+ * Copy for one institute or product page, from its "Institute Page Content" document.
  * Title and full price come from the catalogue. Sections left out are not shown.
  * How learning works, instructors and the FAQ are shared and always shown.
  */
@@ -101,7 +101,7 @@ export type ProgrammePageContent = {
     intro?: string
     steps: { title: string; body: string }[]
   }
-  /** Program cards to pick from, such as "Choose your program". */
+  /** Institute cards to pick from, such as "Choose your institute". */
   choose?: { heading: string; intro?: string; programmes: RelatedProgramme[] }
   certifications?: {
     heading: string
@@ -125,6 +125,6 @@ export type ProgrammePageContent = {
   /** Shared items that do not fit this audience, matched by title or question. */
   hideShared?: { learning?: string[]; faq?: string[] }
   related?: { heading: string; programmes: RelatedProgramme[] }
-  /** Course pages for this program, keyed by catalogue course id. */
+  /** Course pages for this institute, keyed by catalogue course id. */
   courses?: Record<string, CoursePageContent>
 }

@@ -23,6 +23,8 @@ const eslintConfig = defineConfig([
     ".open-next/**",
     ".wrangler/**",
     "cloudflare-env.d.ts",
+    // Vendored / generated static assets:
+    "public/flipbook/**",
   ]),
 ]);
 

@@ -1,6 +1,6 @@
 /**
  * Data Science Institute.
- * Source: "Data Science Institute (DSI) - Program Page Content" (Nov 1, 2026).
+ * Source: "Data Science Institute (DSI) - Institute Page Content" (Nov 1, 2026).
  * No individual course prices yet, so the hero has no "from" price.
  */
 
@@ -40,7 +40,7 @@ export const dataScience: ProgrammePageContent = {
     ],
   },
   audience: {
-    heading: "Who this program is for",
+    heading: "Who this institute is for",
     audiences: [
       {
         title: "Career changers with a numbers background",
@@ -98,7 +98,7 @@ export const dataScience: ProgrammePageContent = {
     ],
   },
   outline: {
-    heading: "Program outline",
+    heading: "Institute outline",
     facts: [
       { value: "8", label: "courses" },
       { value: "5", label: "projects" },
@@ -110,7 +110,7 @@ export const dataScience: ProgrammePageContent = {
   certifications: {
     heading: "Certification pathway",
     intro:
-      "The program prepares fellows for these industry certifications. Exams are taken with the certifying body, and exam fees are paid separately.",
+      "The institute prepares fellows for these industry certifications. Exams are taken with the certifying body, and exam fees are paid separately.",
     note: certificationNote,
     certifications,
   },
@@ -128,7 +128,7 @@ export const dataScience: ProgrammePageContent = {
     ],
   },
   related: {
-    heading: "Related programs",
+    heading: "Related institutes",
     programmes: [
       {
         title: "Data Analysis Institute",

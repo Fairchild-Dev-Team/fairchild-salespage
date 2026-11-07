@@ -4,10 +4,10 @@ import { useLenis } from "lenis/react"
 
 import { GradientPillButton } from "@/components/ui/gradient-pill-button"
 
-/** Event the program browser listens for to open a product. */
+/** Event the institute browser listens for to open a product. */
 export const CATALOGUE_SELECT_PRODUCT = "catalogue:select-product"
 
-/** Opens a product in the "Choose a program" browser and scrolls to it. */
+/** Opens a product in the "Choose an institute" browser and scrolls to it. */
 export function CatalogueProductButton({
   productId,
   children,

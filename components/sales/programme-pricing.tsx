@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils"
 
 const termLabel = (months: 6 | 12) => (months === 12 ? "1 year" : "6 months")
 
-/** Program pricing box: term toggle, full payment vs instalments, what is included, countdown. */
+/** Institute pricing box: term toggle, full payment vs instalments, what is included, countdown. */
 export function ProgrammePricing({
   id = "pricing",
   programmeId,
@@ -70,7 +70,7 @@ export function ProgrammePricing({
             {terms.length > 1 ? (
               <div
                 role="radiogroup"
-                aria-label="Program length"
+                aria-label="Institute length"
                 className="grid grid-cols-2 gap-1 rounded-full bg-[#FEF5FE] p-1"
               >
                 {terms.map((item) => (
@@ -96,7 +96,7 @@ export function ProgrammePricing({
               </div>
             ) : (
               <p className="font-heading text-lg font-semibold text-[#0E121B]">
-                {term.months === 12 ? "1-year" : "6-month"} program
+                {term.months === 12 ? "1-year" : "6-month"} institute
               </p>
             )}
 
@@ -209,7 +209,7 @@ export function ProgrammePricing({
             </Link>
             <p className="mt-3 text-center text-xs text-[#525866]">
               {formatUsd(depositCents)} today locks your spot for the{" "}
-              {term.months === 12 ? "1-year" : "6-month"} program.
+              {term.months === 12 ? "1-year" : "6-month"} institute.
             </p>
           </div>
         </div>
