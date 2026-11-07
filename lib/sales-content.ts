@@ -30,7 +30,7 @@ export const salesHero = {
     },
   },
   primaryCta: "Reserve My Seat",
-  secondaryCta: "View programs",
+  secondaryCta: "View institutes",
 } as const
 
 /** Proof used on-page. Prefer company-published numbers; do not invent new ones. */
