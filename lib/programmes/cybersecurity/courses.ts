@@ -1,8 +1,8 @@
 /**
  * IT Cybersecurity Institute course pages.
- * The ICI document gives each course a one-line description in the program outline,
+ * The ICI document gives each course a one-line description in the institute outline,
  * and names the courses that prepare for each certification. Each page adds the
- * program outcomes, projects, skills and tools that match that course. No course
+ * institute outcomes, projects, skills and tools that match that course. No course
  * has modules in the sheet.
  */
 

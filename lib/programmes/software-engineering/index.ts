@@ -1,6 +1,6 @@
 /**
  * Software Engineering Institute.
- * Source: "AI Software Engineering (SEI) - Program Page Content" (Nov 1, 2026).
+ * Source: "AI Software Engineering (SEI) - Institute Page Content" (Nov 1, 2026).
  */
 
 import {
@@ -42,7 +42,7 @@ export const softwareEngineeringInstitute: ProgrammePageContent = {
     priceNote: "or take individual courses from $750.",
   },
   audience: {
-    heading: "Who this program is for",
+    heading: "Who this institute is for",
     audiences: [
       {
         title: "Career changers",
@@ -99,7 +99,7 @@ export const softwareEngineeringInstitute: ProgrammePageContent = {
     ],
   },
   outline: {
-    heading: "Program outline",
+    heading: "Institute outline",
     facts: [
       { value: "4", label: "courses" },
       { value: "5", label: "projects" },
@@ -111,7 +111,7 @@ export const softwareEngineeringInstitute: ProgrammePageContent = {
   certifications: {
     heading: "Certification pathway",
     intro:
-      "The program prepares fellows for these industry certifications. Exams are taken with the certifying body, and exam fees are paid separately.",
+      "The institute prepares fellows for these industry certifications. Exams are taken with the certifying body, and exam fees are paid separately.",
     note: certificationNote,
     certifications,
   },
@@ -129,7 +129,7 @@ export const softwareEngineeringInstitute: ProgrammePageContent = {
     ],
   },
   related: {
-    heading: "Related programs",
+    heading: "Related institutes",
     programmes: [
       {
         title: "UI/UX Design Institute",

@@ -29,7 +29,7 @@ export const fairchildLearning = {
     },
     {
       title: "Add mentorship and career support",
-      body: "Pair the program with Guided Mentorship & Career Development, or join through the FairChild Fellowship, for interview preparation and career coaching.",
+      body: "Pair the institute with Guided Mentorship & Career Development, or join through the FairChild Fellowship, for interview preparation and career coaching.",
       illustration: "/images/sales/path/proof.svg",
     },
   ],

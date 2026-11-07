@@ -1,6 +1,6 @@
 /**
  * Guided Mentorship & Career Development (catalogue product).
- * Source: "Guided Mentorship & Career Development - Program Page Content" (Nov 1, 2026).
+ * Source: "Guided Mentorship & Career Development - Institute Page Content" (Nov 1, 2026).
  */
 
 import { GraduationCap, Rocket, TrendingUp } from "lucide-react"
@@ -22,10 +22,10 @@ export const guidedMentorship: ProgrammePageContent = {
     priceNote: "or take individual components from $250.",
   },
   audience: {
-    heading: "Who this program is for",
+    heading: "Who this institute is for",
     audiences: [
       {
-        title: "Recent graduates of a FairChild program",
+        title: "Recent graduates of a FairChild institute",
         body: "Fellows who have finished their training and want structured support through the job search.",
         icon: GraduationCap,
       },
@@ -132,7 +132,7 @@ export const guidedMentorship: ProgrammePageContent = {
       {
         // Whether people trained outside FairChild can enroll is still to confirm.
         title: "Prior experience",
-        body: "Training or experience in a technology field, either through a FairChild program or elsewhere.",
+        body: "Training or experience in a technology field, either through a FairChild institute or elsewhere.",
         illustration: illustrations.experience,
       },
       {
@@ -150,17 +150,17 @@ export const guidedMentorship: ProgrammePageContent = {
   outcomes: {
     heading: "Career outcomes",
     intro:
-      "This program supports your job search in the field you trained in, whether that is business analysis, CRM, data, design, project management, software or cybersecurity.",
-    note: "See each program page for its target roles.",
+      "This institute supports your job search in the field you trained in, whether that is business analysis, CRM, data, design, project management, software or cybersecurity.",
+    note: "See each institute page for its target roles.",
   },
   // This page is the mentorship offer itself, so the shared card pointing to it is hidden.
   hideShared: { learning: ["Add mentorship and career support"] },
   related: {
-    heading: "Related programs",
+    heading: "Related institutes",
     programmes: [
       {
         title: "FairChild Fellowship",
-        body: "Combine this program with full training in any FairChild program.",
+        body: "Combine this institute with full training in any FairChild institute.",
         href: "/catalogue/product/fellowship",
       },
       {

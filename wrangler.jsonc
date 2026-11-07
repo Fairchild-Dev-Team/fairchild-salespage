@@ -12,10 +12,10 @@
   "observability": {
     "enabled": true
   },
-  "vars": {
-    "APPLICATION_PORTAL_URL": "https://application-staging.fairchildinstitute.com",
-    "FAIRCHILD_API_URL": "https://api-staging.fairchildinstitute.com"
-  },
+  // "vars": {
+  //   "APPLICATION_PORTAL_URL": "https://application-staging.fairchildinstitute.com",
+  //   "FAIRCHILD_API_URL": "https://api-staging.fairchildinstitute.com"
+  // },
   "env": {
     // `--env production`: the production Worker, deployed from `main`.
     "production": {

@@ -1,6 +1,6 @@
 /**
- * Content shared by the program page and its course pages.
- * Source: "Data Analysis Institute (DAI) - Program Page Content (Nov 1, 2026)".
+ * Content shared by the institute page and its course pages.
+ * Source: "Data Analysis Institute (DAI) - Institute Page Content (Nov 1, 2026)".
  */
 
 import { illustrations } from "@/lib/programmes/shared"
@@ -20,7 +20,7 @@ export const sql = course("sql", "SQL")
 export const pythonR = course("python-r", "Python & R")
 export const powerBi = course("power-bi", "Power BI")
 
-/** Program learning outcomes, in document order. Course pages pick from these. */
+/** Institute learning outcomes, in document order. Course pages pick from these. */
 export const outcomes = [
   "Clean, organise and analyse data in Excel with formulas, lookups and pivot tables.",
   "Write SQL queries to filter, join and summarise data from databases.",

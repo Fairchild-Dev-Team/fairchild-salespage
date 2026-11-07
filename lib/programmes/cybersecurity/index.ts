@@ -1,6 +1,6 @@
 /**
  * IT Cybersecurity Institute.
- * Source: "Cybersecurity Institute (ICI) - Program Page Content" (Nov 1, 2026).
+ * Source: "Cybersecurity Institute (ICI) - Institute Page Content" (Nov 1, 2026).
  */
 
 import {
@@ -41,7 +41,7 @@ export const cybersecurity: ProgrammePageContent = {
     priceNote: "or take individual courses from $500.",
   },
   audience: {
-    heading: "Who this program is for",
+    heading: "Who this institute is for",
     audiences: [
       {
         title: "Career changers",
@@ -95,7 +95,7 @@ export const cybersecurity: ProgrammePageContent = {
     ],
   },
   outline: {
-    heading: "Program outline",
+    heading: "Institute outline",
     facts: [
       { value: "3", label: "courses" },
       { value: "5", label: "projects" },
@@ -106,7 +106,7 @@ export const cybersecurity: ProgrammePageContent = {
   certifications: {
     heading: "Certification pathway",
     intro:
-      "The program prepares fellows for these industry certifications. Exams are taken with the certifying body, and exam fees are paid separately.",
+      "The institute prepares fellows for these industry certifications. Exams are taken with the certifying body, and exam fees are paid separately.",
     note: certificationNote,
     certifications,
   },
@@ -124,7 +124,7 @@ export const cybersecurity: ProgrammePageContent = {
     ],
   },
   related: {
-    heading: "Related programs",
+    heading: "Related institutes",
     programmes: [
       {
         title: "Project Planning Institute",

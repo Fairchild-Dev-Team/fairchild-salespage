@@ -96,7 +96,7 @@ export function ProgrammeBrowser() {
     <div className="mt-10 grid gap-6 lg:grid-cols-[16.5rem_minmax(0,1fr)] lg:items-start lg:gap-8">
       <nav
         ref={navRef}
-        aria-label="Programs"
+        aria-label="Institutes"
         className="flex flex-col gap-2 rounded-[1.25rem] bg-[#F3DCF0] p-2"
       >
         {catalogueProgrammes.map((item) => (
@@ -151,7 +151,7 @@ export function ProgrammeBrowser() {
           <div className="max-w-xl">
             <h3 className="font-heading text-2xl font-semibold tracking-tight text-[#0E121B]">
               {mode === "all"
-                ? "All programs"
+                ? "All institutes"
                 : (programme?.title ?? product?.title)}
             </h3>
             {mode === "browse" && programme ? (
@@ -186,7 +186,7 @@ export function ProgrammeBrowser() {
                 href={`/catalogue/programme/${programme.id}`}
                 className="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full bg-[#AD14A7] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#631760]"
               >
-                View program
+                View institute
               </Link>
             ) : null}
             <button
@@ -200,7 +200,7 @@ export function ProgrammeBrowser() {
                   : "border border-[#E8D5E6] bg-white text-[#631760] hover:border-[#AD14A7]"
               )}
             >
-              View all programs
+              View all institutes
             </button>
           </div>
         </div>
@@ -252,7 +252,7 @@ export function ProgrammeBrowser() {
                 These prices are for the individual courses.{" "}
                 {programme.priceUsd != null ? (
                   <>
-                    The full program is{" "}
+                    The full institute is{" "}
                     <span className="font-semibold text-[#0E121B]">
                       {programmeOffers(programme.duration)
                         .map(
@@ -264,13 +264,13 @@ export function ProgrammeBrowser() {
                     when paid in full.{" "}
                   </>
                 ) : (
-                  "The full program price is not listed yet. "
+                  "The full institute price is not listed yet. "
                 )}
                 <Link
                   href={`/catalogue/programme/${programme.id}`}
                   className="cursor-pointer font-medium text-[#631760] underline decoration-[#631760] underline-offset-4"
                 >
-                  View program
+                  View institute
                 </Link>
               </p>
             </div>
@@ -339,7 +339,7 @@ function ProgrammeBox({
         href={`/catalogue/programme/${programme.id}`}
         className="mt-2 inline-flex w-full cursor-pointer items-center justify-center rounded-xl bg-[#AD14A7] px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#631760]"
       >
-        View program
+        View institute
       </Link>
     </article>
   )
@@ -408,7 +408,7 @@ function CoursePrice({ listUsd }: { listUsd: number | null }) {
   )
 }
 
-/** Program offer prices, full price struck through; nothing for unpriced programs. */
+/** Institute offer prices, full price struck through; nothing for unpriced institutes. */
 function ProgrammePrices({
   programme,
   className,

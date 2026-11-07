@@ -1,6 +1,6 @@
 /**
  * FairChild Fellowship (catalogue product).
- * Source: "FairChild Fellowship - Program Page Content" (Nov 1, 2026).
+ * Source: "FairChild Fellowship - Institute Page Content" (Nov 1, 2026).
  * The $500 price is from the sheet and still needs to be explained [confirm].
  */
 
@@ -36,10 +36,10 @@ export const fellowship: ProgrammePageContent = {
     pills: ["12 months", "Mentorship included"],
     headline: "Learn the skills. Get the support. Land the role.",
     summary:
-      "Choose any FairChild program and add Guided Mentorship & Career Development, with interview preparation, certification support and professional references, in one 12-month fellowship.",
+      "Choose any FairChild institute and add Guided Mentorship & Career Development, with interview preparation, certification support and professional references, in one 12-month fellowship.",
     cardLabel: "Fellowship outline",
     facts: [
-      { label: "Program", value: "Any FairChild program" },
+      { label: "Institute", value: "Any FairChild institute" },
       { label: "Length", value: "12 months" },
       { label: "Format", value: "100% online" },
     ],
@@ -70,8 +70,8 @@ export const fellowship: ProgrammePageContent = {
     heading: "What is included",
     items: [
       {
-        title: "Your choice of program",
-        body: "Full access to one FairChild program of your choice, including all its courses and projects.",
+        title: "Your choice of institute",
+        body: "Full access to one FairChild institute of your choice, including all its courses and projects.",
         icon: GraduationCap,
       },
       {
@@ -115,8 +115,8 @@ export const fellowship: ProgrammePageContent = {
         body: "Submit a short application and tell us your career goal.",
       },
       {
-        title: "Choose your program",
-        body: "Pick the FairChild program that matches the role you want.",
+        title: "Choose your institute",
+        body: "Pick the FairChild institute that matches the role you want.",
       },
       {
         title: "Meet your mentor",
@@ -124,7 +124,7 @@ export const fellowship: ProgrammePageContent = {
       },
       {
         title: "Learn and build",
-        body: "Work through your program courses and portfolio projects, with regular mentor check-ins.",
+        body: "Work through your institute courses and portfolio projects, with regular mentor check-ins.",
       },
       {
         title: "Get certified",
@@ -141,9 +141,9 @@ export const fellowship: ProgrammePageContent = {
     ],
   },
   choose: {
-    heading: "Choose your program",
-    // Whether every program is eligible is still to confirm.
-    intro: "Fellows choose one of these programs:",
+    heading: "Choose your institute",
+    // Whether every institute is eligible is still to confirm.
+    intro: "Fellows choose one of these institutes:",
     programmes: [
       programme(
         "business-innovation",
@@ -197,7 +197,7 @@ export const fellowship: ProgrammePageContent = {
     items: [
       {
         title: "Prior experience",
-        body: "As required by your chosen program. Most programs need no prior experience.",
+        body: "As required by your chosen institute. Most institutes need no prior experience.",
         illustration: illustrations.experience,
       },
       {
@@ -213,7 +213,7 @@ export const fellowship: ProgrammePageContent = {
       {
         // The check-in frequency is still to confirm.
         title: "Commitment",
-        body: "Attend mentor check-ins and complete program milestones on schedule.",
+        body: "Attend mentor check-ins and complete institute milestones on schedule.",
         illustration: illustrations.time,
       },
     ],
@@ -221,7 +221,7 @@ export const fellowship: ProgrammePageContent = {
   outcomes: {
     heading: "Career outcomes",
     intro:
-      "Fellows target roles in the field of the program they choose, such as:",
+      "Fellows target roles in the field of the institute they choose, such as:",
     roles: [
       { title: "Business Analyst", icon: ClipboardList },
       { title: "Salesforce Administrator", icon: Settings },
@@ -230,16 +230,16 @@ export const fellowship: ProgrammePageContent = {
       { title: "Project Coordinator", icon: CalendarClock },
       { title: "SOC Analyst", icon: Radar },
     ],
-    note: "See each program page for its roles.",
+    note: "See each institute page for its roles.",
   },
   // The Fellowship already includes mentorship, so the shared card pointing to it is hidden.
   hideShared: { learning: ["Add mentorship and career support"] },
   related: {
-    heading: "Related programs",
+    heading: "Related institutes",
     programmes: [
       {
         title: "Guided Mentorship & Career Development",
-        body: "Get the mentorship and career support on its own, alongside a program you already take.",
+        body: "Get the mentorship and career support on its own, alongside an institute you already take.",
         href: "/catalogue/product/guided-mentorship",
       },
       programme(

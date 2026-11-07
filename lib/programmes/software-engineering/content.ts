@@ -1,6 +1,6 @@
 /**
- * Content shared by the program page and its course pages.
- * Source: "AI Software Engineering (SEI) - Program Page Content (Nov 1, 2026)".
+ * Content shared by the institute page and its course pages.
+ * Source: "AI Software Engineering (SEI) - Institute Page Content (Nov 1, 2026)".
  */
 
 import { illustrations } from "@/lib/programmes/shared"
@@ -24,7 +24,7 @@ export const softwareEngineering = course(
   "Software Engineering"
 )
 
-/** Program learning outcomes, in document order. Course pages pick from these. */
+/** Institute learning outcomes, in document order. Course pages pick from these. */
 export const outcomes = [
   "Explain how artificial intelligence and machine learning work, and where they fit in modern software.",
   "Build structured, accessible web pages with HTML.",

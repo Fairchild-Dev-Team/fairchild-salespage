@@ -84,7 +84,7 @@ export function CourseHero({
               <dd className="font-medium">{fact.value}</dd>
             </div>
           ))}
-          <dt className="text-white/60">Program</dt>
+          <dt className="text-white/60">Institute</dt>
           <dd className="font-medium">
             <Link
               href={programme.href}
@@ -132,7 +132,7 @@ export function CourseHero({
               href={`${programme.href}#pricing`}
               className="cursor-pointer font-medium text-[#FA9BF6] underline underline-offset-4 hover:text-white"
             >
-              full program
+              full institute
             </Link>
             .
           </p>

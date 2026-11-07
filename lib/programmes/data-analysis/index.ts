@@ -1,6 +1,6 @@
 /**
  * Data Analysis Institute.
- * Source: "Data Analysis Institute (DAI) - Program Page Content" (Nov 1, 2026).
+ * Source: "Data Analysis Institute (DAI) - Institute Page Content" (Nov 1, 2026).
  */
 
 import {
@@ -41,7 +41,7 @@ export const dataAnalysis: ProgrammePageContent = {
     priceNote: "or take individual courses from $1,000.",
   },
   audience: {
-    heading: "Who this program is for",
+    heading: "Who this institute is for",
     audiences: [
       {
         title: "Career changers",
@@ -94,7 +94,7 @@ export const dataAnalysis: ProgrammePageContent = {
     ],
   },
   outline: {
-    heading: "Program outline",
+    heading: "Institute outline",
     facts: [
       { value: "5", label: "courses" },
       { value: "5", label: "projects" },
@@ -105,7 +105,7 @@ export const dataAnalysis: ProgrammePageContent = {
   certifications: {
     heading: "Certification pathway",
     intro:
-      "The program prepares fellows for these industry certifications. Exams are taken with the certifying body, and exam fees are paid separately.",
+      "The institute prepares fellows for these industry certifications. Exams are taken with the certifying body, and exam fees are paid separately.",
     note: certificationNote,
     certifications,
   },
@@ -123,7 +123,7 @@ export const dataAnalysis: ProgrammePageContent = {
     ],
   },
   related: {
-    heading: "Related programs",
+    heading: "Related institutes",
     programmes: [
       {
         title: "Data Science Institute",

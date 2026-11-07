@@ -18,14 +18,14 @@ export function ProgrammeHero({
   priceNote,
   ctaLabel = "Enroll Now",
   ctaHref,
-  cardLabel = "Program outline",
-  priceLabel = "Full program",
+  cardLabel = "Institute outline",
+  priceLabel = "Full institute",
   depositUsd,
 }: ProgrammeHeroContent & {
   title: string
   priceUsd: number | null
   ctaHref: string
-  /** Programs lead with the deposit; the full prices live in the pricing box. */
+  /** Institutes lead with the deposit; the full prices live in the pricing box. */
   depositUsd?: number
 }) {
   return (
