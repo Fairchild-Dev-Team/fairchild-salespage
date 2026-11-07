@@ -23,6 +23,17 @@ export const brochureInstitutes: BrochureInstitute[] = [
     name: "Data Science Institute",
     pdfUrl: "/flipbook/data-science-institute.pdf",
   },
+  {
+    id: "ai-software-engineering",
+    name: "AI Software Engineering Institute",
+    pdfUrl: "/flipbook/ai-software-engineering-institute.pdf",
+  },
+  {
+    id: "ui-ux-design-institute",
+    name: "UI/UX Design Institute",
+    pdfUrl: "/flipbook/ui-ux-design-institute.pdf",
+  },
+  
 ]
 
 export function getBrochureInstitute(
