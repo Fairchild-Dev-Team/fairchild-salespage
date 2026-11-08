@@ -1,7 +1,7 @@
 /**
  * Code the Future Institute (teens).
  * Source: "Code the Future Institute - Institute Page Content" (Nov 1, 2026).
- * Price, duration and age range are not in the sheet yet [confirm].
+ * Price and duration match Business Innovation Institute: $5,000 list, 6 or 12 months.
  */
 
 import {
