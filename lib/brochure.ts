@@ -33,7 +33,30 @@ export const brochureInstitutes: BrochureInstitute[] = [
     name: "UI/UX Design Institute",
     pdfUrl: "/flipbook/ui-ux-design-institute.pdf",
   },
-  
+  {
+    id: "cybersecurity-data",
+    name: "Cybersecurity and Data Institute",
+    pdfUrl: "/flipbook/cybersecurity-data-institute.pdf",
+  },
+  { 
+    id: "code-the-future",
+    name: "Code the Future Institute",
+    pdfUrl: "/flipbook/code-the-future.pdf",
+  },
+  {
+    id: "crm-institute",
+    name: "CRM Institute",
+    pdfUrl: "/flipbook/crm-institute.pdf",
+  },
+  {id: "project-planning",
+    name: "Project Planning Institute",
+    pdfUrl: "/flipbook/project-planning-institute.pdf",
+  },
+  {
+    id: "guided-mentorship-career-development",
+    name: "Guided Mentorship & Career Development Institute",
+    pdfUrl: "/flipbook/guided-mentorship-career-development.pdf",
+  },
 ]
 
 export function getBrochureInstitute(
