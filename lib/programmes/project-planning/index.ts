@@ -1,7 +1,7 @@
 /**
  * Project Planning Institute.
  * Source: "Project Planning Institute - Institute Page Content" (Nov 1, 2026).
- * The sheet has no price or duration for this institute or its courses [confirm].
+ * Price and duration match Business Innovation Institute: $5,000 list, 6 or 12 months.
  */
 
 import {
@@ -31,7 +31,7 @@ import type { ProgrammePageContent } from "@/lib/programmes/types"
 export const projectPlanning: ProgrammePageContent = {
   id: "project-planning",
   hero: {
-    // No duration in the sheet; the document uses 6 or 12 months [confirm].
+    // Same 6 or 12 month length as Business Innovation Institute.
     pills: ["6 or 12 months", "Beginner friendly"],
     headline: "Plan projects, lead teams and deliver results you can measure.",
     summary:
