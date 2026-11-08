@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function BrochurePage() {
   return (
-    <div className="min-h-svh bg-white">
+    <div className="brochure-light min-h-svh bg-white">
       <SiteHeader ctaHref="/#programmes" ctaLabel="Save my seat" />
       <main className="pb-16">
         <FlipbookSection />
