@@ -62,17 +62,17 @@ export function FlipbookSection({
           <p className="text-sm font-semibold tracking-[0.14em] text-[var(--brand-magenta)] uppercase">
             Brochure
           </p>
-          <h2 className="mt-3 font-heading text-[clamp(1.85rem,0.9rem+1.9vw,2.85rem)] leading-[1.08] font-medium tracking-[-0.045em] text-[var(--foreground)]">
+          <h2 className="mt-3 font-heading text-[clamp(1.85rem,0.9rem+1.9vw,2.85rem)] leading-[1.08] font-medium tracking-[-0.045em] text-[#0E121B]">
             Flip through the institute
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-[var(--muted-foreground)]">
+          <p className="mt-4 text-base leading-relaxed text-[#525866]">
             Pick an institute, then browse it as a book — drag a corner, use the
             arrows, or open the table of contents.
           </p>
         </div>
 
         <label className="flex w-full max-w-md flex-col gap-2">
-          <span className="text-sm font-medium text-[var(--foreground)]">
+          <span className="text-sm font-medium text-[#0E121B]">
             Institute
           </span>
           <div className="relative">
@@ -80,8 +80,8 @@ export function FlipbookSection({
               value={selected.id}
               onChange={(event) => setSelectedId(event.target.value)}
               className={cn(
-                "w-full appearance-none rounded-full border border-[var(--border)] bg-white",
-                "px-5 py-3.5 pr-12 text-sm font-semibold text-[var(--foreground)]",
+                "w-full appearance-none rounded-full border border-[#E8D5E6] bg-white",
+                "px-5 py-3.5 pr-12 text-sm font-semibold text-[#0E121B]",
                 "shadow-[0_9px_10.7px_rgba(250,155,246,0.12)]",
                 "outline-none transition-colors",
                 "hover:border-[var(--brand-magenta)]",
