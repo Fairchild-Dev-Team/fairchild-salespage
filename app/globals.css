@@ -150,6 +150,43 @@
   --sidebar-ring: #ad14a7;
 }
 
+/* Brochure and workbook stay on the light palette even if a saved dark theme is on <html>. */
+.brochure-light,
+.workbook-light {
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #0e121b;
+  --card: #fef5fe;
+  --card-foreground: #0e121b;
+  --popover: #ffffff;
+  --popover-foreground: #0e121b;
+  --primary: #ad14a7;
+  --primary-foreground: #ffffff;
+  --secondary: #fdf5f9;
+  --secondary-foreground: #631760;
+  --muted: #fef5fe;
+  --muted-foreground: #525866;
+  --accent: #fdf5f9;
+  --accent-foreground: #631760;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #e8d5e6;
+  --input: #cacfd8;
+  --ring: #ad14a7;
+  --chart-1: #ad14a7;
+  --chart-2: #7c3aed;
+  --chart-3: #ec4899;
+  --chart-4: #631760;
+  --chart-5: #fa9bf6;
+  --sidebar: #fef5fe;
+  --sidebar-foreground: #0e121b;
+  --sidebar-primary: #ad14a7;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #fdf5f9;
+  --sidebar-accent-foreground: #631760;
+  --sidebar-border: #e8d5e6;
+  --sidebar-ring: #ad14a7;
+}
+
 .dark {
   --background: #1a0a2e;
   --foreground: #ffffff;

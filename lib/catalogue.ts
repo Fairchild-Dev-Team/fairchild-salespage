@@ -250,6 +250,8 @@ export const catalogueProgrammes: CatalogueProgramme[] = [
     title: "Code the Future Institute",
     track: "Code the Future",
     leader: "Bisola Olaniyan",
+    duration: "6 or 12 months",
+    priceUsd: 5000,
     courses: [
       { id: "ai-web-design-teens", title: "AI-Powered Web Design for Teens" },
     ],
@@ -285,6 +287,8 @@ export const catalogueProgrammes: CatalogueProgramme[] = [
     title: "Project Planning Institute",
     track: "Project Planning",
     leader: "Bisola Olaniyan",
+    duration: "6 or 12 months",
+    priceUsd: 5000,
     courses: [
       {
         id: "ai-project-management",
