@@ -57,6 +57,16 @@ export const brochureInstitutes: BrochureInstitute[] = [
     name: "Guided Mentorship & Career Development Institute",
     pdfUrl: "/flipbook/guided-mentorship-career-development.pdf",
   },
+  {
+    id: "marketing-technology-institute",
+    name: "Marketing Technology Institute",
+    pdfUrl: "/flipbook/marketing-technology-institute.pdf",
+  },
+  {
+    id: "business-innovation-institute",
+    name: "Business Innovation Institute",
+    pdfUrl: "/flipbook/business-innovation-institute.pdf",
+  },
 ]
 
 export function getBrochureInstitute(
