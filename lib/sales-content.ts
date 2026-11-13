@@ -266,7 +266,7 @@ export const financialAid = {
  * on the video's Vimeo embed allowlist.
  */
 export const testimonialVideo = {
-  vimeoId: "1243277631",
+  vimeoId: "1246587214",
   title: "FairChild mentee story",
 } as const
 
