@@ -1,6 +1,7 @@
 import Link from "next/link"
 
 import { formatCataloguePrice } from "@/lib/catalogue"
+import { SHOW_CATALOGUE_PRICING } from "@/lib/programmes/shared"
 
 export function ProgrammeOutline({
   heading,
@@ -89,7 +90,7 @@ export function ProgrammeOutline({
                       course.title
                     )}
                   </h3>
-                  {course.priceUsd != null ? (
+                  {SHOW_CATALOGUE_PRICING && course.priceUsd != null ? (
                     <p className="shrink-0 font-heading text-base font-semibold text-[#631760]">
                       {formatCataloguePrice(course.priceUsd)}
                     </p>

@@ -25,7 +25,7 @@ import {
 import { applicationPortalUrl } from "@/lib/application-portal"
 import { ProgrammeBrowser } from "@/components/sales/programme-browser"
 import { SaleCountdown } from "@/components/sales/sale-countdown"
-import { SALE_ENDS_AT } from "@/lib/programmes/shared"
+import { SALE_ENDS_AT, SHOW_CATALOGUE_PRICING } from "@/lib/programmes/shared"
 import { SectionShell } from "@/components/sales/section-shell"
 import { cn } from "@/lib/utils"
 
@@ -381,16 +381,23 @@ export function ProgrammesSection() {
   )
 }
 
+const pricingSectionLeadHidden =
+  "Browse institutes, courses, and the Fellowship. Enrollment details are on each program page."
+
 export function PricingSection() {
   return (
     <SectionShell id="pricing" bleed className="bg-[#FDF5F9]">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <h2 className="font-heading text-heading font-semibold text-[#0E121B]">
-            {pricingOverview.title}
+            {SHOW_CATALOGUE_PRICING
+              ? pricingOverview.title
+              : "Programs and paths"}
           </h2>
           <p className="mt-3 max-w-2xl text-copy text-[#525866]">
-            {pricingOverview.baseFee}
+            {SHOW_CATALOGUE_PRICING
+              ? pricingOverview.baseFee
+              : pricingSectionLeadHidden}
           </p>
         </div>
         <SaleCountdown
@@ -421,23 +428,34 @@ export function PricingSection() {
                 </span>
               ) : null}
             </div>
-            <p className="mt-2 flex items-baseline gap-2 font-heading text-2xl font-semibold text-[#631760]">
-              <span>{row.normal}</span>
-              {row.struck ? (
-                <s className="text-base font-medium text-[#525866]">
-                  {row.struck}
-                </s>
-              ) : null}
-              {row.saving ? (
-                <span className="self-center rounded-md bg-[#FA9BF6] px-1.5 py-0.5 font-sans text-xs font-semibold text-[#631760]">
-                  {row.saving}
-                </span>
-              ) : null}
-            </p>
-            <p className="mt-2 flex-1 text-sm leading-relaxed text-[#525866]">
-              {row.options}
-            </p>
-            <span className="mt-4 text-sm font-medium text-[#AD14A7] group-hover:underline">
+            {SHOW_CATALOGUE_PRICING ? (
+              <>
+                <p className="mt-2 flex items-baseline gap-2 font-heading text-2xl font-semibold text-[#631760]">
+                  <span>{row.normal}</span>
+                  {row.struck ? (
+                    <s className="text-base font-medium text-[#525866]">
+                      {row.struck}
+                    </s>
+                  ) : null}
+                  {row.saving ? (
+                    <span className="self-center rounded-md bg-[#FA9BF6] px-1.5 py-0.5 font-sans text-xs font-semibold text-[#631760]">
+                      {row.saving}
+                    </span>
+                  ) : null}
+                </p>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-[#525866]">
+                  {row.options}
+                </p>
+              </>
+            ) : (
+              <div className="mt-2 flex-1" />
+            )}
+            <span
+              className={cn(
+                "text-sm font-medium text-[#AD14A7] group-hover:underline",
+                SHOW_CATALOGUE_PRICING ? "mt-4" : "mt-6"
+              )}
+            >
               Choose an institute →
             </span>
           </Link>

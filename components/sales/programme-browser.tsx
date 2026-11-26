@@ -11,7 +11,11 @@ import {
   type CatalogueProgramme,
 } from "@/lib/catalogue"
 import { CATALOGUE_SELECT_PRODUCT } from "@/components/sales/catalogue-product-button"
-import { courseOffer, programmeOffers } from "@/lib/programmes/shared"
+import {
+  courseOffer,
+  programmeOffers,
+  SHOW_CATALOGUE_PRICING,
+} from "@/lib/programmes/shared"
 import { cn } from "@/lib/utils"
 
 type Selection =
@@ -165,13 +169,15 @@ export function ProgrammeBrowser() {
                     `Led by ${programme.leader}`,
                   ])}
                 </p>
-                <ProgrammePrices programme={programme} className="mt-2" />
+                {SHOW_CATALOGUE_PRICING ? (
+                  <ProgrammePrices programme={programme} className="mt-2" />
+                ) : null}
               </>
             ) : null}
             {mode === "browse" && product ? (
               <p className="mt-1 text-sm text-[#525866]">
                 {metaLine([
-                  product.priceUsd != null
+                  SHOW_CATALOGUE_PRICING && product.priceUsd != null
                     ? formatCataloguePrice(product.priceUsd)
                     : null,
                   product.duration,
@@ -226,7 +232,9 @@ export function ProgrammeBrowser() {
               {programme.courses.map((course) => (
                 <li key={course.id}>
                   <article className="flex h-full flex-col rounded-2xl border border-[#E8D5E6] bg-white p-5">
-                    <CoursePrice listUsd={course.priceUsd} />
+                    {SHOW_CATALOGUE_PRICING ? (
+                      <CoursePrice listUsd={course.priceUsd} />
+                    ) : null}
                     <h4 className="mt-3 font-heading text-lg leading-snug font-semibold text-[#0E121B]">
                       {course.title}
                     </h4>
@@ -249,23 +257,27 @@ export function ProgrammeBrowser() {
             </ul>
             <div className="mt-6 shrink-0 rounded-2xl border border-[#E8D5E6] bg-white px-5 py-4">
               <p className="text-sm leading-relaxed text-[#525866]">
-                These prices are for the individual courses.{" "}
-                {programme.priceUsd != null ? (
+                {SHOW_CATALOGUE_PRICING ? (
                   <>
-                    The full institute is{" "}
-                    <span className="font-semibold text-[#0E121B]">
-                      {programmeOffers(programme.duration)
-                        .map(
-                          (offer) =>
-                            `${formatCataloguePrice(offer.offerUsd)} for ${offer.label}`
-                        )
-                        .join(" or ")}
-                    </span>{" "}
-                    when paid in full.{" "}
+                    These prices are for the individual courses.{" "}
+                    {programme.priceUsd != null ? (
+                      <>
+                        The full institute is{" "}
+                        <span className="font-semibold text-[#0E121B]">
+                          {programmeOffers(programme.duration)
+                            .map(
+                              (offer) =>
+                                `${formatCataloguePrice(offer.offerUsd)} for ${offer.label}`
+                            )
+                            .join(" or ")}
+                        </span>{" "}
+                        when paid in full.{" "}
+                      </>
+                    ) : (
+                      "The full institute price is not listed yet. "
+                    )}
                   </>
-                ) : (
-                  "The full institute price is not listed yet. "
-                )}
+                ) : null}
                 <Link
                   href={`/catalogue/programme/${programme.id}`}
                   className="cursor-pointer font-medium text-[#631760] underline decoration-[#631760] underline-offset-4"
@@ -327,7 +339,11 @@ function ProgrammeBox({
           `${programme.courses.length} ${programme.courses.length === 1 ? "course" : "courses"}`,
         ])}
       </p>
-      <ProgrammePrices programme={programme} className="mt-3 flex-1" />
+      {SHOW_CATALOGUE_PRICING ? (
+        <ProgrammePrices programme={programme} className="mt-3 flex-1" />
+      ) : (
+        <div className="mt-3 flex-1" />
+      )}
       <button
         type="button"
         onClick={onOpen}
@@ -355,11 +371,13 @@ function ProductIncludes({ product }: { product: CatalogueProduct }) {
         {product.includes.map((item) => (
           <li key={item.courseId ?? item.title}>
             <article className="flex h-full flex-col rounded-2xl border border-[#E8D5E6] bg-white p-5">
-              <p className="text-sm font-semibold text-[#AD14A7]">
-                {item.priceUsd != null
-                  ? formatCataloguePrice(item.priceUsd)
-                  : "Included"}
-              </p>
+              {SHOW_CATALOGUE_PRICING ? (
+                <p className="text-sm font-semibold text-[#AD14A7]">
+                  {item.priceUsd != null
+                    ? formatCataloguePrice(item.priceUsd)
+                    : "Included"}
+                </p>
+              ) : null}
               <h4 className="mt-3 font-heading text-lg leading-snug font-semibold text-[#0E121B]">
                 {item.title}
               </h4>

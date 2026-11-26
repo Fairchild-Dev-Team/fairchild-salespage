@@ -5,8 +5,13 @@ import {
   brandPinkHoverInsetClass,
 } from "@/lib/buttonStyles"
 import { formatCataloguePrice } from "@/lib/catalogue"
-import { COURSE_DEPOSIT_USD, courseOffer } from "@/lib/programmes/shared"
+import {
+  COURSE_DEPOSIT_USD,
+  courseOffer,
+  SHOW_CATALOGUE_PRICING,
+} from "@/lib/programmes/shared"
 import { cn } from "@/lib/utils"
+import { whatsappRequestInfoHref } from "@/lib/whatsapp"
 
 export type CourseHeroProps = {
   title: string
@@ -16,7 +21,6 @@ export type CourseHeroProps = {
   position: { index: number; total: number }
   facts: { label: string; value: string }[]
   priceUsd: number | null
-  ctaHref: string
 }
 
 export function CourseHero({
@@ -27,7 +31,6 @@ export function CourseHero({
   position,
   facts,
   priceUsd,
-  ctaHref,
 }: CourseHeroProps) {
   const offer = courseOffer(priceUsd)
   const courseNumber = String(position.index + 1).padStart(2, "0")
@@ -95,27 +98,33 @@ export function CourseHero({
           </dd>
         </dl>
         <div className="my-6 h-px bg-white/15" />
-        <p className="flex items-center gap-2 text-sm text-white/70">
-          This course
-          {offer.percentOff != null ? (
-            <span className="rounded-md bg-[#FA9BF6] px-1.5 py-0.5 text-xs font-semibold text-[#631760]">
-              {offer.percentOff}% off
-            </span>
-          ) : null}
-        </p>
-        <p className="mt-2 flex items-baseline gap-3 font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
-          {formatCataloguePrice(offer.offerUsd)}
-          {offer.struckUsd != null ? (
-            <s className="text-xl font-medium text-white/55">
-              {formatCataloguePrice(offer.struckUsd)}
-            </s>
-          ) : null}
-        </p>
-        <p className="mt-2 text-sm text-white/70">
-          Secure your spot with {formatCataloguePrice(COURSE_DEPOSIT_USD)}.
-        </p>
-        <Link
-          href={ctaHref}
+        {SHOW_CATALOGUE_PRICING ? (
+          <>
+            <p className="flex items-center gap-2 text-sm text-white/70">
+              This course
+              {offer.percentOff != null ? (
+                <span className="rounded-md bg-[#FA9BF6] px-1.5 py-0.5 text-xs font-semibold text-[#631760]">
+                  {offer.percentOff}% off
+                </span>
+              ) : null}
+            </p>
+            <p className="mt-2 flex items-baseline gap-3 font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
+              {formatCataloguePrice(offer.offerUsd)}
+              {offer.struckUsd != null ? (
+                <s className="text-xl font-medium text-white/55">
+                  {formatCataloguePrice(offer.struckUsd)}
+                </s>
+              ) : null}
+            </p>
+            <p className="mt-2 text-sm text-white/70">
+              Secure your spot with {formatCataloguePrice(COURSE_DEPOSIT_USD)}.
+            </p>
+          </>
+        ) : null}
+        <a
+          href={whatsappRequestInfoHref(title)}
+          target="_blank"
+          rel="noopener noreferrer"
           className={cn(
             "mt-6",
             "inline-flex cursor-pointer items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0E121B] shadow-[0_9px_10.7px_rgba(250,155,246,0.25)]",
@@ -123,9 +132,9 @@ export function CourseHero({
             brandPinkHoverInsetClass
           )}
         >
-          Enroll Now
-        </Link>
-        {programme.priceUsd != null ? (
+          Request for more information
+        </a>
+        {SHOW_CATALOGUE_PRICING && programme.priceUsd != null ? (
           <p className="mt-3 text-sm text-white/70">
             or get all {position.total} courses in the{" "}
             <Link

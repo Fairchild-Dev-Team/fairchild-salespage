@@ -4,12 +4,9 @@ import { useEffect, useState } from "react"
 import { MessageCircle, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { whatsappChatHref, WHATSAPP_FAB_MESSAGE } from "@/lib/whatsapp"
 
-const WHATSAPP_NUMBER = "13477661809"
-const PREFILL_MESSAGE =
-  "I am contacting from Fairchild Institute Sales page"
-
-const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(PREFILL_MESSAGE)}`
+const whatsappHref = whatsappChatHref(WHATSAPP_FAB_MESSAGE)
 
 export function WhatsAppChatFab() {
   const [calloutOpen, setCalloutOpen] = useState(false)
