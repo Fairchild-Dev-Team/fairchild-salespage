@@ -41,10 +41,12 @@ import {
   fairchildFaq,
   programmeIncludes,
   SALE_ENDS_AT,
+  SHOW_CATALOGUE_PRICING,
 } from "@/lib/programmes/shared"
 import { CoursePricing } from "@/components/sales/course-pricing"
 import { ProgrammePricing } from "@/components/sales/programme-pricing"
 import { GradientPillButton } from "@/components/ui/gradient-pill-button"
+import { cn } from "@/lib/utils"
 
 type PageProps = {
   params: Promise<{ kind: string; id: string }>
@@ -196,7 +198,9 @@ export default async function CatalogueItemPage({ params }: PageProps) {
   const programmeEntry =
     catalogueKind === "programme" ? getCatalogueProgramme(id) : undefined
   const pricing =
-    programmeEntry?.priceUsd != null ? await loadProgrammePricing(id) : null
+    SHOW_CATALOGUE_PRICING && programmeEntry?.priceUsd != null
+      ? await loadProgrammePricing(id)
+      : null
   // Show only the terms the institute's documented length allows; no length means both.
   const pricingTerms = pricing?.terms.filter(
     (term) =>
@@ -256,9 +260,8 @@ export default async function CatalogueItemPage({ params }: PageProps) {
               title={entry.title}
               priceUsd={entry.priceUsd}
               {...programmePage.hero}
-              ctaHref={enrollHref}
               depositUsd={
-                pricing && pricingTerms?.length
+                SHOW_CATALOGUE_PRICING && pricing && pricingTerms?.length
                   ? pricing.depositCents / 100
                   : undefined
               }
@@ -268,7 +271,6 @@ export default async function CatalogueItemPage({ params }: PageProps) {
               title={courseView.course.title}
               summary={courseView.content.summary}
               pills={courseView.content.pills}
-              ctaHref={enrollHref}
               programme={{
                 title: courseView.programme.title,
                 href: `/catalogue/programme/${courseView.programme.id}`,
@@ -366,7 +368,10 @@ export default async function CatalogueItemPage({ params }: PageProps) {
       ) : programmePage ? (
         <>
           {/* A copy of the pricing box right after the hero, so mobile visitors see the price without scrolling. */}
-          {pricing && programmeEntry && pricingTerms?.length ? (
+          {SHOW_CATALOGUE_PRICING &&
+          pricing &&
+          programmeEntry &&
+          pricingTerms?.length ? (
             <ProgrammePricing
               programmeId={programmeEntry.id}
               depositCents={pricing.depositCents}
@@ -415,7 +420,10 @@ export default async function CatalogueItemPage({ params }: PageProps) {
           {programmePage.outcomes ? (
             <ProgrammeOutcomes {...programmePage.outcomes} />
           ) : null}
-          {pricing && programmeEntry && pricingTerms?.length ? (
+          {SHOW_CATALOGUE_PRICING &&
+          pricing &&
+          programmeEntry &&
+          pricingTerms?.length ? (
             <ProgrammePricing
               id="pricing-breakdown"
               programmeId={programmeEntry.id}
@@ -475,7 +483,7 @@ export default async function CatalogueItemPage({ params }: PageProps) {
                             {line.title}
                           </p>
                         )}
-                        {line.priceUsd != null ? (
+                        {SHOW_CATALOGUE_PRICING && line.priceUsd != null ? (
                           <p className="shrink-0 font-heading text-base font-semibold text-[#631760]">
                             {formatCataloguePrice(line.priceUsd)}
                           </p>
@@ -495,15 +503,24 @@ export default async function CatalogueItemPage({ params }: PageProps) {
 
           <div className="lg:sticky lg:top-8 lg:self-start">
             <div className="rounded-[1.5rem] border border-[#E8D5E6] bg-white p-6 shadow-[0_12px_40px_rgba(99,23,96,0.08)]">
-              <p className="text-sm font-medium text-[#525866]">
-                Timetable price
-              </p>
-              <p className="mt-2 font-heading text-4xl font-semibold tracking-tight text-[#0E121B]">
-                {entry.priceUsd != null
-                  ? formatCataloguePrice(entry.priceUsd)
-                  : "Price to be set"}
-              </p>
-              <ul className="mt-4 space-y-2 text-sm text-[#525866]">
+              {SHOW_CATALOGUE_PRICING ? (
+                <>
+                  <p className="text-sm font-medium text-[#525866]">
+                    Timetable price
+                  </p>
+                  <p className="mt-2 font-heading text-4xl font-semibold tracking-tight text-[#0E121B]">
+                    {entry.priceUsd != null
+                      ? formatCataloguePrice(entry.priceUsd)
+                      : "Price to be set"}
+                  </p>
+                </>
+              ) : null}
+              <ul
+                className={cn(
+                  "space-y-2 text-sm text-[#525866]",
+                  SHOW_CATALOGUE_PRICING ? "mt-4" : undefined
+                )}
+              >
                 {entry.duration ? <li>{entry.duration}</li> : null}
                 {entry.leader ? <li>Led by {entry.leader}</li> : null}
               </ul>
