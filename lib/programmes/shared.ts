@@ -83,6 +83,9 @@ export const fairchildFaq = {
 /** The sale countdown runs to the end of 31 December 2026, Lagos time. */
 export const SALE_ENDS_AT = "2026-12-31T23:59:59+01:00"
 
+/** When false, institute pages and the programmes browser hide list prices, deposits, and pricing sections. */
+export const SHOW_CATALOGUE_PRICING = false
+
 /**
  * Institute offer prices, paid in full. Every institute is the same; these match the
  * full-payment terms checkout charges (DEFAULT_PROGRAMME_TERMS in lib/checkout.ts).

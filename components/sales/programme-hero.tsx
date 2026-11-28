@@ -1,12 +1,12 @@
-import Link from "next/link"
-
 import {
   brandPinkHoverClass,
   brandPinkHoverInsetClass,
 } from "@/lib/buttonStyles"
 import { formatCataloguePrice } from "@/lib/catalogue"
+import { SHOW_CATALOGUE_PRICING } from "@/lib/programmes/shared"
 import type { ProgrammeHeroContent } from "@/lib/programmes/types"
 import { cn } from "@/lib/utils"
+import { whatsappRequestInfoHref } from "@/lib/whatsapp"
 
 export function ProgrammeHero({
   title,
@@ -16,15 +16,12 @@ export function ProgrammeHero({
   summary,
   facts,
   priceNote,
-  ctaLabel = "Enroll Now",
-  ctaHref,
   cardLabel = "Institute outline",
   priceLabel = "Full institute",
   depositUsd,
 }: ProgrammeHeroContent & {
   title: string
   priceUsd: number | null
-  ctaHref: string
   /** Institutes lead with the deposit; the full prices live in the pricing box. */
   depositUsd?: number
 }) {
@@ -62,40 +59,48 @@ export function ProgrammeHero({
             </div>
           ))}
         </dl>
-        <div className="my-6 h-px bg-white/15" />
-        {depositUsd != null ? (
+        {SHOW_CATALOGUE_PRICING ? (
           <>
-            <p className="text-sm text-white/70">Secure your spot with</p>
-            <p className="mt-2 font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
-              {formatCataloguePrice(depositUsd)}
-            </p>
-            <a
-              href="#pricing"
-              className="mt-2 block w-fit text-sm text-[#FA9BF6] underline underline-offset-4 hover:text-white"
-            >
-              See 6-month and 1-year pricing
-            </a>
+            <div className="my-6 h-px bg-white/15" />
+            {depositUsd != null ? (
+              <>
+                <p className="text-sm text-white/70">Secure your spot with</p>
+                <p className="mt-2 font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
+                  {formatCataloguePrice(depositUsd)}
+                </p>
+                <a
+                  href="#pricing"
+                  className="mt-2 block w-fit text-sm text-[#FA9BF6] underline underline-offset-4 hover:text-white"
+                >
+                  See 6-month and 1-year pricing
+                </a>
+              </>
+            ) : priceUsd != null ? (
+              <>
+                <p className="text-sm text-white/70">{priceLabel}</p>
+                <p className="mt-2 font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
+                  {formatCataloguePrice(priceUsd)}
+                </p>
+              </>
+            ) : null}
           </>
-        ) : priceUsd != null ? (
-          <>
-            <p className="text-sm text-white/70">{priceLabel}</p>
-            <p className="mt-2 font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
-              {formatCataloguePrice(priceUsd)}
-            </p>
-          </>
-        ) : null}
-        <Link
-          href={ctaHref}
+        ) : (
+          <div className="my-6 h-px bg-white/15" />
+        )}
+        <a
+          href={whatsappRequestInfoHref(title)}
+          target="_blank"
+          rel="noopener noreferrer"
           className={cn(
             "inline-flex cursor-pointer items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0E121B] shadow-[0_9px_10.7px_rgba(250,155,246,0.25)]",
-            (priceUsd != null || depositUsd != null) && "mt-6",
+            "mt-6",
             brandPinkHoverClass,
             brandPinkHoverInsetClass
           )}
         >
-          {ctaLabel}
-        </Link>
-        {priceNote ? (
+          Request for more information
+        </a>
+        {SHOW_CATALOGUE_PRICING && priceNote ? (
           <p className="mt-3 text-sm text-white/70">{priceNote}</p>
         ) : null}
       </aside>
